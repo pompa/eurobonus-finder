@@ -56,8 +56,6 @@ platform :ios do
       get_provisioning_profile(
         api_key: key,
         app_identifier: identifier,
-        development: false,
-        adhoc: false,
         team_id: team,
         readonly: false,
       )
