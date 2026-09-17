@@ -72,5 +72,5 @@ keep the language pairs in sync. The page shell is `docs/template.html`; the
 Preview locally:
 
 ```sh
-node scripts/build-site.mjs && python3 -m http.server -d _site
+node scripts/build-site.mjs --serve
 ```

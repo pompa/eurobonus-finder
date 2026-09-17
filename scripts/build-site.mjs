@@ -10,9 +10,12 @@
 // page shell (styles, meta tags, analytics) is docs/template.html; everything
 // else in docs/ (icons, badges, CNAME) is copied as-is.
 //
-// Usage: node scripts/build-site.mjs  (GITHUB_TOKEN optional; avoids rate limits)
+// Usage: node scripts/build-site.mjs           (GITHUB_TOKEN optional; avoids rate limits)
+//        node scripts/build-site.mjs --serve   build, then preview on :8000
 
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { createServer } from "node:http";
+import { extname } from "node:path";
 
 const REPO = "pompa/eurobonus-finder";
 const SITE = "https://eurobonus.pompa.se";
@@ -88,4 +91,29 @@ for (const page of PAGES) {
   await mkdir(OUT + page.path, { recursive: true });
   await writeFile(`${OUT}${page.path}index.html`, out);
   console.log(`${page.readme} → ${OUT}${page.path}index.html`);
+}
+
+// Preview the built site. node: builtins only — nothing to install.
+if (process.argv.includes("--serve")) {
+  const PORT = 8000;
+  const TYPES = {
+    ".html": "text/html; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".js": "text/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".svg": "image/svg+xml",
+    ".png": "image/png",
+  };
+  createServer(async (req, res) => {
+    // Directory URLs serve index.html, the way GitHub Pages does.
+    let path = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+    if (path.endsWith("/")) path += "index.html";
+    try {
+      const body = await readFile(OUT + path);
+      res.writeHead(200, { "content-type": TYPES[extname(path)] ?? "application/octet-stream" });
+      res.end(body);
+    } catch {
+      res.writeHead(404, { "content-type": "text/plain" }).end("Not found");
+    }
+  }).listen(PORT, () => console.log(`\n→ http://localhost:${PORT}`));
 }
