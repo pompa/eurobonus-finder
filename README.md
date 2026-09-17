@@ -1,6 +1,10 @@
-# EB Finder for Safari
+<p align="center">
+  <img src="docs/icon-256.png" width="96" height="96" alt="EB Finder icon">
+</p>
 
-Stop leaving EuroBonus points on the table.
+<h1 align="center">EuroBonus Finder</h1>
+
+<p align="center">Stop leaving EuroBonus points on the table.</p>
 
 EB Finder is a Safari Web Extension that taps you on the shoulder when a shop
 is a **SAS EuroBonus** partner — right in Safari on your **iPhone and iPad**.
