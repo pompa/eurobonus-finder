@@ -7,7 +7,6 @@ const STRINGS = {
     heroLede:
       "EB&nbsp;Finder taps you on the shoulder when a shop is a <strong>SAS&nbsp;EuroBonus</strong> partner — right in Safari on your <strong>iPhone and iPad</strong>. One tap to log in via SAS, shop as usual, and watch the points roll in.",
     ctaTestflight: "Join the beta on TestFlight",
-    ctaMessenger: "Share feedback on Messenger",
     betaNote: "iOS / iPadOS 26.2 or later · Free",
     whyTitle: "Why it exists",
     whyP1:
@@ -35,13 +34,13 @@ const STRINGS = {
       "<strong>Shop as usual.</strong> When a site earns EuroBonus points, EB&nbsp;Finder gives you a nudge to log in via SAS first. That's it — points secured.",
     feedbackTitle: "Feedback",
     feedbackText:
-      'Found a bug? A partner site acting weird? A feature you\'re dying for? Tell us in the <a href="https://m.me/cm/AbYqbMSdJHLmDqnD">Messenger community</a> or on <a href="https://github.com/brinehq/eb-finder">GitHub</a>.',
+      'Found a bug? A partner site acting weird? A feature you\'re dying for? Tell us on <a href="https://github.com/pompa/eurobonus-finder">GitHub</a>.',
     contactText:
-      'Or get in touch directly — <a href="mailto:hello@brine.co">hello@brine.co</a>.',
+      'Or get in touch directly — <a href="mailto:support+eurobonus@pompa.se">support+eurobonus@pompa.se</a>.',
     footerLegal:
       "EB&nbsp;Finder is an independent project — <strong>not</strong> affiliated with SAS, EuroBonus, or any of the shopping partners.",
     footerCredit:
-      'Open source under the MIT license · Made by <a href="https://www.brine.co">Brine&nbsp;AB</a>',
+      'Open source under the MIT license · Made by <a href="https://eurobonus.pompa.se">Ronald&nbsp;Pompa</a>',
   },
   sv: {
     pageTitle: "EB Finder för Safari — missa aldrig EuroBonus-poäng igen",
@@ -49,7 +48,6 @@ const STRINGS = {
     heroLede:
       "EB&nbsp;Finder knackar dig på axeln när en butik är <strong>SAS&nbsp;EuroBonus</strong>-partner — direkt i Safari på din <strong>iPhone och iPad</strong>. Ett tryck för att logga in via SAS, shoppa som vanligt och se poängen rulla in.",
     ctaTestflight: "Gå med i betan på TestFlight",
-    ctaMessenger: "Dela feedback på Messenger",
     betaNote: "iOS / iPadOS 26.2 eller senare · Gratis",
     whyTitle: "Varför den finns",
     whyP1:
@@ -77,12 +75,12 @@ const STRINGS = {
       "<strong>Shoppa som vanligt.</strong> När en butik ger EuroBonus-poäng knuffar EB&nbsp;Finder dig att logga in via SAS först. Det är allt — poängen säkrade.",
     feedbackTitle: "Feedback",
     feedbackText:
-      'Hittat en bugg? En partnerbutik som beter sig konstigt? En funktion du längtar efter? Hör av dig i <a href="https://m.me/cm/AbYqbMSdJHLmDqnD">Messenger-gruppen</a> eller på <a href="https://github.com/brinehq/eb-finder">GitHub</a>.',
+      'Hittat en bugg? En partnerbutik som beter sig konstigt? En funktion du längtar efter? Hör av dig på <a href="https://github.com/pompa/eurobonus-finder">GitHub</a>.',
     contactText:
-      'Eller hör av dig direkt — <a href="mailto:hello@brine.co">hello@brine.co</a>.',
+      'Eller hör av dig direkt — <a href="mailto:support+eurobonus@pompa.se">support+eurobonus@pompa.se</a>.',
     footerLegal:
       "EB&nbsp;Finder är ett oberoende projekt — <strong>inte</strong> affilierat med SAS, EuroBonus eller någon av butikspartnerna.",
     footerCredit:
-      'Öppen källkod under MIT-licens · Skapad av <a href="https://www.brine.co">Brine&nbsp;AB</a>',
+      'Öppen källkod under MIT-licens · Skapad av <a href="https://eurobonus.pompa.se">Ronald&nbsp;Pompa</a>',
   },
 };

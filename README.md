@@ -6,7 +6,7 @@ EB Finder is a Safari Web Extension that taps you on the shoulder when a shop
 is a **SAS EuroBonus** partner — right in Safari on your **iPhone and iPad**.
 One tap to log in via SAS, shop as usual, and watch the points roll in.
 
-→ <https://brinehq.github.io/eb-finder/>
+→ <https://eurobonus.pompa.se/>
 
 ## Why it exists
 
@@ -39,11 +39,9 @@ TestFlight is open for iOS / iPadOS (26.2+):
 ## Feedback
 
 Found a bug? A partner site acting weird? A feature you're dying for? Tell us
-in the Messenger group or here on GitHub:
+here on GitHub.
 
-→ <https://m.me/cm/AbYqbMSdJHLmDqnD>
-
-Or get in touch directly — <hello@brine.co>.
+Or get in touch directly — <support+eurobonus@pompa.se>.
 
 ## Contributing
 
