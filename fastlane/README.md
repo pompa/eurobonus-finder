@@ -14,8 +14,7 @@ Locales: `en-US`, `sv`, `da`, `no`, `fi`.
 1. Edit the `.txt` files under `metadata/`.
 2. `scripts/check-store-metadata.sh` — catches the limits Apple rejects for
    (subtitle 30 chars, keywords 100, a missing file).
-3. Commit. The [workflow](../.github/workflows/app-store-metadata.yml) uploads
-   on the next release tag, or run it by hand from the Actions tab.
+3. Commit, then `fastlane metadata` to upload.
 
 ## Capture screenshots
 
@@ -47,12 +46,12 @@ again.
 
 ## Versions
 
-Xcode Cloud builds on a release tag. The tag is the version everywhere:
-`cut-release.sh` tags `2026.9.18`,
-`ci_post_clone.sh` stamps it into `MARKETING_VERSION` and the extension's
-`manifest.json`, and the workflow passes it as `APP_STORE_VERSION` so the
-listing lands on the matching version. A same-day `2026.9.18-2` tag drops the
-suffix.
+Xcode Cloud builds on a release tag, and the tag is the version everywhere:
+`cut-release.sh` tags `2026.9.18` and `ci_post_clone.sh` stamps it into
+`MARKETING_VERSION` and the extension's `manifest.json`. Set
+`APP_STORE_VERSION` to that same tag when uploading the listing and it lands on
+the matching version instead of whichever is editable. A same-day
+`2026.9.18-2` tag drops the suffix.
 
 "What's New" is generated from the GitHub release by
 `scripts/release-notes.sh`; the committed `release_notes.txt` files are a
