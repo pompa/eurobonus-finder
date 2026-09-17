@@ -1,6 +1,8 @@
 import SafariServices
 
-let appGroupID = "group.com.brine.ebfinder"
+/// Stamped into Info.plist from $(APP_BUNDLE_ID) at build time — the appex
+/// can't derive the container app's id from its own.
+let appGroupID = Bundle.main.object(forInfoDictionaryKey: "AppGroupID") as! String
 
 enum SharedDefaultsKey {
     static let permissionPingTimestamp = "permission.lastPingTimestamp"

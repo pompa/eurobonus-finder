@@ -27,15 +27,21 @@ that touch `project.yml`. Versions are automatic — see [Releases](#releases)
 below; [`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig)
 only holds the local fallback.
 
-The project ships **without a signing identity** so anyone can build it. To run on
-a **physical device**, drop your Apple Developer team into a git-ignored
+The project ships **without a signing identity and with a placeholder bundle id**
+(`com.example.ebfinder`) so anyone can build it. To run on a **physical device**,
+drop your Apple Developer team and your own bundle id into a git-ignored
 `EB Finder/Config/Signing.local.xcconfig`:
 
 ```
 DEVELOPMENT_TEAM = YOURTEAMID
+APP_BUNDLE_ID = com.yourcompany.ebfinder
 ```
 
-Simulator builds need no signing. (Xcode Cloud injects its own signing for releases.)
+`APP_BUNDLE_ID` is the single root: the extension is `$(APP_BUNDLE_ID).extension`
+and the shared app group is `group.$(APP_BUNDLE_ID)`.
+
+Simulator builds need no signing. (Xcode Cloud injects its own signing, and
+`APP_BUNDLE_ID` via a workflow environment variable, for releases.)
 
 Every build needs the host serving the partner feed. It's kept out of the repo,
 so add it to a git-ignored `EB Finder/Config/Feed.local.xcconfig`:

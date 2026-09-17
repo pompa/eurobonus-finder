@@ -1,6 +1,6 @@
 import SwiftUI
 
-let extensionBundleIdentifier = "com.brine.ebfinder.extension"
+let extensionBundleIdentifier = Bundle.main.bundleIdentifier! + ".extension"
 
 @main
 struct EBFinderApp: App {

@@ -1,6 +1,6 @@
 import SafariServices
 
-let appGroupID = "group.com.brine.ebfinder"
+let appGroupID = "group." + Bundle.main.bundleIdentifier!
 
 enum SharedDefaultsKey {
     static let permissionPingTimestamp = "permission.lastPingTimestamp"

@@ -23,9 +23,10 @@
 #      unique build number ($CI_BUILD_NUMBER).
 #
 # Version keys live in EB Finder/Config/Version.xcconfig and are read at build
-# time. Nothing secret is committed: signing identity is NOT in the repo —
-# DEVELOPMENT_TEAM lives only in the git-ignored Config/Signing.local.xcconfig
-# (composed via `#include?` from Config/Build.xcconfig). For Archive actions
+# time. Nothing private is committed: neither the signing identity nor the real
+# bundle id is in the repo — DEVELOPMENT_TEAM and APP_BUNDLE_ID live only in the
+# git-ignored Config/Signing.local.xcconfig (composed via `#include?` from
+# Config/Build.xcconfig; the committed default is a placeholder). For Archive actions
 # Xcode Cloud manages distribution signing automatically, so no team is needed
 # by default; the optional DEVELOPMENT_TEAM env var below is an escape hatch.
 #
@@ -43,6 +44,10 @@
 #   FEED_HOST                   Host serving the partner feed. Required: written
 #                              into Config/Feed.local.xcconfig; the build fails
 #                              without it.
+#   APP_BUNDLE_ID               Bundle id root (the extension and the app group
+#                              derive from it). Set this on any workflow that
+#                              ships — without it the build carries the
+#                              com.example.ebfinder placeholder.
 #
 
 set -euo pipefail
@@ -79,14 +84,23 @@ echo "==> Stamping CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER"
 sed -i.bak -E "s/^CURRENT_PROJECT_VERSION = .*/CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER/" "$VERSION_XCCONFIG"
 rm -f "$VERSION_XCCONFIG.bak"
 
-# Optional signing-team injection. The xcconfig is git-ignored and read at build
-# time via `#include?` in Config/Build.xcconfig, so this composes without
-# touching project.yml — plain `xcodegen generate` keeps working with no env set.
+# Optional signing-team / bundle-id injection. The xcconfig is git-ignored and
+# read at build time via `#include?` in Config/Build.xcconfig, so this composes
+# without touching project.yml — plain `xcodegen generate` keeps working with no
+# env set.
+LOCAL_XCCONFIG="EB Finder/Config/Signing.local.xcconfig"
+: > "$LOCAL_XCCONFIG"
 if [[ -n "${DEVELOPMENT_TEAM:-}" ]]; then
-  echo "==> Writing Config/Signing.local.xcconfig from \$DEVELOPMENT_TEAM"
-  printf 'DEVELOPMENT_TEAM = %s\n' "$DEVELOPMENT_TEAM" > "EB Finder/Config/Signing.local.xcconfig"
+  echo "==> Writing DEVELOPMENT_TEAM into Config/Signing.local.xcconfig"
+  printf 'DEVELOPMENT_TEAM = %s\n' "$DEVELOPMENT_TEAM" >> "$LOCAL_XCCONFIG"
 else
   echo "==> DEVELOPMENT_TEAM not set — leaving signing to Xcode Cloud"
+fi
+if [[ -n "${APP_BUNDLE_ID:-}" ]]; then
+  echo "==> Writing APP_BUNDLE_ID into Config/Signing.local.xcconfig"
+  printf 'APP_BUNDLE_ID = %s\n' "$APP_BUNDLE_ID" >> "$LOCAL_XCCONFIG"
+else
+  echo "==> APP_BUNDLE_ID not set — building with the placeholder bundle id"
 fi
 
 if [[ -n "${FEED_HOST:-}" ]]; then
