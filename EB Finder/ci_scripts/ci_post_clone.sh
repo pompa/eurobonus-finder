@@ -40,6 +40,9 @@
 #                              Config/Signing.local.xcconfig so the build picks
 #                              up the team. Leave unset to let Xcode Cloud
 #                              manage signing.
+#   FEED_HOST                   Host serving the partner feed. Required: written
+#                              into Config/Feed.local.xcconfig; the build fails
+#                              without it.
 #
 
 set -euo pipefail
@@ -84,6 +87,13 @@ if [[ -n "${DEVELOPMENT_TEAM:-}" ]]; then
   printf 'DEVELOPMENT_TEAM = %s\n' "$DEVELOPMENT_TEAM" > "EB Finder/Config/Signing.local.xcconfig"
 else
   echo "==> DEVELOPMENT_TEAM not set — leaving signing to Xcode Cloud"
+fi
+
+if [[ -n "${FEED_HOST:-}" ]]; then
+  echo "==> Writing Config/Feed.local.xcconfig from \$FEED_HOST"
+  printf 'FEED_HOST = %s\n' "$FEED_HOST" > "EB Finder/Config/Feed.local.xcconfig"
+else
+  echo "==> FEED_HOST not set — the extension build will fail"
 fi
 
 echo "==> Generating Xcode project from project.yml"

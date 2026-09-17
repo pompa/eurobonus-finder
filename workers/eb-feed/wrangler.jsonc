@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "eb-feed",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-17",
+  // Account comes from CLOUDFLARE_ACCOUNT_ID.
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "r2_buckets": [{ "binding": "FEED_BUCKET", "bucket_name": "eb-feed", "jurisdiction": "eu" }],
+  "workflows": [
+    {
+      "name": "eb-feed",
+      "binding": "FEED_WORKFLOW",
+      "class_name": "FeedWorkflow",
+      // Nightly, 03:00 UTC.
+      "schedules": ["0 3 * * *"],
+    },
+  ],
+}

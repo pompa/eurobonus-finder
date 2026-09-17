@@ -13,13 +13,14 @@
     return q && /^\d+$/.test(q) ? parseInt(q, 10) : null;
   })();
   if (launchNonce != null)
-    console.info("[EB Finder] guided-test launch nonce:", launchNonce);
+    console.info("[EuroBonus Finder] guided-test launch nonce:", launchNonce);
 
   reportHostPermission(api);
 
-  const API_BASE = "https://onlineshopping.loyaltykey.com";
-  const CHANNEL = "sas/sv-SE";
-  const CACHE_TTL_MS = 60 * 60 * 1000;
+  const { t } = EBFeed;
+  EBFeed.refreshMarket();
+  const market = await EBFeed.getMarket();
+
   const SESSION_KEY = "ebfinder_banner_closed";
   const ROOT_ID = "ebfinder-root";
   const DECORATED_ATTR = "data-ebfinder-decorated";
@@ -31,7 +32,6 @@
   const TOUR_TTL_MS = 30 * 60 * 1000;
 
   const detectedMatches = new Set();
-  const detailPromises = new Map();
 
   if (api.runtime && api.runtime.onMessage) {
     api.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
@@ -40,85 +40,6 @@
       }
     });
   }
-
-  const STRINGS = {
-    // Banner = shadcn Alert: a title line + a muted description line.
-    bannerTitle: "{name} är en EuroBonus-partner",
-    bannerTitleShort: "{name} är en EB-partner",
-    bannerDescVariable: "Tjäna {points} per 100 kr",
-    bannerDescFixed: "Tjäna {points} som ny kund",
-    cta: "Logga in & tjäna",
-    ctaShort: "Tjäna",
-    // Guided-test coachmarks — the host app's "prova det" tour.
-    coachSearchTitle: "Det här är EB-märket",
-    coachSearchBody:
-      "Vi hittade en EuroBonus-partner i resultaten. Leta efter den här ikonen bredvid en butik — den visar att du kan tjäna poäng där.",
-    coachSearchCta: "Besök sajten",
-    coachEmptyTitle: "Leta efter EB-märket",
-    coachEmptyBody:
-      "EB-märket dyker upp bredvid butiker som är EuroBonus-partner. Besök en partner så visar vi hur det ser ut.",
-    coachBannerTitle: "Så ser det ut hos en partner",
-    coachBannerBody:
-      "När du besöker en EuroBonus-partner visar vi den här listen högst upp. Logga in och handla via SAS för att tjäna poäng på köpet.",
-    coachBannerCta: "Okej",
-  };
-
-  const getCache = async (key) => {
-    try {
-      const result = await api.storage.local.get([key]);
-      const cached = result[key];
-      if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-        return cached.data;
-      }
-    } catch (e) {}
-    return null;
-  };
-
-  const setCache = async (key, data) => {
-    try {
-      await api.storage.local.set({ [key]: { data, timestamp: Date.now() } });
-    } catch (e) {}
-  };
-
-  const fetchJson = async (url) => {
-    try {
-      const res = await fetch(url, { credentials: "omit" });
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const fetchShopMap = async () => {
-    const cacheKey = `list_${CHANNEL}`;
-    const cached = await getCache(cacheKey);
-    if (cached) return cached;
-    const json = await fetchJson(
-      `${API_BASE}/api/browser-extension/${CHANNEL}/shops`,
-    );
-    if (json && typeof json === "object") await setCache(cacheKey, json);
-    return json;
-  };
-
-  const fetchShopDetail = async (uuid) => {
-    const cacheKey = `detail_${uuid}_${CHANNEL}`;
-    const cached = await getCache(cacheKey);
-    if (cached) return cached;
-    const json = await fetchJson(
-      `${API_BASE}/api/browser-extension/${CHANNEL}/shops/${uuid}`,
-    );
-    const data = json && json.data ? json.data : null;
-    if (data) await setCache(cacheKey, data);
-    return data;
-  };
-
-  const getOrFetchDetail = (uuid) => {
-    if (!detailPromises.has(uuid)) {
-      detailPromises.set(uuid, fetchShopDetail(uuid));
-    }
-    return detailPromises.get(uuid);
-  };
 
   const normalizeUrl = (urlStr) => {
     if (!urlStr) return "";
@@ -146,25 +67,6 @@
       .toLowerCase()
       .replace(/^https?:\/\//, "")
       .split("/")[0];
-
-  // Reverse-lookup a shop's domain key from its id — used to pick a navigation
-  // origin for the guided test when only the shop id is known.
-  const navHostForId = (id, shopList) => {
-    const key = Object.keys(shopList).find((k) => shopList[k] === id);
-    return key ? cleanHost(key) : null;
-  };
-
-  const getShopMatchId = (currentUrl, shopList) => {
-    const testUrl = normalizeUrl(currentUrl);
-    if (!testUrl) return null;
-    const matchedKey = Object.keys(shopList).find((key) => {
-      const normalizedKey = normalizeUrl(key);
-      return (
-        testUrl === normalizedKey || testUrl.startsWith(normalizedKey + "/")
-      );
-    });
-    return matchedKey ? shopList[matchedKey] : null;
-  };
 
   const storePendingReturn = (originalUrl, shopUuid) => {
     try {
@@ -256,11 +158,6 @@
     return true;
   };
 
-  const formatPoints = (value) => {
-    const n = parseInt(value, 10) || 0;
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  };
-
   // Shadow-DOM surfaces (banner, coachmark) pull tokens + the page-injected
   // component sheet — NOT the popup stylesheet — so host pages only download the
   // CSS the injected UI actually uses.
@@ -274,8 +171,8 @@
     }
   };
 
-  const buildBanner = async (uuid) => {
-    const data = await fetchShopDetail(uuid);
+  const buildBanner = (key, shopList) => {
+    const data = shopList[key];
     if (!data) return null;
 
     const root = document.createElement("div");
@@ -287,16 +184,14 @@
     const container = document.createElement("div");
     container.className = "fixed-banner-container";
 
-    const points = formatPoints(data.points || data.cashback || 0);
     const name = data.name || "";
-    const pointsSpan = `<span class="points-highlight">${points} poäng</span>`;
-    const titleFull = STRINGS.bannerTitle.replace("{name}", name);
-    const titleShort = STRINGS.bannerTitleShort.replace("{name}", name);
-    const desc = (
-      data.commission_type === "fixed"
-        ? STRINGS.bannerDescFixed
-        : STRINGS.bannerDescVariable
-    ).replace("{points}", pointsSpan);
+    const pointsSpan = `<span class="points-highlight">${t("points", { count: EBFeed.effectivePoints(data) })}</span>`;
+    const titleFull = t("bannerTitle", { name });
+    const titleShort = t("bannerTitleShort", { name });
+    const desc = t("earn", {
+      points: pointsSpan,
+      suffix: EBFeed.suffix(data, market),
+    });
 
     container.innerHTML = `
       <div class="banner-wrapper">
@@ -312,10 +207,10 @@
         </div>
         <div class="actions">
           <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="cta-btn">
-            <span class="cta-full">${STRINGS.cta}</span>
-            <span class="cta-short">${STRINGS.ctaShort}</span>
+            <span class="cta-full">${t("cta")}</span>
+            <span class="cta-short">${t("ctaShort")}</span>
           </a>
-          <button class="close-btn" aria-label="Close">✕</button>
+          <button class="close-btn" aria-label="${t("close")}">✕</button>
         </div>
       </div>`;
     shadow.appendChild(container);
@@ -324,7 +219,7 @@
     if (ctaLink) {
       ctaLink.addEventListener("click", () => {
         // Fire-and-forget so the browser's default new-tab navigation keeps the user-gesture.
-        storePendingReturn(window.location.href, uuid);
+        storePendingReturn(window.location.href, key);
       });
     }
 
@@ -355,9 +250,9 @@
     return root;
   };
 
-  const showTopBanner = async (uuid) => {
+  const showTopBanner = (key, shopList) => {
     if (document.getElementById(ROOT_ID)) return;
-    const banner = await buildBanner(uuid);
+    const banner = buildBanner(key, shopList);
     if (!banner) return;
     document.documentElement.prepend(banner);
 
@@ -432,7 +327,8 @@
     "opacity:1 !important",
   ].join(";");
 
-  const injectBadge = (target, matchedId, navHost) => {
+  const injectBadge = (target, matchedKey, shopList) => {
+    const entry = shopList[matchedKey];
     if (!target || !target.parentNode) return;
     if (target.classList && target.classList.contains(BADGE_CLASS)) return;
     const next = target.nextElementSibling;
@@ -440,23 +336,24 @@
 
     const badge = document.createElement("span");
     badge.className = BADGE_CLASS;
-    if (navHost) badge.dataset.ebHost = navHost;
+    badge.dataset.ebHost = EBFeed.hostOfKey(matchedKey);
     badge.innerHTML = EB_GLYPH_SVG;
-    badge.title = "EuroBonus-partner — klicka för att handla via SAS";
+    badge.title = t("badgeTitle", {
+      name: entry.name,
+      points: t("points", { count: EBFeed.effectivePoints(entry) }),
+      suffix: EBFeed.suffix(entry, market),
+    });
     badge.setAttribute("role", "link");
-    badge.setAttribute("aria-label", "EuroBonus-partner — handla via SAS");
+    badge.setAttribute("aria-label", t("badgeAria"));
     badge.setAttribute("tabindex", "0");
     badge.style.cssText = BADGE_STYLE;
 
-    const activate = async (e) => {
+    const activate = (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (typeof e.stopImmediatePropagation === "function")
         e.stopImmediatePropagation();
-      const detail = await getOrFetchDetail(matchedId);
-      if (detail && detail.url) {
-        window.open(detail.url, "_blank", "noopener,noreferrer");
-      }
+      if (entry.url) window.open(entry.url, "_blank", "noopener,noreferrer");
     };
 
     const swallow = (e) => {
@@ -474,25 +371,18 @@
     });
 
     target.parentNode.insertBefore(badge, target.nextSibling);
-
-    getOrFetchDetail(matchedId).then((detail) => {
-      if (!detail) return;
-      const points = formatPoints(detail.points || detail.cashback || 0);
-      const suffix =
-        detail.commission_type === "fixed" ? "som ny kund" : "per 100 kr";
-      badge.title = `${detail.name} – ${points} poäng ${suffix}. Klicka för att handla via SAS.`;
-    });
   };
 
   const matchVendorString = (raw, shopList) => {
     if (!raw) return null;
     const trimmed = raw.trim().toLowerCase();
-    let id = getShopMatchId(`https://${trimmed}/`, shopList);
-    if (id) return id;
+    let key = EBFeed.matchKey(`https://${trimmed}/`, shopList);
+    if (key) return key;
     if (!trimmed.includes(".")) {
-      for (const tld of [".se", ".com"]) {
-        id = getShopMatchId(`https://${trimmed}${tld}/`, shopList);
-        if (id) return id;
+      // Market codes double as their country TLDs (.se, .no, .dk, .fi).
+      for (const tld of [`.${market}`, ".com"]) {
+        key = EBFeed.matchKey(`https://${trimmed}${tld}/`, shopList);
+        if (key) return key;
       }
     }
     return null;
@@ -511,13 +401,13 @@
       el.setAttribute(DECORATED_ATTR, "1");
       const domain = el.getAttribute("data-dtld");
       if (!domain) continue;
-      const matchedId = matchVendorString(domain, shopList);
-      if (!matchedId) continue;
-      detectedMatches.add(matchedId);
+      const matchedKey = matchVendorString(domain, shopList);
+      if (!matchedKey) continue;
+      detectedMatches.add(matchedKey);
       // Prefer the visible vendor-name display inside the card (aria-label="From X")
       const vendorEl = el.querySelector(ariaVendorSelector);
       const target = vendorEl && el.contains(vendorEl) ? vendorEl : el;
-      injectBadge(target, matchedId, cleanHost(domain));
+      injectBadge(target, matchedKey, shopList);
     }
 
     // Fallback: aria-label="From X" elements outside of any [data-dtld] container
@@ -530,10 +420,10 @@
       const label = el.getAttribute("aria-label") || "";
       const m = label.match(/^(?:From|Från|Fra)\s+(.+?)$/i);
       if (!m) continue;
-      const matchedId = matchVendorString(m[1], shopList);
-      if (!matchedId) continue;
-      detectedMatches.add(matchedId);
-      injectBadge(el, matchedId, navHostForId(matchedId, shopList));
+      const matchedKey = matchVendorString(m[1], shopList);
+      if (!matchedKey) continue;
+      detectedMatches.add(matchedKey);
+      injectBadge(el, matchedKey, shopList);
     }
   };
 
@@ -576,12 +466,9 @@
   // A known EuroBonus-partner origin to fall back to when results show no badge.
   const partnerHostFromShops = (shopList) => {
     const prefer = [
-      "www.webhallen.com",
       "webhallen.com",
-      "www.komplett.se",
-      "komplett.se",
-      "proshop.se",
-      "www.proshop.se",
+      `komplett.${market}`,
+      `proshop.${market}`,
     ];
     for (const h of prefer) if (shopList[h]) return cleanHost(h);
     const first = Object.keys(shopList)[0];
@@ -614,7 +501,7 @@
       : "";
     card.innerHTML = `
       <span class="coach-arrow"></span>
-      <button class="coach-close" type="button" aria-label="Stäng">✕</button>
+      <button class="coach-close" type="button" aria-label="${t("close")}">✕</button>
       <p class="coach-title">${glyph}<span>${title}</span></p>
       <p class="coach-body">${body}</p>
       <div class="coach-actions">
@@ -709,9 +596,9 @@
     const host = badge.dataset.ebHost || partnerHostFromShops(shopList);
     createCoachmark({
       getRect: () => badge.getBoundingClientRect(),
-      title: STRINGS.coachSearchTitle,
-      body: STRINGS.coachSearchBody,
-      ctaLabel: STRINGS.coachSearchCta,
+      title: t("coachSearchTitle"),
+      body: t("coachSearchBody"),
+      ctaLabel: t("coachSearchCta"),
       showGlyph: true,
       onCta: () => visitPartner(nonce, host),
       onClose: () => endTour(nonce),
@@ -730,9 +617,9 @@
         width: 0,
         height: 0,
       }),
-      title: STRINGS.coachEmptyTitle,
-      body: STRINGS.coachEmptyBody,
-      ctaLabel: STRINGS.coachSearchCta,
+      title: t("coachEmptyTitle"),
+      body: t("coachEmptyBody"),
+      ctaLabel: t("coachSearchCta"),
       showGlyph: true,
       onCta: () => visitPartner(nonce, host),
       onClose: () => endTour(nonce),
@@ -749,9 +636,9 @@
     if (!cta) return;
     createCoachmark({
       getRect: () => cta.getBoundingClientRect(),
-      title: STRINGS.coachBannerTitle,
-      body: STRINGS.coachBannerBody,
-      ctaLabel: STRINGS.coachBannerCta,
+      title: t("coachBannerTitle"),
+      body: t("coachBannerBody"),
+      ctaLabel: t("coachBannerCta"),
       onCta: async () => {
         // Cross-tour guard: only end the run this coachmark belongs to.
         const cur = await getTour();
@@ -803,8 +690,8 @@
     tick();
   };
 
-  const shops = await fetchShopMap();
-  if (!shops || typeof shops !== "object") return;
+  const shops = await EBFeed.loadFeed(market);
+  if (!shops) return;
 
   if (window.location.hostname.includes("google.")) {
     decorateGooglePartners(shops);
@@ -820,7 +707,7 @@
     return;
   }
 
-  const matchedId = getShopMatchId(window.location.href, shops);
+  const matchedId = EBFeed.matchKey(window.location.href, shops);
 
   // Guided test: did the search coachmark's "Besök sajten" send us to this
   // partner? If so, force the banner — bypassing the affiliate-return redirect
@@ -847,7 +734,7 @@
   }
 
   if (matchedId) {
-    await showTopBanner(matchedId);
+    showTopBanner(matchedId, shops);
     if (bannerTour) showBannerCoachmark(bannerTourNonce);
   }
 })();

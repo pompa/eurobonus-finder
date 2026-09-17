@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="docs/icon-256.png" width="96" height="96" alt="EB Finder icon">
+  <img src="docs/icon-256.png" width="96" height="96" alt="EuroBonus Finder icon">
 </p>
 
 <h1 align="center">EuroBonus Finder</h1>
 
 <p align="center">Stop leaving EuroBonus points on the table.</p>
 
-EB Finder is a Safari Web Extension that taps you on the shoulder when a shop
+EuroBonus Finder is a Safari Web Extension that taps you on the shoulder when a shop
 is a **SAS EuroBonus** partner — right in Safari on your **iPhone and iPad**.
 One tap to log in via SAS, shop as usual, and watch the points roll in.
 
@@ -42,7 +42,7 @@ TestFlight is open for iOS / iPadOS (26.2+):
 Found a bug? A partner site acting weird? A feature you're dying for? Tell us
 here on GitHub.
 
-Or get in touch directly — <support+eurobonus@pompa.se>.
+Or get in touch directly — <support+ebfinder@pompa.se>.
 
 ## Contributing
 
@@ -50,7 +50,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Legal
 
-EB Finder is an independent project — **not** affiliated with SAS,
+EuroBonus Finder is an independent project — **not** affiliated with SAS,
 EuroBonus, or any of the shopping partners. Full notice:
 [DISCLAIMER.md](DISCLAIMER.md).
 

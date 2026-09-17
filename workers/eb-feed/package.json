@@ -1,0 +1,30 @@
+{
+  "name": "eb-feed",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "build:local": "node scripts/build-local.ts",
+    "test": "vp test",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "check": "wrangler types && vp check",
+    "deploy": "vp build && wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.54.10",
+    "@types/node": "^24.13.5",
+    "typescript": "^7.0.2",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "wrangler": "^4.132.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.4.2",
+      "onFail": "download"
+    }
+  }
+}

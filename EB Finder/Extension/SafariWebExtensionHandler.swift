@@ -6,6 +6,7 @@ enum SharedDefaultsKey {
     static let permissionPingTimestamp = "permission.lastPingTimestamp"
     static let permissionHasAllUrls = "permission.hasAllUrls"
     static let permissionLastOrigin = "permission.lastOrigin"
+    static let market = "market"
 }
 
 final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
@@ -13,25 +14,29 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
         let request = context.inputItems.first as? NSExtensionItem
         let message = request?.userInfo?[SFExtensionMessageKey]
 
-        handle(message: message)
-
         let response = NSExtensionItem()
-        response.userInfo = [SFExtensionMessageKey: ["ok": true]]
+        response.userInfo = [SFExtensionMessageKey: handle(message: message)]
         context.completeRequest(returningItems: [response], completionHandler: nil)
     }
 
-    private func handle(message: Any?) {
+    private func handle(message: Any?) -> [String: Any] {
         guard
             let dict = message as? [String: Any],
             let type = dict["type"] as? String,
-            type == "host-permission-ping",
             let defaults = UserDefaults(suiteName: appGroupID)
-        else { return }
+        else { return ["ok": true] }
+
+        if type == "get-market" {
+            // Absent until the user picks a region; pre-region users were Swedish.
+            return ["market": defaults.string(forKey: SharedDefaultsKey.market) ?? "se"]
+        }
+        guard type == "host-permission-ping" else { return ["ok": true] }
 
         let hasAllUrls = dict["hasAllUrls"] as? Bool ?? false
         let origin = dict["origin"] as? String ?? ""
         defaults.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
         defaults.set(hasAllUrls, forKey: SharedDefaultsKey.permissionHasAllUrls)
         defaults.set(origin, forKey: SharedDefaultsKey.permissionLastOrigin)
+        return ["ok": true]
     }
 }

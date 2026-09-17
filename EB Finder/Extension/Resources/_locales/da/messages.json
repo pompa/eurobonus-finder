@@ -1,0 +1,130 @@
+{
+  "extension_name": {
+    "message": "EuroBonus Finder",
+    "description": "The extension's display name."
+  },
+  "extension_description": {
+    "message": "Finder EuroBonus-partnere på de websteder, du besøger.",
+    "description": "Short description shown in the browser's extension manager."
+  },
+  "bannerTitle": {
+    "message": "{name} er en EuroBonus-partner",
+    "description": "Banner/popup title. {name} = shop name."
+  },
+  "bannerTitleShort": {
+    "message": "{name} er en EB-partner",
+    "description": "Narrow-screen banner title. {name} = shop name."
+  },
+  "earn": {
+    "message": "Optjen {points} {suffix}",
+    "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
+  },
+  "points": {
+    "message": "{count} point",
+    "description": "{count} = number of points."
+  },
+  "pointsShort": {
+    "message": "{count} p",
+    "description": "Compact points in the popup list."
+  },
+  "suffixFixed": {
+    "message": "som ny kunde",
+    "description": "Fixed-points shops."
+  },
+  "suffixVariable": {
+    "message": "pr. 100 {unit}",
+    "description": "Per-spend shops. {unit} = currency (kr, €)."
+  },
+  "suffixVariableShort": {
+    "message": "/ 100 {unit}",
+    "description": "Compact per-spend suffix in the popup list. {unit} = currency (kr, €)."
+  },
+  "cta": {
+    "message": "Log ind & optjen",
+    "description": "Banner/popup button."
+  },
+  "ctaShort": {
+    "message": "Optjen",
+    "description": "Narrow banner button."
+  },
+  "close": {
+    "message": "Luk",
+    "description": "Close button label."
+  },
+  "badgeTitle": {
+    "message": "{name} – {points} {suffix}. Tryk for at handle via SAS.",
+    "description": "Search-result badge tooltip."
+  },
+  "badgeAria": {
+    "message": "EuroBonus-partner — handl via SAS",
+    "description": "Search-result badge accessibility label."
+  },
+  "coachSearchTitle": {
+    "message": "Dette er EB-mærket",
+    "description": "Guided test."
+  },
+  "coachSearchBody": {
+    "message": "Vi fandt en EuroBonus-partner i resultaterne. Kig efter dette ikon ved siden af en butik — det viser, at du kan optjene point der.",
+    "description": "Guided test."
+  },
+  "coachSearchCta": {
+    "message": "Besøg webstedet",
+    "description": "Guided test."
+  },
+  "coachEmptyTitle": {
+    "message": "Kig efter EB-mærket",
+    "description": "Guided test."
+  },
+  "coachEmptyBody": {
+    "message": "EB-mærket vises ved siden af butikker, der er EuroBonus-partnere. Besøg en partner, så viser vi, hvordan det ser ud.",
+    "description": "Guided test."
+  },
+  "coachBannerTitle": {
+    "message": "Sådan ser det ud hos en partner",
+    "description": "Guided test."
+  },
+  "coachBannerBody": {
+    "message": "Når du besøger en EuroBonus-partner, viser vi denne bjælke øverst. Log ind og handl via SAS for at optjene point på købet.",
+    "description": "Guided test."
+  },
+  "coachBannerCta": {
+    "message": "Forstået",
+    "description": "Guided test."
+  },
+  "popupSearching": {
+    "message": "Søger efter partnere…",
+    "description": "Popup loading state."
+  },
+  "popupNoTab": {
+    "message": "Ingen aktiv fane fundet.",
+    "description": "Popup."
+  },
+  "popupFeedError": {
+    "message": "Kunne ikke hente butikslisten. Prøv igen senere.",
+    "description": "Popup."
+  },
+  "popupGoogleTitle": {
+    "message": "Google-søgning",
+    "description": "Popup on Google."
+  },
+  "popupGoogleNone": {
+    "message": "Ingen EuroBonus-partnere fundet på siden endnu. Scroll eller genindlæs, hvis siden lige er åbnet.",
+    "description": "Popup on Google."
+  },
+  "popupNotPartnerTitle": {
+    "message": "Ikke en EuroBonus-partner",
+    "description": "Popup."
+  },
+  "popupNotPartnerDesc": {
+    "message": "Dette websted giver ingen EuroBonus-point.",
+    "description": "Popup."
+  },
+  "popupCredit": {
+    "message": "Lavet af",
+    "description": "Popup footer, followed by the author's name."
+  },
+  "popupRegion": {
+    "message": "Region: {region}",
+    "description": "Popup footer: the user's EuroBonus market. {region} = country name."
+  }
+}

@@ -4,3 +4,9 @@
 // no Apple Developer team, and contributors can build without one.
 #include "Version.xcconfig"
 #include? "Signing.local.xcconfig"
+
+// Host serving the partner feed (e.g. feed.example.com). Deliberately empty in
+// the repo: set it in the git-ignored Feed.local.xcconfig, or via the FEED_HOST
+// env var on Xcode Cloud (ci_scripts/ci_post_clone.sh writes that file).
+FEED_HOST =
+#include? "Feed.local.xcconfig"

@@ -15,7 +15,7 @@
     "1024": "images/icon-1024.png"
   },
 
-  "host_permissions": ["https://onlineshopping.loyaltykey.com/*"],
+  "host_permissions": ["https://__FEED_HOST__/*"],
 
   "permissions": ["storage", "activeTab"],
 
@@ -30,7 +30,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "js": ["feed.js", "content.js"],
       "run_at": "document_end"
     }
   ],

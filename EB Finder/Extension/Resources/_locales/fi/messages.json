@@ -1,0 +1,130 @@
+{
+  "extension_name": {
+    "message": "EuroBonus Finder",
+    "description": "The extension's display name."
+  },
+  "extension_description": {
+    "message": "Löytää EuroBonus-kumppanit vierailemiltasi sivustoilta.",
+    "description": "Short description shown in the browser's extension manager."
+  },
+  "bannerTitle": {
+    "message": "{name} on EuroBonus-kumppani",
+    "description": "Banner/popup title. {name} = shop name."
+  },
+  "bannerTitleShort": {
+    "message": "{name} on EB-kumppani",
+    "description": "Narrow-screen banner title. {name} = shop name."
+  },
+  "earn": {
+    "message": "Ansaitse {points} {suffix}",
+    "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
+  },
+  "points": {
+    "message": "{count} pistettä",
+    "description": "{count} = number of points."
+  },
+  "pointsShort": {
+    "message": "{count} p",
+    "description": "Compact points in the popup list."
+  },
+  "suffixFixed": {
+    "message": "uutena asiakkaana",
+    "description": "Fixed-points shops."
+  },
+  "suffixVariable": {
+    "message": "per 100 {unit}",
+    "description": "Per-spend shops. {unit} = currency (kr, €)."
+  },
+  "suffixVariableShort": {
+    "message": "/ 100 {unit}",
+    "description": "Compact per-spend suffix in the popup list. {unit} = currency (kr, €)."
+  },
+  "cta": {
+    "message": "Kirjaudu & ansaitse",
+    "description": "Banner/popup button."
+  },
+  "ctaShort": {
+    "message": "Ansaitse",
+    "description": "Narrow banner button."
+  },
+  "close": {
+    "message": "Sulje",
+    "description": "Close button label."
+  },
+  "badgeTitle": {
+    "message": "{name} – {points} {suffix}. Napauta ja osta SAS:n kautta.",
+    "description": "Search-result badge tooltip."
+  },
+  "badgeAria": {
+    "message": "EuroBonus-kumppani — osta SAS:n kautta",
+    "description": "Search-result badge accessibility label."
+  },
+  "coachSearchTitle": {
+    "message": "Tämä on EB-merkki",
+    "description": "Guided test."
+  },
+  "coachSearchBody": {
+    "message": "Löysimme tuloksista EuroBonus-kumppanin. Etsi tämä kuvake kaupan vierestä — se kertoo, että voit ansaita siellä pisteitä.",
+    "description": "Guided test."
+  },
+  "coachSearchCta": {
+    "message": "Siirry sivustolle",
+    "description": "Guided test."
+  },
+  "coachEmptyTitle": {
+    "message": "Etsi EB-merkkiä",
+    "description": "Guided test."
+  },
+  "coachEmptyBody": {
+    "message": "EB-merkki näkyy EuroBonus-kumppaneina toimivien kauppojen vieressä. Vieraile kumppanin sivustolla, niin näytämme, miltä se näyttää.",
+    "description": "Guided test."
+  },
+  "coachBannerTitle": {
+    "message": "Tältä se näyttää kumppanin sivustolla",
+    "description": "Guided test."
+  },
+  "coachBannerBody": {
+    "message": "Kun vierailet EuroBonus-kumppanin sivustolla, näytämme tämän palkin ylälaidassa. Kirjaudu ja osta SAS:n kautta, niin ansaitset ostoksesta pisteitä.",
+    "description": "Guided test."
+  },
+  "coachBannerCta": {
+    "message": "Selvä",
+    "description": "Guided test."
+  },
+  "popupSearching": {
+    "message": "Etsitään kumppaneita…",
+    "description": "Popup loading state."
+  },
+  "popupNoTab": {
+    "message": "Aktiivista välilehteä ei löytynyt.",
+    "description": "Popup."
+  },
+  "popupFeedError": {
+    "message": "Kauppalistaa ei voitu hakea. Yritä myöhemmin uudelleen.",
+    "description": "Popup."
+  },
+  "popupGoogleTitle": {
+    "message": "Google-haku",
+    "description": "Popup on Google."
+  },
+  "popupGoogleNone": {
+    "message": "Sivulta ei ole vielä löytynyt EuroBonus-kumppaneita. Vieritä tai lataa sivu uudelleen, jos se juuri avautui.",
+    "description": "Popup on Google."
+  },
+  "popupNotPartnerTitle": {
+    "message": "Ei EuroBonus-kumppani",
+    "description": "Popup."
+  },
+  "popupNotPartnerDesc": {
+    "message": "Tältä sivustolta ei saa EuroBonus-pisteitä.",
+    "description": "Popup."
+  },
+  "popupCredit": {
+    "message": "Tekijä:",
+    "description": "Popup footer, followed by the author's name."
+  },
+  "popupRegion": {
+    "message": "Alue: {region}",
+    "description": "Popup footer: the user's EuroBonus market. {region} = country name."
+  }
+}

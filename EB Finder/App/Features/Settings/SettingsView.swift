@@ -1,10 +1,9 @@
 import SwiftUI
-import UIKit
 
 // Post-onboarding home — a standard iOS inset-grouped settings list. Native
 // surfaces and tint; plain SF Symbol leading icons (no colored tiles). Row
 // titles are primary (only the footer link and the system back/links take the
-// blue tint). Root → Om (About) → Licens (License). A warning marker appears on
+// blue tint). Root → Om (About). A warning marker appears on
 // Extension Settings when the extension is off or lacks all-sites access.
 
 struct SettingsView: View {
@@ -12,6 +11,7 @@ struct SettingsView: View {
     @Environment(\.openURL) private var openURL
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = true
     @AppStorage("guidedTestNonce") private var guidedTestNonce = 0
+    @AppStorage(SharedDefaultsKey.market, store: Market.store) private var market = Market.se
 
     var body: some View {
         NavigationStack {
@@ -19,6 +19,13 @@ struct SettingsView: View {
                 // Guided "try it out" test — runs the badge + banner tour in Safari.
                 Section {
                     GuidedTestCard(disabled: extensionNeedsAttention, action: startGuidedTest)
+
+                    Button {
+                        withAnimation(.snappy) { hasCompletedOnboarding = false }
+                    } label: {
+                        SettingsRow(symbol: "arrow.counterclockwise", title: "settings.resetOnboarding")
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 Section {
@@ -31,21 +38,35 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
 
-                    Button {
-                        openURL(URL(string: UIApplication.openSettingsURLString)!)
-                    } label: {
-                        SettingsRow(symbol: "globe", title: "settings.language",
-                                    detail: Text(verbatim: currentLanguage), trailing: .chevron)
+                    // Only the value opens the menu, so pressing it doesn't highlight the whole row.
+                    HStack {
+                        SettingsRow(symbol: "globe", title: "settings.region")
+                        Menu {
+                            Picker(selection: $market) {
+                                ForEach(Market.allCases) { Text(verbatim: $0.name).tag($0) }
+                            } label: {
+                                EmptyView()
+                            }
+                        } label: {
+                            HStack(spacing: 6) {
+                                Text(verbatim: market.name)
+                                    .foregroundStyle(.secondary)
+                                Image(systemName: "chevron.up.chevron.down")
+                                    .font(.footnote.weight(.semibold))
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                        // Menu labels take the list's blue tint; keep the value neutral like its siblings.
+                        .tint(.primary)
                     }
-                    .buttonStyle(.plain)
                 }
 
                 Section {
                     Button {
-                        openURL(URL(string: "mailto:support@brine.co")!)
+                        openURL(URL(string: "mailto:support+ebfinder@pompa.se")!)
                     } label: {
                         SettingsRow(symbol: "envelope.fill", title: "settings.contact",
-                                    detail: Text(verbatim: "support@brine.co"), trailing: .external)
+                                    detail: Text(verbatim: "support@pompa.se"), trailing: .external)
                     }
                     .buttonStyle(.plain)
 
@@ -56,16 +77,8 @@ struct SettingsView: View {
                     }
                 }
 
-                // Reset onboarding — broken out into its own card.
                 Section {
-                    Button {
-                        withAnimation(.snappy) { hasCompletedOnboarding = false }
-                    } label: {
-                        SettingsRow(symbol: "arrow.counterclockwise", title: "settings.resetOnboarding")
-                    }
-                    .buttonStyle(.plain)
-                } footer: {
-                    BrineCredit()
+                    CreditCard()
                 }
             }
             .navigationTitle("")
@@ -75,19 +88,20 @@ struct SettingsView: View {
     }
 
     /// Kick off the guided test: bump the shared nonce the content script polls
-    /// for, then open a Swedish Google search in Safari (`gl=se` searches as if
-    /// from Sweden, `hl=sv` for language; the partner-name terms bias the
-    /// shopping results toward EuroBonus partners so a badge reliably appears).
+    /// for, then open a Google search in Safari for the user's market (`gl` searches
+    /// as if from that country — market codes double as Google's ccTLDs — `hl` is the
+    /// app's UI language; the partner-name terms bias the shopping results toward
+    /// EuroBonus partners so a badge reliably appears).
     private func startGuidedTest() {
         // Carry a fresh, monotonic nonce in the URL fragment (#ebf=…). The content
         // script reads it synchronously on the results page to start the tour; a
         // new value each run is what lets the test be re-run.
         guidedTestNonce += 1
-        var components = URLComponents(string: "https://www.google.se/search")!
+        var components = URLComponents(string: "https://www.google.\(market.rawValue)/search")!
         components.queryItems = [
             URLQueryItem(name: "q", value: "apple studio display xdr webhallen komplett proshop"),
-            URLQueryItem(name: "hl", value: "sv"),
-            URLQueryItem(name: "gl", value: "se"),
+            URLQueryItem(name: "hl", value: Bundle.main.preferredLocalizations.first ?? "en"),
+            URLQueryItem(name: "gl", value: market.rawValue),
         ]
         components.fragment = "ebf=\(guidedTestNonce)"
         if let url = components.url { openURL(url) }
@@ -112,13 +126,6 @@ struct SettingsView: View {
         case .unknown: return nil
         }
     }
-
-    /// The app's active display language, shown on the Language row.
-    private var currentLanguage: String {
-        let code = Bundle.main.preferredLocalizations.first ?? "en"
-        let name = Locale.current.localizedString(forLanguageCode: code) ?? code
-        return name.capitalized(with: .current)
-    }
 }
 
 // MARK: - About
@@ -138,16 +145,17 @@ private struct AboutView: View {
 
             Section {
                 Button {
-                    openURL(URL(string: "https://github.com/brinehq/eb-finder")!)
+                    openURL(URL(string: "https://github.com/pompa/eurobonus-finder")!)
                 } label: {
                     SettingsRow(title: "about.source", trailing: .external)
                 }
                 .buttonStyle(.plain)
-                NavigationLink {
-                    LicenseView()
+                Button {
+                    openURL(URL(string: "https://github.com/pompa/eurobonus-finder/blob/main/LICENSE")!)
                 } label: {
-                    SettingsRow(title: "about.license", detail: Text(verbatim: "MIT"))
+                    SettingsRow(title: "about.license", detail: Text(verbatim: "MIT"), trailing: .external)
                 }
+                .buttonStyle(.plain)
             }
 
             Section {
@@ -156,46 +164,9 @@ private struct AboutView: View {
                     .foregroundStyle(.secondary)
             } header: {
                 Text("about.disclaimer.header")
-            } footer: {
-                BrineCredit()
             }
         }
         .navigationTitle("about.title")
-        .navigationBarTitleDisplayMode(.large)
-    }
-}
-
-// MARK: - License
-
-private struct LicenseView: View {
-    @Environment(\.openURL) private var openURL
-
-    var body: some View {
-        List {
-            Section("license.header") {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("license.body.copyright")
-                    Text("license.body.grant")
-                    Text("license.body.warranty")
-                        .foregroundStyle(.tertiary)
-                }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .padding(.vertical, 2)
-            }
-
-            Section {
-                Button {
-                    openURL(URL(string: "https://github.com/brinehq/eb-finder/blob/main/LICENSE")!)
-                } label: {
-                    SettingsRow(title: "license.full", trailing: .external)
-                }
-                .buttonStyle(.plain)
-            } footer: {
-                BrineCredit()
-            }
-        }
-        .navigationTitle("license.title")
         .navigationBarTitleDisplayMode(.large)
     }
 }
@@ -223,6 +194,8 @@ private struct SettingsRow: View {    var symbol: String? = nil
             Spacer(minLength: 8)
             if let detail {
                 detail.foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
             }
             if warning {
                 Image(systemName: "exclamationmark.triangle.fill")
@@ -232,6 +205,8 @@ private struct SettingsRow: View {    var symbol: String? = nil
             }
             trailingIcon
         }
+        // Plain-style buttons only hit-test drawn content; make the Spacer tappable too.
+        .contentShape(.rect)
     }
 
     @ViewBuilder
@@ -251,14 +226,42 @@ private struct SettingsRow: View {    var symbol: String? = nil
     }
 }
 
-/// "Skapat av Brine AB" — centered at the foot of every settings page. The
-/// localized value carries a markdown link, so "Brine AB" picks up the blue tint.
-private struct BrineCredit: View {
+/// "Made by Ronald Pompa" with social links — the last card on the settings root.
+private struct CreditCard: View {
+    @Environment(\.openURL) private var openURL
+
+    private let links: [(image: String, label: String, url: String)] = [
+        ("Social-github", "GitHub", "https://link.pompa.se/gh"),
+        ("Social-x", "X", "https://link.pompa.se/x"),
+        ("Social-linkedin", "LinkedIn", "https://link.pompa.se/ln"),
+    ]
+
     var body: some View {
-        Text("settings.credit")
-            .font(.footnote)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.top, 10)
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("settings.madeBy")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                Text(verbatim: "Ronald Pompa")
+                    .font(.headline)
+            }
+            Spacer(minLength: 8)
+            ForEach(links, id: \.url) { link in
+                Button {
+                    openURL(URL(string: link.url)!)
+                } label: {
+                    Image(link.image)
+                        .resizable()
+                        .frame(width: 22, height: 22)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 40, height: 40)
+                        .background(Color(.tertiarySystemFill), in: .circle)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(verbatim: link.label))
+            }
+        }
+        .padding(.vertical, 4)
     }
 }
 
@@ -294,6 +297,8 @@ private struct GuidedTestCard: View {    let disabled: Bool
             Text(disabled ? "settings.guidedTest.disabledHint" : "settings.guidedTest.caption")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 4)
     }

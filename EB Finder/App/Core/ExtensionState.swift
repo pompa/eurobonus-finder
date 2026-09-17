@@ -1,11 +1,12 @@
 import SafariServices
 
-private let appGroupID = "group.com.brine.ebfinder"
+let appGroupID = "group.com.brine.ebfinder"
 
-private enum SharedDefaultsKey {
+enum SharedDefaultsKey {
     static let permissionPingTimestamp = "permission.lastPingTimestamp"
     static let permissionHasAllUrls = "permission.hasAllUrls"
     static let permissionLastOrigin = "permission.lastOrigin"
+    static let market = "market"
 }
 
 enum ExtensionStatus: Equatable {

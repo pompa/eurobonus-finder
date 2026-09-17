@@ -1,6 +1,6 @@
 import SwiftUI
 
-// EB Finder design system — a SwiftUI port of the shadcn / SwiftCN token model.
+// EuroBonus Finder design system — a SwiftUI port of the shadcn / SwiftCN token model.
 //
 // Tokens live where SwiftUI can best express them:
 //   • Colors      → asset catalog (light/dark), surfaced as typed Theme.Colors.*

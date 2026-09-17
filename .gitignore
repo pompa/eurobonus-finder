@@ -16,6 +16,7 @@ DerivedData/
 
 ## Local signing identity (DEVELOPMENT_TEAM) — owner/CI only, never committed
 **/Signing.local.xcconfig
+**/Feed.local.xcconfig
 
 ## Various settings
 ExportOptions.plist

@@ -21,7 +21,7 @@
 
 set -euo pipefail
 
-REPO="brinehq/eb-finder"
+REPO="pompa/eurobonus-finder"
 BRANCH="main"
 
 assume_yes=false
