@@ -35,7 +35,23 @@ a **physical device**, drop your Apple Developer team into a git-ignored
 DEVELOPMENT_TEAM = YOURTEAMID
 ```
 
-Simulator builds need nothing. (Xcode Cloud injects its own signing for releases.)
+Simulator builds need no signing. (Xcode Cloud injects its own signing for releases.)
+
+Every build needs the host serving the partner feed. It's kept out of the repo,
+so add it to a git-ignored `EB Finder/Config/Feed.local.xcconfig`:
+
+```
+FEED_HOST = feed.example.com
+```
+
+The build fails with a hint if it's missing. See [Partner feed](#partner-feed).
+
+## Partner feed
+
+The extension doesn't call SAS directly. A Cloudflare Worker in
+[`workers/eb-feed`](workers/eb-feed) fetches the public partner data nightly and
+publishes one JSON file per market to an R2 bucket. See its
+[README](workers/eb-feed/README.md) to develop it or run your own copy.
 
 ## Releases
 

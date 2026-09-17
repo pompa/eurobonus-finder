@@ -1,10 +1,130 @@
 {
   "extension_name": {
-    "message": "EB Finder",
+    "message": "EuroBonus Finder",
     "description": "The extension's display name."
   },
   "extension_description": {
-    "message": "See sites you visit connected to EuroBonus.",
+    "message": "Spots EuroBonus partners on the sites you visit.",
     "description": "Short description shown in the browser's extension manager."
+  },
+  "bannerTitle": {
+    "message": "{name} is a EuroBonus partner",
+    "description": "Banner/popup title. {name} = shop name."
+  },
+  "bannerTitleShort": {
+    "message": "{name} is an EB partner",
+    "description": "Narrow-screen banner title. {name} = shop name."
+  },
+  "earn": {
+    "message": "Earn {points} {suffix}",
+    "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
+  },
+  "points": {
+    "message": "{count} points",
+    "description": "{count} = number of points."
+  },
+  "pointsShort": {
+    "message": "{count} p",
+    "description": "Compact points in the popup list."
+  },
+  "suffixFixed": {
+    "message": "as a new customer",
+    "description": "Fixed-points shops."
+  },
+  "suffixVariable": {
+    "message": "per 100 {unit}",
+    "description": "Per-spend shops. {unit} = currency (kr, €)."
+  },
+  "suffixVariableShort": {
+    "message": "/ 100 {unit}",
+    "description": "Compact per-spend suffix in the popup list. {unit} = currency (kr, €)."
+  },
+  "cta": {
+    "message": "Log in & earn",
+    "description": "Banner/popup button."
+  },
+  "ctaShort": {
+    "message": "Earn",
+    "description": "Narrow banner button."
+  },
+  "close": {
+    "message": "Close",
+    "description": "Close button label."
+  },
+  "badgeTitle": {
+    "message": "{name} – {points} {suffix}. Tap to shop via SAS.",
+    "description": "Search-result badge tooltip."
+  },
+  "badgeAria": {
+    "message": "EuroBonus partner — shop via SAS",
+    "description": "Search-result badge accessibility label."
+  },
+  "coachSearchTitle": {
+    "message": "This is the EB badge",
+    "description": "Guided test."
+  },
+  "coachSearchBody": {
+    "message": "We found a EuroBonus partner in the results. Look for this icon next to a shop — it means you can earn points there.",
+    "description": "Guided test."
+  },
+  "coachSearchCta": {
+    "message": "Visit the site",
+    "description": "Guided test."
+  },
+  "coachEmptyTitle": {
+    "message": "Look for the EB badge",
+    "description": "Guided test."
+  },
+  "coachEmptyBody": {
+    "message": "The EB badge appears next to shops that are EuroBonus partners. Visit a partner and we'll show you what it looks like.",
+    "description": "Guided test."
+  },
+  "coachBannerTitle": {
+    "message": "This is how it looks at a partner",
+    "description": "Guided test."
+  },
+  "coachBannerBody": {
+    "message": "When you visit a EuroBonus partner, we show this bar at the top. Log in and shop via SAS to earn points on your purchase.",
+    "description": "Guided test."
+  },
+  "coachBannerCta": {
+    "message": "Got it",
+    "description": "Guided test."
+  },
+  "popupSearching": {
+    "message": "Looking for partners…",
+    "description": "Popup loading state."
+  },
+  "popupNoTab": {
+    "message": "No active tab found.",
+    "description": "Popup."
+  },
+  "popupFeedError": {
+    "message": "Couldn't load the shop list. Try again later.",
+    "description": "Popup."
+  },
+  "popupGoogleTitle": {
+    "message": "Google search",
+    "description": "Popup on Google."
+  },
+  "popupGoogleNone": {
+    "message": "No EuroBonus partners found on the page yet. Scroll or reload if the page just opened.",
+    "description": "Popup on Google."
+  },
+  "popupNotPartnerTitle": {
+    "message": "Not a EuroBonus partner",
+    "description": "Popup."
+  },
+  "popupNotPartnerDesc": {
+    "message": "This site doesn't earn EuroBonus points.",
+    "description": "Popup."
+  },
+  "popupCredit": {
+    "message": "Made by",
+    "description": "Popup footer, followed by the author's name."
+  },
+  "popupRegion": {
+    "message": "Region: {region}",
+    "description": "Popup footer: the user's EuroBonus market. {region} = country name."
   }
 }

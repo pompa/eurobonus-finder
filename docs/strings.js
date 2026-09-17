@@ -2,7 +2,7 @@
    (strong/em/a only) and keep hrefs identical across locales. */
 const STRINGS = {
   en: {
-    pageTitle: "EB Finder for Safari — never miss EuroBonus points again",
+    pageTitle: "EuroBonus Finder for Safari — never miss EuroBonus points again",
     heroTitle: "Stop leaving EuroBonus points on the table.",
     heroLede:
       "EB&nbsp;Finder taps you on the shoulder when a shop is a <strong>SAS&nbsp;EuroBonus</strong> partner — right in Safari on your <strong>iPhone and iPad</strong>. One tap to log in via SAS, shop as usual, and watch the points roll in.",
@@ -33,14 +33,14 @@ const STRINGS = {
     feedbackText:
       'Found a bug? A partner site acting weird? A feature you\'re dying for? Tell us on <a href="https://github.com/pompa/eurobonus-finder">GitHub</a>.',
     contactText:
-      'Or get in touch directly — <a href="mailto:support+eurobonus@pompa.se">support+eurobonus@pompa.se</a>.',
+      'Or get in touch directly — <a href="mailto:support+ebfinder@pompa.se">support+ebfinder@pompa.se</a>.',
     footerLegal:
       "EB&nbsp;Finder is an independent project — <strong>not</strong> affiliated with SAS, EuroBonus, or any of the shopping partners.",
     footerCredit:
       'Open source under the MIT license · Made by <a href="https://eurobonus.pompa.se">Ronald&nbsp;Pompa</a>',
   },
   sv: {
-    pageTitle: "EB Finder för Safari — missa aldrig EuroBonus-poäng igen",
+    pageTitle: "EuroBonus Finder för Safari — missa aldrig EuroBonus-poäng igen",
     heroTitle: "Sluta lämna EuroBonus-poäng på bordet.",
     heroLede:
       "EB&nbsp;Finder knackar dig på axeln när en butik är <strong>SAS&nbsp;EuroBonus</strong>-partner — direkt i Safari på din <strong>iPhone och iPad</strong>. Ett tryck för att logga in via SAS, shoppa som vanligt och se poängen rulla in.",
@@ -71,7 +71,7 @@ const STRINGS = {
     feedbackText:
       'Hittat en bugg? En partnerbutik som beter sig konstigt? En funktion du längtar efter? Hör av dig på <a href="https://github.com/pompa/eurobonus-finder">GitHub</a>.',
     contactText:
-      'Eller hör av dig direkt — <a href="mailto:support+eurobonus@pompa.se">support+eurobonus@pompa.se</a>.',
+      'Eller hör av dig direkt — <a href="mailto:support+ebfinder@pompa.se">support+ebfinder@pompa.se</a>.',
     footerLegal:
       "EB&nbsp;Finder är ett oberoende projekt — <strong>inte</strong> affilierat med SAS, EuroBonus eller någon av butikspartnerna.",
     footerCredit:

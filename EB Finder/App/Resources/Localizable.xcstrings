@@ -18,19 +18,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "EB Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and fetches partner data via LoyaltyKey's public API."
+            "value" : "EuroBonus Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and uses SAS's publicly available partner data."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder er ikke officielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uafhængigt projekt og bruger SAS' offentligt tilgængelige partnerdata."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and fetches partner data via LoyaltyKey's public API."
+            "value" : "EuroBonus Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and uses SAS's publicly available partner data."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder ei ole virallisesti yhteydessä SAS – Scandinavian Airlines -yhtiöön tai EuroBonus-ohjelmaan. Palvelu on itsenäinen projekti, ja se käyttää SAS:n julkisesti saatavilla olevia kumppanitietoja."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder er ikke offisielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uavhengig prosjekt og bruker SAS' offentlig tilgjengelige partnerdata."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder är inte officiellt anslutet till SAS – Scandinavian Airlines eller EuroBonus. Tjänsten är ett oberoende projekt och hämtar partnerdata via LoyaltyKeys publika API."
+            "value" : "EuroBonus Finder är inte officiellt anslutet till SAS – Scandinavian Airlines eller EuroBonus. Tjänsten är ett oberoende projekt och använder SAS publikt tillgängliga partnerdata."
           }
         }
       }
@@ -45,10 +63,28 @@
             "value" : "Disclaimer"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ansvarsfraskrivelse"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disclaimer"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vastuuvapauslauseke"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ansvarsfraskrivelse"
           }
         },
         "sv" : {
@@ -69,10 +105,28 @@
             "value" : "License"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Licens"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "License"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Lisenssi"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Lisens"
           }
         },
         "sv" : {
@@ -93,10 +147,28 @@
             "value" : "Source code"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kildekode"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Source code"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Lähdekoodi"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kildekode"
           }
         },
         "sv" : {
@@ -117,10 +189,28 @@
             "value" : "About"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Om"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "About"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tietoja"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Om"
           }
         },
         "sv" : {
@@ -141,160 +231,34 @@
             "value" : "Version"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Version"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
           }
         },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Versio"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Versjon"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
-          }
-        }
-      }
-    },
-    "license.body.copyright" : {
-      "comment" : "License page — copyright line.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Copyright © Brine AB"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copyright © Brine AB"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copyright © Brine AB"
-          }
-        }
-      }
-    },
-    "license.body.grant" : {
-      "comment" : "License page — MIT grant paragraph (plain-language summary).",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to anyone obtaining a copy of this software to use, copy, modify and distribute it without restriction."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permission is hereby granted, free of charge, to anyone obtaining a copy of this software to use, copy, modify and distribute it without restriction."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tillstånd beviljas härmed, utan kostnad, till var och en som erhåller en kopia av denna programvara att använda, kopiera, modifiera och distribuera den utan begränsning."
-          }
-        }
-      }
-    },
-    "license.body.warranty" : {
-      "comment" : "License page — warranty disclaimer line.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The software is provided \"as is\", without warranty of any kind."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The software is provided \"as is\", without warranty of any kind."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Programvaran tillhandahålls ”i befintligt skick”, utan garanti av något slag."
-          }
-        }
-      }
-    },
-    "license.full" : {
-      "comment" : "License page row → opens the full LICENSE file on GitHub.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "View full license"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View full license"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visa fullständig licens"
-          }
-        }
-      }
-    },
-    "license.header" : {
-      "comment" : "License page — MIT section header.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "MIT License"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MIT License"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MIT-licens"
-          }
-        }
-      }
-    },
-    "license.title" : {
-      "comment" : "License page navigation title.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "License"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "License"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Licens"
           }
         }
       }
@@ -309,10 +273,28 @@
             "value" : "CHECKING…"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "KONTROLLERER…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "CHECKING…"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "TARKISTETAAN…"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "SJEKKER…"
           }
         },
         "sv" : {
@@ -333,10 +315,28 @@
             "value" : "CONTINUE"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "FORTSÆT"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "CONTINUE"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "JATKA"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "FORTSETT"
           }
         },
         "sv" : {
@@ -357,40 +357,34 @@
             "value" : "FINISH"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AFSLUT"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FINISH"
           }
         },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "VALMIS"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "FULLFØR"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "SLUTFÖR"
-          }
-        }
-      }
-    },
-    "onboarding.done.detail" : {
-      "comment" : "Subtitle on the 'all set' screen.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EB Finder will now clearly show which EuroBonus partners you visit as you browse in Safari."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EB Finder will now clearly show which EuroBonus partners you visit as you browse in Safari."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EB Finder visar nu tydligt vilka EuroBonus-partners du besöker medan du surfar i Safari."
           }
         }
       }
@@ -402,19 +396,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "All set!"
+            "value" : "All done"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Alt er klar"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All set!"
+            "value" : "All done"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kaikki valmista"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Alt klart"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allt klart!"
+            "value" : "Allt klart"
           }
         }
       }
@@ -429,10 +441,28 @@
             "value" : "OPEN SAFARI SETTINGS"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ÅBN SAFARI-INDSTILLINGER"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OPEN SAFARI SETTINGS"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AVAA SAFARIN ASETUKSET"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ÅPNE SAFARI-INNSTILLINGER"
           }
         },
         "sv" : {
@@ -450,19 +480,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Switch on EB Finder in Safari settings so we can spot EuroBonus partners while you browse."
+            "value" : "Switch on EuroBonus Finder in Safari settings so we can spot EuroBonus partners while you browse."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Slå EuroBonus Finder til i Safari-indstillingerne, så vi kan finde EuroBonus-partnere, mens du surfer."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Switch on EB Finder in Safari settings so we can spot EuroBonus partners while you browse."
+            "value" : "Switch on EuroBonus Finder in Safari settings so we can spot EuroBonus partners while you browse."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ota EuroBonus Finder käyttöön Safarin asetuksissa, niin löydämme EuroBonus-kumppanit selatessasi."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Slå på EuroBonus Finder i Safari-innstillingene, så vi kan finne EuroBonus-partnere mens du surfer."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Slå på EB Finder i Safari-inställningarna så att vi kan hitta EuroBonus-partners medan du surfar."
+            "value" : "Slå på EuroBonus Finder i Safari-inställningarna så att vi kan hitta EuroBonus-partners medan du surfar."
           }
         }
       }
@@ -474,19 +522,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "EB Finder is enabled in Safari."
+            "value" : "EuroBonus Finder is enabled in Safari."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder er slået til i Safari."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder is enabled in Safari."
+            "value" : "EuroBonus Finder is enabled in Safari."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder on käytössä Safarissa."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder er slått på i Safari."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder är påslaget i Safari."
+            "value" : "EuroBonus Finder är påslaget i Safari."
           }
         }
       }
@@ -501,10 +567,28 @@
             "value" : "The extension is on"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Udvidelsen er aktiveret"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The extension is on"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Laajennus on käytössä"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Utvidelsen er aktivert"
           }
         },
         "sv" : {
@@ -525,10 +609,28 @@
             "value" : "Settings › Apps › Safari › Extensions"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Indstillinger › Apps › Safari › Udvidelser"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings › Apps › Safari › Extensions"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Asetukset › Apit › Safari › Laajennukset"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Innstillinger › Apper › Safari › Utvidelser"
           }
         },
         "sv" : {
@@ -549,16 +651,76 @@
             "value" : "Turn on the extension"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aktivér udvidelsen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn on the extension"
           }
         },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ota laajennus käyttöön"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aktiver utvidelsen"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktivera tillägget"
+          }
+        }
+      }
+    },
+    "onboarding.permissions.allow" : {
+      "comment" : "Instruction shown next to each domain in the onboarding permissions list (Safari's 'Allow' setting).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Select Allow"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg Tillad"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Allow"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valitse Salli"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg Tillat"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj Tillåt"
           }
         }
       }
@@ -573,10 +735,28 @@
             "value" : "OPEN PERMISSIONS"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ÅBN TILLADELSER"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OPEN PERMISSIONS"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "AVAA LUVAT"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ÅPNE TILLATELSER"
           }
         },
         "sv" : {
@@ -588,25 +768,85 @@
       }
     },
     "onboarding.permissions.detail" : {
-      "comment" : "Body on the 'allow all websites' step, including the privacy reassurance.",
+      "comment" : "Body on the permissions step.",
       "extractionState" : "manual",
       "localizations" : {
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Give EB Finder access to all domains — otherwise partners on some pages may be missed. We only compare the site's domain name against the partner list; nothing else is read, tracked or stored."
+            "value" : "EuroBonus Finder needs these permissions to work."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder skal bruge disse tilladelser for at virke."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give EB Finder access to all domains — otherwise partners on some pages may be missed. We only compare the site's domain name against the partner list; nothing else is read, tracked or stored."
+            "value" : "EuroBonus Finder needs these permissions to work."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder tarvitsee nämä luvat toimiakseen."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder trenger disse tillatelsene for å fungere."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ge EB Finder åtkomst till alla domäner — annars kan partners på vissa sidor missas. Vi jämför bara webbplatsens domännamn mot partnerlistan; ingenting annat läses, spåras eller sparas."
+            "value" : "EuroBonus Finder behöver de här behörigheterna för att fungera."
+          }
+        }
+      }
+    },
+    "onboarding.permissions.done" : {
+      "comment" : "Secondary button on the permissions step; moves on so users are never trapped if live detection lags.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "DONE"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FÆRDIG"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DONE"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VALMIS"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FERDIG"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KLAR"
           }
         }
       }
@@ -618,19 +858,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "EB Finder can read all websites."
+            "value" : "EuroBonus Finder can read all websites."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder kan læse alle websteder."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder can read all websites."
+            "value" : "EuroBonus Finder can read all websites."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder voi lukea kaikkia verkkosivustoja."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder kan lese alle nettsteder."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder kan läsa alla webbplatser."
+            "value" : "EuroBonus Finder kan läsa alla webbplatser."
           }
         }
       }
@@ -645,64 +903,34 @@
             "value" : "Access granted"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Adgang givet"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Access granted"
           }
         },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Käyttöoikeus myönnetty"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tilgang gitt"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Åtkomst beviljad"
-          }
-        }
-      }
-    },
-    "onboarding.permissions.path" : {
-      "comment" : "Settings breadcrumb chip on the 'allow all websites' step.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Allow › All Websites"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allow › All Websites"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tillåt › Alla webbplatser"
-          }
-        }
-      }
-    },
-    "onboarding.permissions.skip" : {
-      "comment" : "Escape-hatch button on the permissions step so users are never trapped if live detection lags.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Skip"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skip"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoppa över"
           }
         }
       }
@@ -714,19 +942,121 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Allow on all websites"
+            "value" : "Permissions"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilladelser"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allow on all websites"
+            "value" : "Permissions"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luvat"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillatelser"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tillåt på alla webbplatser"
+            "value" : "Behörigheter"
+          }
+        }
+      }
+    },
+    "onboarding.region.detail" : {
+      "comment" : "Body on the 'choose your region' onboarding step. The region picks which country's EuroBonus partners are shown.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus partners and points differ by country. Pick the country where you shop — you can change it later in Settings."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus-partnere og point varierer fra land til land. Vælg det land, hvor du handler — du kan ændre det senere i indstillingerne."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus partners and points differ by country. Pick the country where you shop — you can change it later in Settings."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus-kumppanit ja pisteet vaihtelevat maittain. Valitse maa, jossa teet ostoksesi — voit vaihtaa sen myöhemmin asetuksista."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus-partnere og poeng varierer fra land til land. Velg landet der du handler — du kan endre det senere i innstillingene."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus-partners och poäng skiljer sig mellan länder. Välj landet där du handlar — du kan ändra det senare i inställningarna."
+          }
+        }
+      }
+    },
+    "onboarding.region.title" : {
+      "comment" : "Title on the 'choose your region' onboarding step.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Choose your region"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vælg din region"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose your region"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Valitse alueesi"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Velg din region"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj din region"
           }
         }
       }
@@ -741,10 +1071,28 @@
             "value" : "GET STARTED"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "KOM I GANG"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "GET STARTED"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "ALOITETAAN"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "KOM I GANG"
           }
         },
         "sv" : {
@@ -762,19 +1110,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "EB Finder spots EuroBonus partners automatically and reminds you to sign in via SAS — before you buy."
+            "value" : "EuroBonus Finder spots EuroBonus partners automatically and reminds you to sign in via SAS — before you buy."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder finder automatisk EuroBonus-partnere og minder dig om at logge ind via SAS — før du handler."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder spots EuroBonus partners automatically and reminds you to sign in via SAS — before you buy."
+            "value" : "EuroBonus Finder spots EuroBonus partners automatically and reminds you to sign in via SAS — before you buy."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder tunnistaa EuroBonus-kumppanit automaattisesti ja muistuttaa sinua kirjautumaan SAS:n kautta — ennen kuin ostat."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "EuroBonus Finder oppdager EuroBonus-partnere automatisk og minner deg på å logge inn via SAS — før du handler."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "EB Finder upptäcker EuroBonus-partners automatiskt och påminner dig att logga in via SAS — innan du handlar."
+            "value" : "EuroBonus Finder upptäcker EuroBonus-partners automatiskt och påminner dig att logga in via SAS — innan du handlar."
           }
         }
       }
@@ -789,16 +1155,160 @@
             "value" : "Earn points\nwhile you browse"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Optjen point\nmens du surfer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Earn points\nwhile you browse"
           }
         },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kerää pisteitä\nselatessasi"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tjen poeng\nmens du surfer"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tjäna poäng\nmedan du surfar"
+          }
+        }
+      }
+    },
+    "permissions.allWebsites.detail" : {
+      "comment" : "What all-websites access is used for, and what isn't done with it.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Reads the site's domain to match it against partners."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Læser webstedets domæne for at matche det med partnere."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reads the site's domain to match it against partners."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lukee sivuston verkkotunnuksen ja vertaa sitä kumppaneihin."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leser nettstedets domene for å matche det mot partnere."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läser webbplatsens domän för att matcha den mot partners."
+          }
+        }
+      }
+    },
+    "permissions.allWebsites.title" : {
+      "comment" : "Permission name — must match Safari's extension settings label for the all-sites row (\"Other Websites\").",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Other Websites"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Andre websteder"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other Websites"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Muut verkkosivustot"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Andre nettsteder"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andra webbplatser"
+          }
+        }
+      }
+    },
+    "permissions.feed.detail" : {
+      "comment" : "What access to the feed domain is used for.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "base" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Downloads the list of partners."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henter listen over partnere."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads the list of partners."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lataa kumppanilistan."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laster ned listen over partnere."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laddar ner listan över partners."
           }
         }
       }
@@ -813,10 +1323,28 @@
             "value" : "About"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Om"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "About"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tietoja"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Om"
           }
         },
         "sv" : {
@@ -834,43 +1362,37 @@
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Contact"
+            "value" : "Support"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontakt"
-          }
-        }
-      }
-    },
-    "settings.credit" : {
-      "comment" : "Footer at the bottom of every settings page. Markdown link → brine.co.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "base" : {
+        "da" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Made by [Brine AB](https://www.brine.co)"
+            "value" : "Support"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Made by [Brine AB](https://www.brine.co)"
+            "value" : "Support"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tuki"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kundestøtte"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skapat av [Brine AB](https://www.brine.co)"
+            "value" : "Support"
           }
         }
       }
@@ -885,10 +1407,28 @@
             "value" : "Extension"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Udvidelse"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extension"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Laajennus"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Utvidelse"
           }
         },
         "sv" : {
@@ -909,10 +1449,28 @@
             "value" : "Off"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Fra"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Off"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Pois"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Av"
           }
         },
         "sv" : {
@@ -933,10 +1491,28 @@
             "value" : "On"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Til"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "On"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Päällä"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "På"
           }
         },
         "sv" : {
@@ -957,10 +1533,28 @@
             "value" : "Needs attention"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kræver handling"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Needs attention"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vaatii toimenpiteitä"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Krever handling"
           }
         },
         "sv" : {
@@ -981,10 +1575,28 @@
             "value" : "Search for a product"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Søg efter et produkt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for a product"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hae tuotetta"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Søk etter et produkt"
           }
         },
         "sv" : {
@@ -1005,10 +1617,28 @@
             "value" : "Opens a Google search in Safari."
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Åbner en Google-søgning i Safari."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opens a Google search in Safari."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Avaa Google-haun Safarissa."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Åpner en Google-søkning i Safari."
           }
         },
         "sv" : {
@@ -1029,10 +1659,28 @@
             "value" : "Turn the extension on (with access to all websites) to run the test."
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aktivér udvidelsen (med adgang til alle websteder) for at køre testen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn the extension on (with access to all websites) to run the test."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ota laajennus käyttöön (kaikkien verkkosivustojen käyttöoikeudella) suorittaaksesi testin."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aktiver utvidelsen (med tilgang til alle nettsteder) for å kjøre testen."
           }
         },
         "sv" : {
@@ -1053,10 +1701,28 @@
             "value" : "Search for a product"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Søg efter et produkt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for a product"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Hae tuotetta"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Søk etter et produkt"
           }
         },
         "sv" : {
@@ -1077,10 +1743,28 @@
             "value" : "Visit a EuroBonus partner"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Besøg en EuroBonus-partner"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visit a EuroBonus partner"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vieraile EuroBonus-kumppanin sivustolla"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Besøk en EuroBonus-partner"
           }
         },
         "sv" : {
@@ -1101,10 +1785,28 @@
             "value" : "Try it out"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Prøv det"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try it out"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kokeile"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Prøv det"
           }
         },
         "sv" : {
@@ -1115,50 +1817,86 @@
         }
       }
     },
-    "settings.language" : {
-      "comment" : "Settings root row → display language (display-only for now).",
+    "settings.madeBy" : {
+      "comment" : "Label above the author's name in the credit card on the settings root.",
       "extractionState" : "manual",
       "localizations" : {
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Language"
+            "value" : "Made by"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lavet af"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Language"
+            "value" : "Made by"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekijä"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laget av"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Språk"
+            "value" : "Skapat av"
           }
         }
       }
     },
-    "settings.language.value" : {
-      "comment" : "Detail value on the Language row — the current display language.",
+    "settings.region" : {
+      "comment" : "Settings root row → menu to change the EuroBonus market (country).",
       "extractionState" : "manual",
       "localizations" : {
         "base" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Swedish"
+            "value" : "Region"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Region"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swedish"
+            "value" : "Region"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Alue"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Region"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Svenska"
+            "value" : "Region"
           }
         }
       }
@@ -1173,10 +1911,28 @@
             "value" : "Reset onboarding"
           }
         },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nulstil onboarding"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset onboarding"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nollaa käyttöönotto"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tilbakestill onboarding"
           }
         },
         "sv" : {

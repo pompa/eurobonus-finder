@@ -7,13 +7,25 @@
 body.eb-popup {
   margin: 0;
   font-family: var(--font-sans);
-  width: 340px;
-  padding: var(--space-5);
+  /* Fill the iPhone sheet; never narrower than 340px in an iPad/Mac popover. */
+  min-width: 340px;
+  /* Dynamic viewport height tracks the sheet as it moves between detents. */
+  min-height: 100dvh;
   color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollable content: status, match list, CTA. */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5) var(--space-5) 0;
 }
 
 /* Status = Card surface (bg-card + ring-foreground/10). popup.js sets
-   .status + .match / .no-match. */
+   .status + .match / .empty. */
 .status {
   display: grid;
   grid-template-columns: 20px 1fr;
@@ -48,9 +60,19 @@ body.eb-popup {
 .status.match .status-icon {
   color: var(--success-foreground);
 }
-.status.no-match {
-  background: var(--card);
-  color: var(--card-foreground);
+/* Empty state (searching, no partners, errors): no card, centered in the content area. */
+.status.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-5);
+  text-align: center;
+  background: none;
+  box-shadow: none;
 }
 
 /* Primary "earn" action = full-width button (default variant, h-10). */
@@ -103,33 +125,17 @@ body.eb-popup {
   text-decoration: none;
   display: block;
 }
-/* Match rows = Card surface (bg-card + ring-foreground/10). */
+/* Match rows = ghost Item (no surface; muted fill on hover). */
 .item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 9px 10px;
   border-radius: var(--radius-2xl);
-  background: var(--card);
-  box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent);
   text-decoration: none;
 }
 .item:hover {
   background: var(--muted);
-}
-.item-media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: var(--radius-md);
-  background: var(--primary);
-  color: var(--primary-foreground);
-  flex-shrink: 0;
-}
-.item-media svg {
-  display: block;
 }
 .item-content {
   flex: 1 1 auto;
@@ -150,16 +156,22 @@ body.eb-popup {
 }
 .item-actions {
   flex-shrink: 0;
-  color: var(--primary);
-  font-weight: 900;
-  font-size: 13px;
+  display: flex;
+  color: var(--muted-foreground);
 }
 .item-actions.placeholder {
   color: var(--muted-foreground);
   font-weight: 400;
 }
 
-/* "Skapat av Brine AB" — centered at the foot of the popup. */
+/* Footer (region, credit, social links) — pinned to the bottom of the popup. */
+.footer {
+  position: sticky;
+  bottom: 0;
+  padding: var(--space-4) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom));
+  background: Canvas;
+  box-shadow: 0 -1px 0 color-mix(in oklch, var(--foreground) 10%, transparent);
+}
 .credit {
   margin: 0;
   text-align: center;
@@ -167,6 +179,18 @@ body.eb-popup {
   color: var(--muted-foreground);
   line-height: var(--lh-snug);
 }
-.credit a {
-  color: var(--primary);
+.social {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.social a {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--muted-foreground);
+  background: var(--muted);
 }

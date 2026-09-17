@@ -1,8 +1,8 @@
 import SwiftUI
 
-// Guided onboarding — the "EB Finder Onboarding — Guided" design.
+// Guided onboarding — the "EuroBonus Finder Onboarding — Guided" design.
 //
-//   welcome → Aktivera tillägget → Tillåt på alla webbplatser → Allt klart!
+//   welcome → Välj region → Aktivera tillägget → Behörigheter → Allt klart!
 //
 // The treatment is the host app's branded brand moment: a deep-indigo (or, in
 // light mode, soft-lavender) "Liquid Glass" atmosphere built from the EB brand
@@ -23,8 +23,9 @@ struct OnboardingView: View {
     /// Started. Steps already satisfied at that point are never presented; this
     /// list drives both the screen sequence and the progress dots.
     @State private var flow: [OnboardingStep] = []
+    @AppStorage(SharedDefaultsKey.market, store: Market.store) private var market = Market.se
 
-    private enum Screen: Hashable { case welcome, enableExtension, grantPermissions, done }
+    private enum Screen: Hashable { case welcome, chooseRegion, enableExtension, grantPermissions, done }
 
     var body: some View {
         let palette = OnboardingPalette()
@@ -62,21 +63,23 @@ struct OnboardingView: View {
     @ViewBuilder
     private func topBar(_ palette: OnboardingPalette) -> some View {
         ZStack {
-            if flow.count >= 1, let index = dotIndex {
-                ProgressDots(index: index, total: flow.count + 1, active: palette.dotActive, inactive: palette.dotInactive)
+            if let index = dotIndex {
+                ProgressDots(index: index, total: flow.count + 2, active: palette.dotActive, inactive: palette.dotInactive)
             }
         }
         .frame(height: 40)
         .padding(.top, 12)
     }
 
-    // One dot per presented step, plus a final dot for the "all set" screen.
+    // One dot for the region picker, one per presented step, plus a final dot
+    // for the "all set" screen.
     private var dotIndex: Int? {
         switch screen {
         case .welcome: return nil
-        case .done: return flow.count
+        case .chooseRegion: return 0
+        case .done: return flow.count + 1
         case .enableExtension, .grantPermissions:
-            return stepFor(screen).flatMap { flow.firstIndex(of: $0) }
+            return stepFor(screen).flatMap { flow.firstIndex(of: $0) }.map { $0 + 1 }
         }
     }
 
@@ -87,6 +90,8 @@ struct OnboardingView: View {
         switch screen {
         case .welcome:
             welcome(palette)
+        case .chooseRegion:
+            chooseRegion(palette)
         case .enableExtension:
             step(palette, step: .enableExtension)
         case .grantPermissions:
@@ -109,6 +114,49 @@ struct OnboardingView: View {
         }
         .multilineTextAlignment(.center)
         .padding(.horizontal, 26)
+    }
+
+    private func chooseRegion(_ palette: OnboardingPalette) -> some View {
+        VStack(spacing: 0) {
+            Image(systemName: "globe.europe.africa")
+                .font(.system(size: 80, weight: .light))
+                .foregroundStyle(palette.glyph)
+                .frame(height: 104)
+            Text("onboarding.region.title")
+                .onboardingTitle(palette.ink)
+                .padding(.top, 30)
+            Text("onboarding.region.detail")
+                .onboardingBody(palette.sub)
+                .frame(maxWidth: 320)
+                .padding(.top, 14)
+
+            VStack(spacing: 8) {
+                ForEach(Market.allCases) { option in
+                    Button { market = option } label: {
+                        HStack {
+                            Text(verbatim: option.name)
+                            Spacer()
+                            if option == market {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                        .font(.system(size: 15, weight: option == market ? .bold : .medium))
+                        .foregroundStyle(palette.chipForeground)
+                        .padding(.horizontal, 18)
+                        .frame(minHeight: 48)
+                        .background(option == market ? palette.chipForeground.opacity(0.24) : palette.chipBackground,
+                                    in: .rect(cornerRadius: 14, style: .continuous))
+                        .contentShape(.rect)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(option == market ? .isSelected : [])
+                }
+            }
+            .frame(maxWidth: 320)
+            .padding(.top, 22)
+        }
+        .multilineTextAlignment(.center)
+        .padding(.horizontal, 30)
     }
 
     private func step(_ palette: OnboardingPalette, step: OnboardingStep) -> some View {
@@ -137,8 +185,14 @@ struct OnboardingView: View {
                 .padding(.top, 14)
 
             if status != .done {
-                SettingsPathChip(textKey: copy.path, palette: palette)
-                    .padding(.top, 22)
+                Group {
+                    if let path = copy.path {
+                        SettingsPathChip(textKey: path, palette: palette)
+                    } else {
+                        PermissionsContainer(palette: palette)
+                    }
+                }
+                .padding(.top, 22)
             }
 
             if status != .done, let error = errorMessage {
@@ -155,12 +209,11 @@ struct OnboardingView: View {
 
     private func done(_ palette: OnboardingPalette) -> some View {
         VStack(spacing: 0) {
+            CompletionCheck(size: 96)
+                .frame(height: 104)
             Text("onboarding.done.title")
                 .onboardingTitle(palette.ink)
-            Text("onboarding.done.detail")
-                .onboardingBody(palette.sub)
-                .frame(maxWidth: 290)
-                .padding(.top, 12)
+                .padding(.top, 30)
         }
         .multilineTextAlignment(.center)
         .padding(.horizontal, 26)
@@ -174,6 +227,9 @@ struct OnboardingView: View {
         case .welcome:
             OnboardingCTAButton("onboarding.welcome.button", variant: .primary,
                                 showArrow: true, shimmer: true, action: goNext)
+        case .chooseRegion:
+            OnboardingCTAButton("onboarding.continue", variant: .primary,
+                                showArrow: true, action: goNext)
         case .enableExtension:
             stepCTA(palette, step: .enableExtension)
         case .grantPermissions:
@@ -199,15 +255,7 @@ struct OnboardingView: View {
                     // Live permission detection relies on the extension pinging the
                     // app group after the user next loads a page, which can lag — so
                     // never trap them here.
-                    Button(action: goNext) {
-                        HStack(spacing: 3) {
-                            Text("onboarding.permissions.skip")
-                            Image(systemName: "chevron.right").font(.caption2.weight(.bold))
-                        }
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(palette.sub)
-                    }
-                    .buttonStyle(.plain)
+                    OnboardingCTAButton("onboarding.permissions.done", variant: .glass, action: goNext)
                 }
             }
         case .done:
@@ -241,9 +289,15 @@ struct OnboardingView: View {
     private func goNext() {
         switch screen {
         case .welcome:
+            // Preselect from the device region unless a market was already chosen.
+            if Market.store?.string(forKey: SharedDefaultsKey.market) == nil {
+                market = .deviceDefault
+            }
             // Snapshot only the steps that still need action — present nothing
             // the user has already taken care of.
             flow = OnboardingStep.allCases.filter { !isSatisfied($0) }
+            screen = .chooseRegion
+        case .chooseRegion:
             screen = flow.first.map(screenFor) ?? .done
         case .enableExtension, .grantPermissions:
             if let step = stepFor(screen), let i = flow.firstIndex(of: step), i + 1 < flow.count {
@@ -274,7 +328,7 @@ struct OnboardingView: View {
         switch screen {
         case .enableExtension: return .enableExtension
         case .grantPermissions: return .grantPermissions
-        case .welcome, .done: return nil
+        case .welcome, .chooseRegion, .done: return nil
         }
     }
 
@@ -290,7 +344,8 @@ private struct OnboardingCopy {
     let title: LocalizedStringKey
     let detail: LocalizedStringKey
     let button: LocalizedStringKey
-    let path: LocalizedStringKey
+    /// Settings breadcrumb chip; nil shows the per-domain `PermissionsContainer`.
+    let path: LocalizedStringKey?
     let doneTitle: LocalizedStringKey
     let doneDetail: LocalizedStringKey
 
@@ -312,7 +367,7 @@ private struct OnboardingCopy {
                 title: "onboarding.permissions.title",
                 detail: "onboarding.permissions.detail",
                 button: "onboarding.permissions.button",
-                path: "onboarding.permissions.path",
+                path: nil,
                 doneTitle: "onboarding.permissions.doneTitle",
                 doneDetail: "onboarding.permissions.doneDetail"
             )
@@ -459,6 +514,43 @@ private struct ProgressDots: View {
             }
         }
         .animation(.snappy, value: index)
+    }
+}
+
+/// Mirrors Safari's "Permissions for EuroBonus Finder" list: every domain
+/// should be set to Allow.
+private struct PermissionsContainer: View {
+    let palette: OnboardingPalette
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(ExtensionPermission.allCases) { permission in
+                if permission != ExtensionPermission.allCases.first {
+                    Divider().overlay(palette.chipForeground.opacity(0.2))
+                }
+                HStack(spacing: 12) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        permission.title
+                            .lineLimit(1)
+                        Text(permission.detail)
+                            .font(.system(size: 12))
+                            .foregroundStyle(palette.sub)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 8)
+                    Text("onboarding.permissions.allow")
+                        .fontWeight(.semibold)
+                }
+                .font(.system(size: 13.5, weight: .medium))
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .foregroundStyle(palette.chipForeground)
+        .multilineTextAlignment(.leading)
+        .background(palette.chipBackground, in: .rect(cornerRadius: 14, style: .continuous))
+        .frame(maxWidth: 320)
     }
 }
 

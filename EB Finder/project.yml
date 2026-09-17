@@ -18,7 +18,7 @@ options:
   # from the Xcode template defaults below.
 
 attributes:
-  ORGANIZATIONNAME: Brine AB
+  ORGANIZATIONNAME: Ronald Pompa
 
 # Config names → type (drives the per-config optimization/debug presets).
 configs:
@@ -63,9 +63,9 @@ settings:
     STRING_CATALOG_GENERATE_SYMBOLS: YES
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
     # Info.plist keys shared by both targets
-    INFOPLIST_KEY_CFBundleDisplayName: EB Finder
+    INFOPLIST_KEY_CFBundleDisplayName: EuroBonus Finder
     INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
-    INFOPLIST_KEY_NSHumanReadableCopyright: Copyright © 2026 Brine AB. All rights reserved.
+    INFOPLIST_KEY_NSHumanReadableCopyright: Copyright © 2026 Ronald Pompa. All rights reserved.
   configs:
     Release:
       PROVISIONING_PROFILE_SPECIFIER: ""
@@ -132,7 +132,8 @@ targets:
       # preview, excluded from the bundle.
       - path: Extension/Resources
         excludes:
-          - manifest.json   # produced by the "Stamp manifest version" phase below
+          - manifest.json   # produced by the "Stamp manifest" phase below
+          - feed.js         # ditto
           - images
           - _locales
           - _preview.html
@@ -141,10 +142,12 @@ targets:
         type: folder
       - path: Extension/Resources/_locales
         type: folder
-      # Visible in the navigator but NOT copied — the bundled manifest is produced
-      # by the "Stamp manifest version" phase (including it here too would
-      # double-produce the file in the .appex).
+      # Visible in the navigator but NOT copied — the bundled copies are produced
+      # by the "Stamp manifest" phase (including them here too would
+      # double-produce the files in the .appex).
       - path: Extension/Resources/manifest.json
+        buildPhase: none
+      - path: Extension/Resources/feed.js
         buildPhase: none
     settings:
       base:
@@ -154,7 +157,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: Extension/Extension.entitlements
         CODE_SIGN_IDENTITY: Apple Development
         SKIP_INSTALL: YES
-        # The "Stamp manifest version" phase below writes manifest.json into the
+        # The "Stamp manifest" phase below writes manifest.json into the
         # built .appex. On a *signed* Xcode Cloud archive the user-script sandbox
         # blocks that write ("Operation not permitted" / EPERM) even with declared
         # input/output files; unsigned local builds don't hit it. The script is
@@ -163,23 +166,33 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
     # The manifest's "version" is derived from $MARKETING_VERSION (one source of
     # truth for both the app and the extension), so it's never hard-coded in the
-    # committed JSON. manifest.json is excluded from the resource copy above; this
-    # phase generates the bundled copy with the version substituted in. Declared
+    # committed JSON. The feed host is likewise kept out of the repo: manifest.json
+    # and feed.js carry a __FEED_HOST__ placeholder filled from $(FEED_HOST)
+    # (Config/Build.xcconfig). Both files are excluded from the resource copy
+    # above; this phase generates the bundled copies. Declared
     # input/output keep incremental builds correct; sandboxing is disabled for this
     # target (above) because the sandbox blocks writing into the .appex on signed
     # Xcode Cloud archives.
     postBuildScripts:
-      - name: Stamp manifest version
+      - name: Stamp manifest
         basedOnDependencyAnalysis: false
         script: |
           set -euo pipefail
+          if [ -z "${FEED_HOST:-}" ]; then
+            echo "error: FEED_HOST is not set. Add 'FEED_HOST = feed.example.com' to Config/Feed.local.xcconfig (see workers/eb-feed/README.md)."
+            exit 1
+          fi
           mkdir -p "$(dirname "$SCRIPT_OUTPUT_FILE_0")"
-          sed -E 's/("version"[[:space:]]*:[[:space:]]*")[^"]+(")/\1'"${MARKETING_VERSION}"'\2/' \
+          sed -E -e 's/("version"[[:space:]]*:[[:space:]]*")[^"]+(")/\1'"${MARKETING_VERSION}"'\2/' \
+            -e "s/__FEED_HOST__/${FEED_HOST}/g" \
             "$SCRIPT_INPUT_FILE_0" > "$SCRIPT_OUTPUT_FILE_0"
+          sed -e "s/__FEED_HOST__/${FEED_HOST}/g" "$SCRIPT_INPUT_FILE_1" > "$SCRIPT_OUTPUT_FILE_1"
         inputFiles:
           - $(SRCROOT)/Extension/Resources/manifest.json
+          - $(SRCROOT)/Extension/Resources/feed.js
         outputFiles:
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest.json
+          - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/feed.js
 
 # ---------------------------------------------------------------------------
 # Schemes (replaces the hand-maintained EB Finder.xcscheme)
