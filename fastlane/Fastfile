@@ -67,8 +67,17 @@ platform :ios do
     screenshots = Dir.glob(File.join(__dir__, "screenshots", "**", "*.png"))
     UI.message("Screenshots: #{screenshots.empty? ? 'none on disk — text only' : "#{screenshots.count} found"}")
 
+    # Target the version the release tag built, rather than whichever version
+    # happens to be editable. APP_STORE_VERSION is the tag with any "-2"
+    # same-day suffix stripped — exactly what ci_post_clone.sh stamps into
+    # MARKETING_VERSION, so the build and its listing always carry one version.
+    # Unset (a local run) leaves deliver to pick the editable version as before.
+    app_store_version = ENV["APP_STORE_VERSION"].to_s.split("-").first
+    UI.message("Target version: #{app_store_version.to_s.empty? ? 'whichever is editable' : app_store_version}")
+
     upload_to_app_store(
       skip_binary_upload: true,
+      app_version: app_store_version.to_s.empty? ? nil : app_store_version,
       skip_screenshots: screenshots.empty?,
       app_review_information: review_information,
       # KNOWN ISSUE — screenshots upload TWICE, then need a manual dedupe in

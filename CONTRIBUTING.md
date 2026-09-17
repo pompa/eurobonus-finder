@@ -76,9 +76,11 @@ node scripts/build-site.mjs && python3 -m http.server -d _site
 
 There's nothing to manage — **versions are calendar-based and fully automatic**:
 
-- The version is the **UTC build date** (`CFBundleShortVersionString`, e.g.
-  `2026.6.4`) plus Xcode Cloud's **build number** (`CFBundleVersion`). Both are
-  stamped at build time by
+- The version **is the release tag**. `scripts/cut-release.sh` tags the CalVer
+  date, Xcode Cloud passes it as `$CI_TAG`, and the app, the extension manifest
+  and the App Store listing all take their version from that one string. A
+  build with no tag falls back to today's UTC date. Add Xcode Cloud's **build
+  number** (`CFBundleVersion`) and both are stamped at build time by
   [`EB Finder/ci_scripts/ci_post_clone.sh`](EB%20Finder/ci_scripts/ci_post_clone.sh) — no tags, no
   version bumps, no release commits.
 - The extension's `manifest.json` version is **derived from `MARKETING_VERSION`**

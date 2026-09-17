@@ -31,6 +31,10 @@ clear_previous_screenshots(false)
 # Apple's 9:41 status bar, full bars, full battery — no stray clock in the store.
 override_status_bar(true)
 
-# A screenshot of a half-drawn screen is worse than a slow run.
-reinstall_app(true)
+# NOT reinstall_app: reinstalling de-registers the app's Safari extension, so
+# every run would undo the one-time manual "Allow Extension" and the settings
+# screenshot would show "Extension: Off" with a warning icon. The UI test
+# controls onboarding state with a launch argument instead, so a reinstall buys
+# nothing.
+reinstall_app(false)
 concurrent_simulators(true)

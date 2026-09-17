@@ -68,12 +68,25 @@ XCODEGEN="$(find "$WORK/xcodegen-dist" -type f -name xcodegen | head -1)"
 chmod +x "$XCODEGEN"
 "$XCODEGEN" --version
 
-echo "==> Stamping calendar version (UTC build date) + build number"
-# Marketing version = UTC build date with no leading zeros (e.g. 2026.6.4), a
-# valid 1-3 integer CFBundleShortVersionString that increases day-over-day.
+echo "==> Stamping marketing version + build number"
+# The release TAG is the version. scripts/cut-release.sh tags the CalVer date
+# (2026.9.17, or 2026.9.17-2 for a second release that day), Xcode Cloud hands
+# it to us as $CI_TAG, and the shipped app, the extension manifest and the App
+# Store listing all take their version from that one string — no drift between
+# what was released and what the store says.
+#
+# Falling back to today's UTC date keeps non-tag builds (a manual run, a branch
+# build) working. A "-2" suffix is stripped: CFBundleShortVersionString must be
+# 1-3 integers, and the build number already disambiguates same-day builds.
 # 10# forces base-10 so a leading-zero month/day (08, 09) doesn't trip bash's
-# octal parser. Same-day builds are made unique by CURRENT_PROJECT_VERSION below.
-VERSION="$(date -u +%Y).$((10#$(date -u +%m))).$((10#$(date -u +%d)))"
+# octal parser.
+if [[ -n "${CI_TAG:-}" ]]; then
+  VERSION="${CI_TAG%%-*}"
+  echo "    from tag $CI_TAG"
+else
+  VERSION="$(date -u +%Y).$((10#$(date -u +%m))).$((10#$(date -u +%d)))"
+  echo "    no CI_TAG — falling back to today's UTC date"
+fi
 echo "    MARKETING_VERSION = $VERSION"
 sed -i.bak -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $VERSION/" "$VERSION_XCCONFIG"
 rm -f "$VERSION_XCCONFIG.bak"

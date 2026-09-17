@@ -49,6 +49,9 @@ jobs:
       - run: fastlane metadata
         env:
           APP_BUNDLE_ID: ${{ secrets.APP_BUNDLE_ID }}
+          # The tag is the version: the listing lands on the same App Store
+          # version that ci_post_clone.sh stamped into the build.
+          APP_STORE_VERSION: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           # base64 of the .p8 private key downloaded from App Store Connect →

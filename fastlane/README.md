@@ -26,6 +26,18 @@ The [App Store metadata workflow](../.github/workflows/app-store-metadata.yml)
 runs that check and uploads on every CalVer tag, and can be re-run by hand from
 the Actions tab for a typo fix.
 
+## Versions
+
+The release tag is the version, everywhere: `cut-release.sh` tags `2026.9.17`,
+`ci_post_clone.sh` stamps that into `MARKETING_VERSION` (and so into the
+extension's `manifest.json`), and this workflow passes the same string as
+`APP_STORE_VERSION` so the listing lands on the matching App Store version
+rather than whichever one happens to be editable.
+
+A second release on the same day is tagged `2026.9.17-2`; the suffix is
+stripped for the version itself, since `CFBundleShortVersionString` must be one
+to three integers and the build number already makes same-day builds unique.
+
 ## Release notes
 
 `release_notes.txt` ("What's New") is generated from the GitHub release, so the
