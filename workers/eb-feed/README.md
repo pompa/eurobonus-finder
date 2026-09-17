@@ -86,6 +86,11 @@ the default bucket name `eb-feed`; replace both with your own.
    vp exec wrangler workflows trigger eb-feed   # publish now
    ```
 
+   To deploy on every push instead, connect the repo under the Worker's
+   **Settings → Builds** with root directory `/workers/eb-feed`, deploy command
+   `pnpm exec wrangler deploy` (`npx` fails: the package pins pnpm) and build
+   watch path `workers/eb-feed/*` (watch paths are relative to the repo root).
+
 4. **Serve the bucket.** Connect a custom domain (the zone ID is on the domain's
    Overview page in the dashboard) and allow cross-origin `GET`s so the
    extension can fetch the files:
