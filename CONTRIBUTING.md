@@ -11,26 +11,26 @@ In the meantime:
 
 ## Building the app
 
-The Xcode project is **generated** from [`EB Finder/project.yml`](EB%20Finder/project.yml)
+The Xcode project is **generated** from [`EuroBonus Finder/project.yml`](EuroBonus%20Finder/project.yml)
 with [XcodeGen](https://github.com/yonaskolb/XcodeGen) — `EuroBonus Finder.xcodeproj` is
 not committed, so it can never cause a merge conflict.
 
 ```sh
 brew install xcodegen          # once
-cd "EB Finder"
+cd "EuroBonus Finder"
 xcodegen generate              # writes EuroBonus Finder.xcodeproj (git-ignored)
 open "EuroBonus Finder.xcodeproj"
 ```
 
-Re-run `xcodegen generate` from the `EB Finder/` folder whenever you pull changes
+Re-run `xcodegen generate` from the `EuroBonus Finder/` folder whenever you pull changes
 that touch `project.yml`. Versions are automatic — see [Releases](#releases)
-below; [`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig)
+below; [`EuroBonus Finder/Config/Version.xcconfig`](EuroBonus%20Finder/Config/Version.xcconfig)
 only holds the local fallback.
 
 The project ships **without a signing identity and with a placeholder bundle id**
 (`com.example.ebfinder`) so anyone can build it. To run on a **physical device**,
 drop your Apple Developer team and your own bundle id into a git-ignored
-`EB Finder/Config/Signing.local.xcconfig`:
+`EuroBonus Finder/Config/Signing.local.xcconfig`:
 
 ```
 DEVELOPMENT_TEAM = YOURTEAMID
@@ -44,7 +44,7 @@ Simulator builds need no signing. (Xcode Cloud injects its own signing, and
 `APP_BUNDLE_ID` via a workflow environment variable, for releases.)
 
 Every build needs the host serving the partner feed. It's kept out of the repo,
-so add it to a git-ignored `EB Finder/Config/Feed.local.xcconfig`:
+so add it to a git-ignored `EuroBonus Finder/Config/Feed.local.xcconfig`:
 
 ```
 FEED_HOST = feed.example.com
@@ -81,7 +81,7 @@ There's nothing to manage — **versions are calendar-based and fully automatic*
   and the App Store listing all take their version from that one string. A
   build with no tag falls back to today's UTC date. Add Xcode Cloud's **build
   number** (`CFBundleVersion`) and both are stamped at build time by
-  [`EB Finder/ci_scripts/ci_post_clone.sh`](EB%20Finder/ci_scripts/ci_post_clone.sh) — no tags, no
+  [`EuroBonus Finder/ci_scripts/ci_post_clone.sh`](EuroBonus%20Finder/ci_scripts/ci_post_clone.sh) — no tags, no
   version bumps, no release commits.
 - The extension's `manifest.json` version is **derived from `MARKETING_VERSION`**
   by the "Stamp manifest version" Xcode build phase (defined in `project.yml`),
@@ -140,5 +140,5 @@ current and leaves the submit button to you (`submit_for_review:` in
 [`fastlane/Fastfile`](fastlane/Fastfile)).
 
 `MARKETING_VERSION` in
-[`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig) is only
+[`EuroBonus Finder/Config/Version.xcconfig`](EuroBonus%20Finder/Config/Version.xcconfig) is only
 the fallback for local builds; shipped builds are stamped fresh from the date.

@@ -3,14 +3,14 @@
 # cut-release.sh — cut a TestFlight release.
 #
 # Publishes a GitHub Release whose CalVer tag (YYYY.M.D, no "v" prefix) is the
-# start condition for the "EB Finder | Releases" Xcode Cloud workflow. Xcode
+# start condition for the release workflow in Xcode Cloud. Xcode
 # Cloud then archives, signs, and uploads the build to TestFlight. The same tag
 # triggers .github/workflows/app-store-metadata.yml, which pushes the localized
 # store listing in fastlane/metadata + fastlane/screenshots to App Store Connect.
 #
 # The tag only TRIGGERS the build and is a human-readable marker — it does NOT
 # set the app version. The version is stamped at build time by
-# EB Finder/ci_scripts/ci_post_clone.sh (marketing = UTC build date YYYY.M.D,
+# EuroBonus Finder/ci_scripts/ci_post_clone.sh (marketing = UTC build date YYYY.M.D,
 # build number = $CI_BUILD_NUMBER).
 #
 # Usage:
@@ -35,7 +35,7 @@ for arg in "$@"; do
       cat >&2 <<'USAGE'
 Usage: scripts/cut-release.sh [VERSION] [-y]
   Cut a release: publish a GitHub Release whose CalVer tag triggers the
-  "EB Finder | Releases" Xcode Cloud workflow (archive -> sign -> TestFlight).
+  release workflow in Xcode Cloud (archive -> sign -> TestFlight).
 
   VERSION   explicit version, e.g. 2026.7.1 (default: UTC date YYYY.M.D)
   -y,--yes  skip the confirmation prompt
@@ -78,7 +78,7 @@ target="$(gh api "repos/$REPO/commits/$BRANCH" --jq .sha)"
 echo "Release : $tag"
 echo "Repo    : $REPO"
 echo "Commit  : ${target:0:12} (tip of $BRANCH)"
-echo "Effect  : triggers the 'EB Finder | Releases' Xcode Cloud build -> TestFlight"
+echo "Effect  : triggers the Xcode Cloud release build -> TestFlight"
 
 if [ "$assume_yes" != true ]; then
   printf "Cut this release? [y/N] "

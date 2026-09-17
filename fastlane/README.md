@@ -105,7 +105,7 @@ fastlane screenshots
 ```
 
 [`Snapfile`](Snapfile) holds the devices and languages; `snapshot` re-runs the
-UI test in [`EB Finder/UITests/ScreenshotTests.swift`](../EB%20Finder/UITests/ScreenshotTests.swift)
+UI test in [`EuroBonus Finder/UITests/ScreenshotTests.swift`](../EuroBonus%20Finder/UITests/ScreenshotTests.swift)
 for every combination — 2 devices x 5 languages — and files the results under
 `screenshots/<language>/`. Adding a language is one line in the Snapfile.
 

@@ -43,7 +43,7 @@ platform :ios do
 
     app_id = ENV.fetch("APP_BUNDLE_ID")
     team = ENV["DEVELOPMENT_TEAM"] || "FQ2B5XA2K8"
-    project = "EB Finder/EuroBonus Finder.xcodeproj"
+    project = "EuroBonus Finder/EuroBonus Finder.xcodeproj"
 
     # MANUAL signing, deliberately. Under automatic signing Xcode signs an
     # archive for DEVELOPMENT and only re-signs at export — and creating a

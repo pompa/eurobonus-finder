@@ -5,8 +5,8 @@
 # Apple runs this once per workflow execution, immediately after the repo is
 # checked out and before Xcode resolves dependencies. Xcode Cloud looks for the
 # ci_scripts folder NEXT TO the .xcodeproj — and this project is generated in the
-# "EB Finder/" subdirectory — so this script must live at
-# "EB Finder/ci_scripts/ci_post_clone.sh", NOT the repo root (a repo-root
+# "EuroBonus Finder/" subdirectory — so this script must live at
+# "EuroBonus Finder/ci_scripts/ci_post_clone.sh", NOT the repo root (a repo-root
 # ci_scripts is silently ignored when the project lives in a subdirectory, which
 # is why the first tag build failed at "Resolve package dependencies"). All paths
 # below resolve from $CI_PRIMARY_REPOSITORY_PATH (the repo root), so the script's
@@ -22,7 +22,7 @@
 #   3. Stamp CURRENT_PROJECT_VERSION (CFBundleVersion) with Xcode Cloud's own
 #      unique build number ($CI_BUILD_NUMBER).
 #
-# Version keys live in EB Finder/Config/Version.xcconfig and are read at build
+# Version keys live in EuroBonus Finder/Config/Version.xcconfig and are read at build
 # time. Nothing private is committed: neither the signing identity nor the real
 # bundle id is in the repo — DEVELOPMENT_TEAM and APP_BUNDLE_ID live only in the
 # git-ignored Config/Signing.local.xcconfig (composed via `#include?` from
@@ -54,7 +54,7 @@ set -euo pipefail
 
 cd "$CI_PRIMARY_REPOSITORY_PATH"
 
-VERSION_XCCONFIG="EB Finder/Config/Version.xcconfig"
+VERSION_XCCONFIG="EuroBonus Finder/Config/Version.xcconfig"
 XCODEGEN_VERSION="2.45.4"
 WORK="${TMPDIR:-/tmp}"
 
@@ -101,7 +101,7 @@ rm -f "$VERSION_XCCONFIG.bak"
 # read at build time via `#include?` in Config/Build.xcconfig, so this composes
 # without touching project.yml — plain `xcodegen generate` keeps working with no
 # env set.
-LOCAL_XCCONFIG="EB Finder/Config/Signing.local.xcconfig"
+LOCAL_XCCONFIG="EuroBonus Finder/Config/Signing.local.xcconfig"
 : > "$LOCAL_XCCONFIG"
 if [[ -n "${DEVELOPMENT_TEAM:-}" ]]; then
   echo "==> Writing DEVELOPMENT_TEAM into Config/Signing.local.xcconfig"
@@ -118,13 +118,13 @@ fi
 
 if [[ -n "${FEED_HOST:-}" ]]; then
   echo "==> Writing Config/Feed.local.xcconfig from \$FEED_HOST"
-  printf 'FEED_HOST = %s\n' "$FEED_HOST" > "EB Finder/Config/Feed.local.xcconfig"
+  printf 'FEED_HOST = %s\n' "$FEED_HOST" > "EuroBonus Finder/Config/Feed.local.xcconfig"
 else
   echo "==> FEED_HOST not set — the extension build will fail"
 fi
 
 echo "==> Generating Xcode project from project.yml"
-( cd "EB Finder" && "$XCODEGEN" generate )
+( cd "EuroBonus Finder" && "$XCODEGEN" generate )
 
 echo "==> Final versioning state:"
 grep -E "^(MARKETING_VERSION|CURRENT_PROJECT_VERSION)" "$VERSION_XCCONFIG"

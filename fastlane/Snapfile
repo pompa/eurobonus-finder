@@ -18,7 +18,7 @@ languages([
   "fi"
 ])
 
-project "./EB Finder/EuroBonus Finder.xcodeproj"
+project "./EuroBonus Finder/EuroBonus Finder.xcodeproj"
 scheme("EuroBonus Finder")
 test_target_name("EuroBonus Finder UITests")
 
