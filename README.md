@@ -34,10 +34,8 @@ your hand. So I built the missing piece.
 
 ## Feedback
 
-Found a bug? A partner site acting weird? A feature you're dying for? Tell us
-here on GitHub.
-
-Or get in touch directly — <support+ebfinder@pompa.se>.
+Found a bug? A partner site acting weird? A feature you're dying for?
+[Open an issue](https://github.com/pompa/eurobonus-finder/issues/new) here on GitHub.
 
 ## Contributing
 
