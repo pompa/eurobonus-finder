@@ -18,9 +18,9 @@ languages([
   "fi"
 ])
 
-project "./EB Finder/EB Finder.xcodeproj"
-scheme("EB Finder")
-test_target_name("EB Finder UITests")
+project "./EB Finder/EuroBonus Finder.xcodeproj"
+scheme("EuroBonus Finder")
+test_target_name("EuroBonus Finder UITests")
 
 output_directory("./fastlane/screenshots")
 # The Safari banner shots are captured by hand and live in the same folders;

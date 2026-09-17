@@ -43,7 +43,7 @@ platform :ios do
 
     app_id = ENV.fetch("APP_BUNDLE_ID")
     team = ENV["DEVELOPMENT_TEAM"] || "FQ2B5XA2K8"
-    project = "EB Finder/EB Finder.xcodeproj"
+    project = "EB Finder/EuroBonus Finder.xcodeproj"
 
     # MANUAL signing, deliberately. Under automatic signing Xcode signs an
     # archive for DEVELOPMENT and only re-signs at export — and creating a
@@ -64,7 +64,7 @@ platform :ios do
       profiles[identifier] = lane_context[SharedValues::SIGH_NAME]
     end
 
-    {"EB Finder" => app_id, "EB Finder Extension" => "#{app_id}.extension"}.each do |target, identifier|
+    {"EuroBonus Finder" => app_id, "EuroBonus Finder Extension" => "#{app_id}.extension"}.each do |target, identifier|
       update_code_signing_settings(
         path: project,
         use_automatic_signing: false,
@@ -84,7 +84,7 @@ platform :ios do
     # should not need a commit.
     build_app(
       project: project,
-      scheme: "EB Finder",
+      scheme: "EuroBonus Finder",
       configuration: "Release",
       export_method: "app-store",
       output_directory: "build",

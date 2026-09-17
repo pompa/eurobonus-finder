@@ -12,14 +12,14 @@ In the meantime:
 ## Building the app
 
 The Xcode project is **generated** from [`EB Finder/project.yml`](EB%20Finder/project.yml)
-with [XcodeGen](https://github.com/yonaskolb/XcodeGen) — `EB Finder.xcodeproj` is
+with [XcodeGen](https://github.com/yonaskolb/XcodeGen) — `EuroBonus Finder.xcodeproj` is
 not committed, so it can never cause a merge conflict.
 
 ```sh
 brew install xcodegen          # once
 cd "EB Finder"
-xcodegen generate              # writes EB Finder.xcodeproj (git-ignored)
-open "EB Finder.xcodeproj"
+xcodegen generate              # writes EuroBonus Finder.xcodeproj (git-ignored)
+open "EuroBonus Finder.xcodeproj"
 ```
 
 Re-run `xcodegen generate` from the `EB Finder/` folder whenever you pull changes

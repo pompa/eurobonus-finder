@@ -13,7 +13,7 @@
 # logic is unaffected by where ci_scripts sits.
 #
 # What we do here:
-#   1. Install a pinned XcodeGen and generate "EB Finder.xcodeproj" from
+#   1. Install a pinned XcodeGen and generate "EuroBonus Finder.xcodeproj" from
 #      project.yml — the project file is generated, never committed.
 #   2. Stamp MARKETING_VERSION with the UTC build date (YYYY.M.D). Versions are
 #      calendar-based and fully automatic — no tags or bumps. (The extension's
