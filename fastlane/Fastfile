@@ -29,6 +29,89 @@ platform :ios do
     capture_screenshots(params)
   end
 
+  desc "Archive, sign and upload a build to App Store Connect (no Xcode Cloud needed)"
+  lane :release do |options|
+    version = options[:version] || Time.now.utc.strftime("%Y.%-m.%-d")
+    build_number = (options[:build] || 1).to_s
+
+    key = app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_content: ENV.fetch("ASC_KEY_P8"),
+      is_key_content_base64: true,
+    )
+
+    app_id = ENV.fetch("APP_BUNDLE_ID")
+    team = ENV["DEVELOPMENT_TEAM"] || "FQ2B5XA2K8"
+    project = "EB Finder/EB Finder.xcodeproj"
+
+    # MANUAL signing, deliberately. Under automatic signing Xcode signs an
+    # archive for DEVELOPMENT and only re-signs at export — and creating a
+    # development profile requires at least one registered device, which a
+    # release machine with no devices does not have ("Your team has no devices
+    # from which to generate a provisioning profile"). App Store profiles need
+    # no devices, so fetch those and sign with them directly.
+    profiles = {}
+    [app_id, "#{app_id}.extension"].each do |identifier|
+      get_provisioning_profile(
+        api_key: key,
+        app_identifier: identifier,
+        development: false,
+        adhoc: false,
+        team_id: team,
+        readonly: false,
+      )
+      # The action returns the .mobileprovision PATH; the export options and the
+      # build settings want the profile NAME, which it publishes separately.
+      profiles[identifier] = lane_context[SharedValues::SIGH_NAME]
+    end
+
+    {"EB Finder" => app_id, "EB Finder Extension" => "#{app_id}.extension"}.each do |target, identifier|
+      update_code_signing_settings(
+        path: project,
+        use_automatic_signing: false,
+        targets: [target],
+        bundle_identifier: identifier,
+        profile_name: profiles[identifier],
+        code_sign_identity: "Apple Distribution",
+        team_id: team,
+        build_configurations: ["Release"],
+      )
+    end
+
+    UI.important("Building #{version} (#{build_number})")
+
+    # The version is a build setting rather than an edit to Version.xcconfig:
+    # that file's committed values are only a fallback, and cutting a release
+    # should not need a commit.
+    build_app(
+      project: project,
+      scheme: "EB Finder",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "build",
+      xcargs: "MARKETING_VERSION=#{version} CURRENT_PROJECT_VERSION=#{build_number}",
+      export_options: {
+        signingStyle: "manual",
+        provisioningProfiles: {
+          app_id => profiles[app_id],
+          "#{app_id}.extension" => profiles["#{app_id}.extension"],
+        },
+      },
+      clean: true,
+    )
+
+    upload_to_testflight(
+      api_key: key,
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+      distribute_external: false,
+      notify_external_testers: false,
+    )
+
+    UI.success("Uploaded #{version} (#{build_number}) — attach it to the App Store version in App Store Connect.")
+  end
+
   desc "Upload the localized store listing (metadata + screenshots) to App Store Connect"
   lane :metadata do
     app_store_connect_api_key(

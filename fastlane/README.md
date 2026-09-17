@@ -26,6 +26,39 @@ The [App Store metadata workflow](../.github/workflows/app-store-metadata.yml)
 runs that check and uploads on every CalVer tag, and can be re-run by hand from
 the Actions tab for a typo fix.
 
+## Shipping a build
+
+Xcode Cloud is not set up on this account, so builds are archived and uploaded
+from a developer machine:
+
+```bash
+APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8="$(base64 -i key.p8)" \
+  fastlane release version:2026.9.18 build:1
+```
+
+It fetches App Store provisioning profiles, switches the Release configuration
+to manual signing, archives, exports and uploads. Bump `build:` for another
+upload of the same version — App Store Connect rejects a repeated build number.
+
+**Manual signing is deliberate.** Under automatic signing Xcode signs an
+*archive* for development and only re-signs at export, and creating a
+development profile needs at least one registered device — which a release
+machine has none of ("Your team has no devices from which to generate a
+provisioning profile"). App Store profiles need no devices.
+
+### One-time Developer Portal setup
+
+The App Store Connect API has no App Groups endpoint, so this part cannot be
+scripted. At [developer.apple.com](https://developer.apple.com/account/resources/identifiers/list/applicationGroup):
+
+1. **Identifiers → App Groups** → register `group.<APP_BUNDLE_ID>`.
+2. **Identifiers → App IDs → `<APP_BUNDLE_ID>`** → enable **App Groups** →
+   Edit → tick that group → Save.
+3. Repeat for `<APP_BUNDLE_ID>.extension`.
+
+Both targets declare the group in their `.entitlements`, so without this the
+profiles omit the entitlement and codesign fails.
+
 ## Versions
 
 The release tag is the version, everywhere: `cut-release.sh` tags `2026.9.17`,
