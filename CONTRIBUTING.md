@@ -40,10 +40,10 @@ and the app group is `group.$(APP_BUNDLE_ID)`.
 
 1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's
    CalVer date (`2026.9.18`, no `v` prefix).
-2. The tag triggers two things: Xcode Cloud archives and uploads the build, and
-   the [metadata workflow](.github/workflows/app-store-metadata.yml) pushes the
-   localized store listing.
-3. Attach the build and press **Submit for Review** in App Store Connect.
+2. The tag triggers the Xcode Cloud build, which archives and uploads it.
+3. Push the store listing with `fastlane metadata` (see
+   [`fastlane/README.md`](fastlane/README.md)).
+4. Attach the build and press **Submit for Review** in App Store Connect.
 
 The tag is the version — it becomes `MARKETING_VERSION`, the extension's
 `manifest.json` version and the App Store version. Nothing to bump, no release

@@ -3,7 +3,7 @@
 # and uploads it (see scripts/cut-release.sh); this lane only writes the text
 # and images around it.
 #
-# Run by .github/workflows/app-store-metadata.yml on a CalVer tag, or locally:
+# Run locally (an Xcode Cloud post-build script is the likely future home):
 #   APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8=$(base64 -i key.p8) \
 #     fastlane metadata
 default_platform(:ios)
@@ -71,7 +71,7 @@ platform :ios do
     # happens to be editable. APP_STORE_VERSION is the tag with any "-2"
     # same-day suffix stripped — exactly what ci_post_clone.sh stamps into
     # MARKETING_VERSION, so the build and its listing always carry one version.
-    # Unset (a local run) leaves deliver to pick the editable version as before.
+    # Unset, deliver picks the editable version.
     app_store_version = ENV["APP_STORE_VERSION"].to_s.split("-").first
     UI.message("Target version: #{app_store_version.to_s.empty? ? 'whichever is editable' : app_store_version}")
 

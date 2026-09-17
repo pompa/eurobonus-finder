@@ -4,9 +4,8 @@
 #
 # Publishes a GitHub Release whose CalVer tag (YYYY.M.D, no "v" prefix) is the
 # start condition for the release workflow in Xcode Cloud. Xcode
-# Cloud then archives, signs, and uploads the build to TestFlight. The same tag
-# triggers .github/workflows/app-store-metadata.yml, which pushes the localized
-# store listing in fastlane/metadata + fastlane/screenshots to App Store Connect.
+# Cloud then archives, signs, and uploads the build to TestFlight. Push the
+# store listing separately with `fastlane metadata` (see fastlane/README.md).
 #
 # The tag only TRIGGERS the build and is a human-readable marker — it does NOT
 # set the app version. The version is stamped at build time by
