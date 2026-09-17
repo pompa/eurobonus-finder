@@ -53,6 +53,19 @@ The extension doesn't call SAS directly. A Cloudflare Worker in
 publishes one JSON file per market to an R2 bucket. See its
 [README](workers/eb-feed/README.md) to develop it or run your own copy.
 
+## Website
+
+[eurobonus.pompa.se](https://eurobonus.pompa.se) is generated from `README.md`
+(English) and `README.sv.md` (Swedish) — edit those, not HTML. Keep both READMEs
+in sync. The page shell (styles, meta tags, analytics) is `docs/template.html`;
+the [Pages workflow](.github/workflows/pages.yml) rebuilds on push to `main`.
+
+Preview locally:
+
+```sh
+node scripts/build-site.mjs && python3 -m http.server -d _site
+```
+
 ## Releases
 
 There's nothing to manage — **versions are calendar-based and fully automatic**:

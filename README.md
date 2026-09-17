@@ -4,6 +4,8 @@
 
 <h1 align="center">EuroBonus Finder</h1>
 
+<p align="center"><a href="README.md" title="English">🇬🇧</a> &nbsp; <a href="README.sv.md" title="Svenska">🇸🇪</a></p>
+
 EuroBonus Finder is a Safari Web Extension that taps you on the shoulder when a shop
 is a **SAS EuroBonus** partner — right in Safari on your **iPhone and iPad**.
 One tap to log in via SAS, shop as usual, and watch the points roll in.
@@ -31,6 +33,15 @@ your hand. So I built the missing piece.
 - **Same data as the official extension** — we read the same partner list SAS
   uses for its own Chrome extension, so shops and points are always up to
   date.
+
+## How it works
+
+1. **Join the beta** via [TestFlight](https://link.pompa.se/eb-testflight) and
+   install the app on your iPhone or iPad.
+2. **Enable the extension** in Settings → Apps → Safari → Extensions, and allow
+   it on all websites.
+3. **Shop as usual.** When a site earns EuroBonus points, EuroBonus Finder gives
+   you a nudge to log in via SAS first. That's it — points secured.
 
 ## Feedback
 

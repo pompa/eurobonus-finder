@@ -1,0 +1,130 @@
+<!doctype html>
+<!-- Page shell for the website. Content comes from README.md / README.sv.md via
+     scripts/build-site.mjs — edit the READMEs, not the generated HTML. -->
+<html lang="{{lang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}" />
+    <link rel="icon" href="/icon-64.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon-256.png" />
+    <link rel="canonical" href="{{url}}" />
+    {{alternates}}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EuroBonus Finder" />
+    <meta property="og:url" content="{{url}}" />
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:image" content="https://eurobonus.pompa.se/icon-256.png" />
+    <meta property="og:locale" content="{{ogLocale}}" />
+    <meta name="twitter:card" content="summary" />
+    <style>
+      /* Tokens from Extension/Resources/tokens.css. Light only. */
+      :root {
+        color-scheme: light;
+        --radius-full: 9999px;
+        --background: oklch(1 0 0);
+        --foreground: oklch(0.2178 0 0);
+        --primary: oklch(0.486 0.2721 263.825); /* SAS royal blue — #003DF5 */
+        --primary-foreground: oklch(1 0 0);
+        --muted-foreground: oklch(0.551 0.0234 264.364);
+        --shadow-popover: 0 25px 50px -12px oklch(0 0 0 / 0.25);
+        --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        background: var(--background);
+        color: var(--muted-foreground);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      main { max-width: 680px; margin: 0 auto; padding: 0 24px 64px; }
+      a { color: var(--primary); }
+      strong, h1, h2 { color: var(--foreground); }
+
+      .hero { padding: 64px 0 24px; text-align: center; }
+      .hero img[width="96"] {
+        width: 112px; height: 112px;
+        max-height: none !important; /* GitHub's renderer inlines max-height: 96px */
+        border-radius: 26px;
+        box-shadow: var(--shadow-popover);
+      }
+      .hero > p:first-child a { pointer-events: none; } /* icon isn't a link here */
+      h1 {
+        font-size: clamp(34px, 6vw, 52px);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: 24px 0 8px;
+      }
+      .hero p { max-width: 560px; margin: 0 auto 20px; font-size: 18px; }
+      .hero p[align] { font-size: 14px; } /* language switch + badges */
+      /* The README's flag links are for GitHub; the site uses the corner switch. */
+      .hero p:has(> a[title="English"]) { display: none; }
+
+      .lang-switch {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        display: flex;
+        gap: 2px;
+        padding: 3px;
+        border-radius: var(--radius-full);
+        background: oklch(0.967 0.0029 264.542);
+      }
+      .lang-switch a {
+        padding: 5px 12px;
+        border-radius: var(--radius-full);
+        color: var(--muted-foreground);
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .lang-switch a[aria-current] {
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+      .hero img[alt="TestFlight beta"] { height: 36px; }
+
+      h2 { font-size: 26px; letter-spacing: -0.01em; margin: 48px 0 12px; }
+      ul, ol { padding-left: 22px; }
+      li { margin-bottom: 8px; }
+
+      @media (max-width: 480px) {
+        main { padding: 0 20px 48px; }
+        .hero { padding-top: 40px; }
+        .hero img[width="96"] { width: 96px; height: 96px; border-radius: 22px; }
+      }
+    </style>
+    <script>
+      // First visit to the English page from a Swedish browser → Swedish page.
+      // Picking a language via the switch is remembered.
+      try {
+        const saved = localStorage.getItem("eb-lang");
+        if (!saved && location.pathname === "/" && navigator.language?.startsWith("sv")) location.replace("/sv/");
+      } catch (e) {}
+      document.addEventListener("click", (e) => {
+        const a = e.target.closest(".lang-switch a");
+        if (a) try { localStorage.setItem("eb-lang", a.getAttribute("href") === "/sv/" ? "sv" : "en"); } catch (e) {}
+      });
+    </script>
+    <script>
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
+      window.op('init', {
+        clientId: 'd70ed8e7-942f-45b7-8a03-c1ff8219e212',
+        trackScreenViews: true,
+        trackOutgoingLinks: true,
+        trackAttributes: true,
+      });
+    </script>
+    <script src="https://openpanel.dev/op1.js" defer async></script>
+  </head>
+  <body>
+    <nav class="lang-switch" aria-label="Language">{{langSwitch}}</nav>
+    <main>
+{{content}}
+    </main>
+  </body>
+</html>

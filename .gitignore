@@ -59,3 +59,4 @@ Package.resolved
 # Misc
 .zed/
 *.log
+_site/
