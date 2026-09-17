@@ -8,6 +8,10 @@
 #     fastlane metadata
 default_platform(:ios)
 
+# fastlane regenerates fastlane/README.md with its own lane documentation after
+# every run, overwriting the hand-written guide that lives there. Don't.
+skip_docs
+
 platform :ios do
   desc "Upload the localized store listing (metadata + screenshots) to App Store Connect"
   lane :metadata do
@@ -18,18 +22,48 @@ platform :ios do
       is_key_content_base64: true,
     )
 
+    # App Review contact details are PII, so they are NOT in the repo — they come
+    # from CI secrets (or your shell) and are sent only when all four are
+    # present. Apple rejects a partial update: touching review information at
+    # all requires first name, last name, email AND phone, which is why
+    # review_notes.txt lives here rather than in metadata/review_information/,
+    # where deliver would auto-load it on its own and trigger that rejection.
+    contact = {
+      first_name: ENV["ASC_REVIEW_FIRST_NAME"],
+      last_name: ENV["ASC_REVIEW_LAST_NAME"],
+      email_address: ENV["ASC_REVIEW_EMAIL"],
+      phone_number: ENV["ASC_REVIEW_PHONE"], # must start with +<country code>
+    }
+    review_information =
+      if contact.values.all? { |v| !v.to_s.strip.empty? }
+        contact.merge(notes: File.read(File.join(__dir__, "review_notes.txt")))
+      else
+        UI.important("ASC_REVIEW_* not set — leaving App Review information untouched.")
+        nil
+      end
+
     # Screenshots are captured by scripts/screenshots.sh and are NOT committed,
     # so CI has none and pushes text only, while a local run after capturing
     # pushes both. No flag to remember, and CI can never wipe the live
     # screenshots by uploading an empty set.
+    # sync_screenshots refuses to run without this acknowledgement.
+    ENV["FASTLANE_ENABLE_BETA_DELIVER_SYNC_SCREENSHOTS"] = "1"
     screenshots = Dir.glob(File.join(__dir__, "screenshots", "**", "*.png"))
     UI.message("Screenshots: #{screenshots.empty? ? 'none on disk — text only' : "#{screenshots.count} found"}")
 
     upload_to_app_store(
       skip_binary_upload: true,
       skip_screenshots: screenshots.empty?,
-      # Keep App Store Connect in sync with what's on disk rather than
-      # appending duplicates on every run.
+      app_review_information: review_information,
+      # KNOWN ISSUE — screenshots upload TWICE, then need a manual dedupe in
+      # App Store Connect. deliver verifies its upload against localization
+      # objects it cached BEFORE uploading, so every fresh screenshot looks
+      # "missing", it retries, and the whole set lands a second time. This
+      # reproduces on every run and is not affected by overwrite_screenshots.
+      # deliver's `sync_screenshots` beta path avoids that loop but crashes on
+      # its own processing check with retries exhausted, failing the whole lane
+      # — including the text. So: this path, which completes, and a dedupe
+      # afterwards. CI is unaffected, it has no screenshots to upload.
       overwrite_screenshots: true,
       # Deliberately not submitting: this lane keeps the listing current, a
       # human still presses "Submit for Review" in App Store Connect. Flip to

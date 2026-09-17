@@ -26,6 +26,28 @@ The [App Store metadata workflow](../.github/workflows/app-store-metadata.yml)
 runs that check and uploads on every CalVer tag, and can be re-run by hand from
 the Actions tab for a typo fix.
 
+## Release notes
+
+`release_notes.txt` ("What's New") is generated from the GitHub release, so the
+changelog is written once:
+
+```bash
+scripts/release-notes.sh --print      # preview the latest release
+scripts/release-notes.sh 2026.9.17    # write it to every locale
+```
+
+It keeps the PR titles, drops the `by @user in <url>` noise, and drops what a
+shopper does not care about — `chore`, `docs`, `refactor`, and anything scoped
+to `ci`/`build`/`deps`. The release workflow runs it before uploading, so the
+committed files are only a fallback.
+
+The lines are English in every locale; nothing in the pipeline can translate
+them. To ship translated notes, edit the per-locale files by hand and don't run
+this script for that release.
+
+Note that **version 1.0 has no "What's New" field** — App Store Connect only
+shows it from the first update onward, so release notes start mattering at 1.1.
+
 ## Screenshots
 
 Screenshots are captured against the Simulator and **kept out of the repo** —

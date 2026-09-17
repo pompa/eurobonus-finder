@@ -28,7 +28,6 @@ locales=0
 
 for dir in "$root"/*/; do
   locale="$(basename "$dir")"
-  [ "$locale" = "review_information" ] && continue
   locales=$((locales + 1))
 
   for field in $required; do

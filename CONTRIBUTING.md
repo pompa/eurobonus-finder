@@ -108,9 +108,14 @@ no typing into the App Store Connect web form. Full details:
   minutes. `scripts/screenshots.sh <locale>` drives the Simulator and captures
   them into `fastlane/screenshots/<locale>/`; upload them with a local
   `fastlane metadata` run.
-- **Review notes** for Apple's reviewer are in
-  `fastlane/metadata/review_information/notes.txt` (a Safari extension needs
-  turning on before a reviewer can see anything).
+- **Review notes** for Apple's reviewer are in `fastlane/review_notes.txt` (a
+  Safari extension needs turning on before a reviewer can see anything). The
+  reviewer *contact* details are PII and stay out of the repo — they come from
+  the `ASC_REVIEW_*` secrets, and review information is left untouched when
+  they are unset.
+- **"What's New"** is generated from the GitHub release by
+  `scripts/release-notes.sh`; the committed `release_notes.txt` files are only
+  a fallback.
 
 Check the field limits before you commit — App Store subtitles cap at 30
 characters, keywords at 100:

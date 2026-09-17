@@ -31,6 +31,16 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # release-notes.sh reads the GitHub release for the tag.
+          fetch-depth: 0
+
+      # "What's New" comes from the GitHub release, not from the committed
+      # release_notes.txt — those are only the fallback, the same way
+      # Version.xcconfig holds a fallback version the build stamps fresh.
+      - run: scripts/release-notes.sh ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Cheap guard: catches an over-long subtitle or a missing locale before
       # we start PATCHing App Store Connect halfway through a release.
