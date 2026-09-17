@@ -26,9 +26,6 @@ your hand. So I built the missing piece.
 - **Same data as the official extension** — we read the same partner list SAS
   uses for its own Chrome extension, so shops and points are always up to
   date.
-- **Zero tracking** — we're not in this to make money: our code has no ads,
-  no analytics, and never tracks or sells your data. What the EuroBonus
-  program itself does is between you and SAS.
 
 ## Try the beta
 

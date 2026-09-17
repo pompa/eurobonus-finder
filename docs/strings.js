@@ -19,9 +19,6 @@ const STRINGS = {
     card2Title: "Same data as the official extension",
     card2Body:
       "We read the same partner list SAS uses for its own Chrome extension — so shops and points are always up to date.",
-    card3Title: "Zero tracking",
-    card3Body:
-      "We're not in this to make money — our code has no ads, no analytics, and never tracks or sells your data. What the EuroBonus program itself does is between you and SAS.",
     ossTitle: "Open source",
     ossText:
       "The whole thing is MIT-licensed and out in the open. Peek under the hood, file an issue, or send a PR —",
@@ -60,9 +57,6 @@ const STRINGS = {
     card2Title: "Samma data som den officiella",
     card2Body:
       "Vi läser samma partnerlista som SAS använder till sitt eget Chrome-tillägg — så butiker och poäng är alltid uppdaterade.",
-    card3Title: "Noll spårning",
-    card3Body:
-      "Vi är inte här för att tjäna pengar — vår kod har inga annonser, ingen analys och varken spårar eller säljer din data. Vad själva EuroBonus-programmet gör är mellan dig och SAS.",
     ossTitle: "Öppen källkod",
     ossText:
       "Allt är MIT-licensierat och helt öppet. Kika under huven, rapportera ett fel eller skicka en PR —",
