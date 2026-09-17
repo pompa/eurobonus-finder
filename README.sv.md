@@ -59,6 +59,9 @@ EuroBonus Finder är ett oberoende projekt — **inte** anslutet till SAS,
 EuroBonus eller någon av butikspartnerna. Fullständig text:
 [DISCLAIMER.md](DISCLAIMER.md).
 
+Inga konton, ingen spårning, ingen reklam — vad appen gör och inte gör med dina
+uppgifter: [Integritetspolicy](PRIVACY.sv.md).
+
 ## Licens
 
 [MIT](LICENSE)

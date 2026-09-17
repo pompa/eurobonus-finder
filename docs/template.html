@@ -107,7 +107,7 @@
       } catch (e) {}
       document.addEventListener("click", (e) => {
         const a = e.target.closest(".lang-switch a");
-        if (a) try { localStorage.setItem("eb-lang", a.getAttribute("href") === "/sv/" ? "sv" : "en"); } catch (e) {}
+        if (a) try { localStorage.setItem("eb-lang", a.getAttribute("hreflang")); } catch (e) {}
       });
     </script>
     <script>

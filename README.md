@@ -58,6 +58,9 @@ EuroBonus Finder is an independent project — **not** affiliated with SAS,
 EuroBonus, or any of the shopping partners. Full notice:
 [DISCLAIMER.md](DISCLAIMER.md).
 
+No accounts, no tracking, no ads — what the app does and doesn't do with your
+data: [Privacy Policy](PRIVACY.md).
+
 ## License
 
 [MIT](LICENSE)

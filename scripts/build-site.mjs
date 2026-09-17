@@ -1,8 +1,10 @@
-// Builds the website (eurobonus.pompa.se) from the READMEs, so the page and the
-// repo never drift apart. One page per language:
+// Builds the website (eurobonus.pompa.se) from the markdown in the repo, so the
+// page and the repo never drift apart. One page per document per language:
 //
-//   README.md    → _site/index.html
-//   README.sv.md → _site/sv/index.html
+//   README.md      → _site/index.html
+//   README.sv.md   → _site/sv/index.html
+//   PRIVACY.md     → _site/privacy/index.html      (the App Store privacy URL)
+//   PRIVACY.sv.md  → _site/sv/privacy/index.html
 //
 // Markdown is rendered by GitHub's own API, so the site matches github.com. The
 // page shell (styles, meta tags, analytics) is docs/template.html; everything
@@ -15,9 +17,13 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 const REPO = "pompa/eurobonus-finder";
 const SITE = "https://eurobonus.pompa.se";
 const OUT = "_site";
+// `doc` groups the translations of one document: the language switch and the
+// hreflang alternates link between siblings, not across every page on the site.
 const PAGES = [
-  { lang: "en", ogLocale: "en_US", readme: "README.md", path: "/" },
-  { lang: "sv", ogLocale: "sv_SE", readme: "README.sv.md", path: "/sv/" },
+  { doc: "home", lang: "en", ogLocale: "en_US", readme: "README.md", path: "/" },
+  { doc: "home", lang: "sv", ogLocale: "sv_SE", readme: "README.sv.md", path: "/sv/" },
+  { doc: "privacy", lang: "en", ogLocale: "en_US", readme: "PRIVACY.md", path: "/privacy/" },
+  { doc: "privacy", lang: "sv", ogLocale: "sv_SE", readme: "PRIVACY.sv.md", path: "/sv/privacy/" },
 ];
 const pathOf = Object.fromEntries(PAGES.map((p) => [p.readme, p.path]));
 
@@ -53,6 +59,7 @@ await rm(OUT, { recursive: true, force: true });
 await cp("docs", OUT, { recursive: true, filter: (src) => !src.endsWith("template.html") });
 
 for (const page of PAGES) {
+  const siblings = PAGES.filter((p) => p.doc === page.doc);
   let html = rewriteLinks(await renderMarkdown(await readFile(page.readme, "utf8")));
   // The "Website" badge links to this very site — drop it here.
   html = html.replace(/<a href="https:\/\/eurobonus\.pompa\.se\/?"[^>]*>.*?<\/a>\s*/s, "");
@@ -71,8 +78,8 @@ for (const page of PAGES) {
     title: attr(title),
     description: attr(text(description)),
     url: SITE + page.path,
-    alternates: PAGES.map((p) => `<link rel="alternate" hreflang="${p.lang}" href="${SITE + p.path}" />`).join("\n    "),
-    langSwitch: PAGES.map(
+    alternates: siblings.map((p) => `<link rel="alternate" hreflang="${p.lang}" href="${SITE + p.path}" />`).join("\n    "),
+    langSwitch: siblings.map(
       (p) => `<a href="${p.path}" hreflang="${p.lang}"${p === page ? ' aria-current="page"' : ""}>${p.lang.toUpperCase()}</a>`,
     ).join(""),
     content: html,
