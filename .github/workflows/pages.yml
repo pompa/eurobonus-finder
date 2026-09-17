@@ -8,6 +8,8 @@ on:
     paths:
       - README.md
       - README.sv.md
+      - PRIVACY.md
+      - PRIVACY.sv.md
       - docs/**
       - scripts/build-site.mjs
       - .github/workflows/pages.yml

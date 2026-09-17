@@ -1,0 +1,1 @@
+Første offentlige version. Finder EuroBonus-partnere i Safari, markerer dem i Googles resultater og tager dig til SAS-login med ét tryk.

@@ -1,96 +1,76 @@
 # Contributing
 
-A proper contributor guide is coming. The project is still in early alpha and
-the workflow is being figured out as we go.
+The project is in early alpha. Open a GitHub issue for bugs, and before
+starting a PR so we can discuss the change first.
 
-In the meantime:
+## Set up
 
-- **Bug reports and feedback** — open a GitHub issue.
-- **Code contributions** — open a GitHub issue first so we can discuss the
-  change before you spend time on a PR.
+1. `brew install xcodegen`
+2. Create `EuroBonus Finder/Config/Signing.local.xcconfig` (git-ignored):
 
-## Building the app
+   ```
+   DEVELOPMENT_TEAM = YOURTEAMID
+   APP_BUNDLE_ID = com.yourcompany.ebfinder
+   ```
 
-The Xcode project is **generated** from [`EB Finder/project.yml`](EB%20Finder/project.yml)
-with [XcodeGen](https://github.com/yonaskolb/XcodeGen) — `EB Finder.xcodeproj` is
-not committed, so it can never cause a merge conflict.
+   Only needed to run on a physical device; the simulator needs no signing.
 
-```sh
-brew install xcodegen          # once
-cd "EB Finder"
-xcodegen generate              # writes EB Finder.xcodeproj (git-ignored)
-open "EB Finder.xcodeproj"
-```
+3. Create `EuroBonus Finder/Config/Feed.local.xcconfig` (git-ignored):
 
-Re-run `xcodegen generate` from the `EB Finder/` folder whenever you pull changes
-that touch `project.yml`. Versions are automatic — see [Releases](#releases)
-below; [`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig)
-only holds the local fallback.
+   ```
+   FEED_HOST = feed.example.com
+   ```
 
-The project ships **without a signing identity and with a placeholder bundle id**
-(`com.example.ebfinder`) so anyone can build it. To run on a **physical device**,
-drop your Apple Developer team and your own bundle id into a git-ignored
-`EB Finder/Config/Signing.local.xcconfig`:
+   Required — the build fails with a hint without it. See
+   [Partner feed](#partner-feed).
 
-```
-DEVELOPMENT_TEAM = YOURTEAMID
-APP_BUNDLE_ID = com.yourcompany.ebfinder
-```
+4. ```sh
+   cd "EuroBonus Finder"
+   xcodegen generate
+   open "EuroBonus Finder.xcodeproj"
+   ```
+
+Re-run `xcodegen generate` after pulling changes to `project.yml`. The
+`.xcodeproj` is generated, never committed, so it cannot cause a merge conflict.
 
 `APP_BUNDLE_ID` is the single root: the extension is `$(APP_BUNDLE_ID).extension`
-and the shared app group is `group.$(APP_BUNDLE_ID)`.
+and the app group is `group.$(APP_BUNDLE_ID)`.
 
-Simulator builds need no signing. (Xcode Cloud injects its own signing, and
-`APP_BUNDLE_ID` via a workflow environment variable, for releases.)
+## Release
 
-Every build needs the host serving the partner feed. It's kept out of the repo,
-so add it to a git-ignored `EB Finder/Config/Feed.local.xcconfig`:
+1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's
+   CalVer date (`2026.9.18`, no `v` prefix).
+2. The tag triggers two things: Xcode Cloud archives and uploads the build, and
+   the [metadata workflow](.github/workflows/app-store-metadata.yml) pushes the
+   localized store listing.
+3. Attach the build and press **Submit for Review** in App Store Connect.
 
-```
-FEED_HOST = feed.example.com
-```
+The tag is the version — it becomes `MARKETING_VERSION`, the extension's
+`manifest.json` version and the App Store version. Nothing to bump, no release
+commits. `Config/Version.xcconfig` only holds a fallback for local builds.
 
-The build fails with a hint if it's missing. See [Partner feed](#partner-feed).
+## Store listing
+
+Listing text, review notes and screenshots live in [`fastlane/`](fastlane) and
+upload with `fastlane` — never typed into the App Store Connect web form. See
+[`fastlane/README.md`](fastlane/README.md).
 
 ## Partner feed
 
-The extension doesn't call SAS directly. A Cloudflare Worker in
+The extension never calls SAS directly. A Cloudflare Worker in
 [`workers/eb-feed`](workers/eb-feed) fetches the public partner data nightly and
-publishes one JSON file per market to an R2 bucket. See its
-[README](workers/eb-feed/README.md) to develop it or run your own copy.
+publishes one JSON file per market to an R2 bucket. Its
+[README](workers/eb-feed/README.md) covers running your own copy.
 
 ## Website
 
-[eurobonus.pompa.se](https://eurobonus.pompa.se) is generated from `README.md`
-(English) and `README.sv.md` (Swedish) — edit those, not HTML. Keep both READMEs
-in sync. The page shell (styles, meta tags, analytics) is `docs/template.html`;
-the [Pages workflow](.github/workflows/pages.yml) rebuilds on push to `main`.
+[eurobonus.pompa.se](https://eurobonus.pompa.se) is generated from `README.md`,
+`README.sv.md`, `PRIVACY.md` and `PRIVACY.sv.md` — edit those, not HTML, and
+keep the language pairs in sync. The page shell is `docs/template.html`; the
+[Pages workflow](.github/workflows/pages.yml) rebuilds on push to `main`.
 
 Preview locally:
 
 ```sh
-node scripts/build-site.mjs && python3 -m http.server -d _site
+node scripts/build-site.mjs --serve
 ```
-
-## Releases
-
-There's nothing to manage — **versions are calendar-based and fully automatic**:
-
-- The version is the **UTC build date** (`CFBundleShortVersionString`, e.g.
-  `2026.6.4`) plus Xcode Cloud's **build number** (`CFBundleVersion`). Both are
-  stamped at build time by
-  [`EB Finder/ci_scripts/ci_post_clone.sh`](EB%20Finder/ci_scripts/ci_post_clone.sh) — no tags, no
-  version bumps, no release commits.
-- The extension's `manifest.json` version is **derived from `MARKETING_VERSION`**
-  by the "Stamp manifest version" Xcode build phase (defined in `project.yml`),
-  so the app and extension always share one version — on local builds too. The
-  committed `manifest.json` carries only a `0.0.0` placeholder.
-- Xcode Cloud builds when you **cut a release** — push a `v*` tag (e.g.
-  `gh release create v2026.6.5 --generate-notes`) and the build uploads to
-  TestFlight. Merging to `main` does not build.
-- "Releasing" is just promoting a build to TestFlight or the App Store from App
-  Store Connect whenever you choose — the repo plays no part in shipping.
-
-`MARKETING_VERSION` in
-[`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig) is only
-the fallback for local builds; shipped builds are stamped fresh from the date.

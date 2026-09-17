@@ -1,0 +1,40 @@
+# Devices and languages for `fastlane screenshots`. Adding a language here is
+# the whole job — snapshot re-runs the UI test for every device x language and
+# files the results under fastlane/screenshots/<language>/.
+
+# The two slots the App Store requires for this app. 1320x2868 and 2064x2752.
+devices([
+  "iPhone 17 Pro Max",
+  "iPad Pro 13-inch (M5)"
+])
+
+# The languages the app ships, named as App Store Connect locales so deliver
+# uploads each folder as-is.
+languages([
+  "en-US",
+  "sv",
+  "da",
+  "no",
+  "fi"
+])
+
+project "./EuroBonus Finder/EuroBonus Finder.xcodeproj"
+scheme("EuroBonus Finder")
+test_target_name("EuroBonus Finder UITests")
+
+output_directory("./fastlane/screenshots")
+# The Safari banner shots are captured by hand and live in the same folders;
+# clearing would delete them. Screenshots are gitignored, so stale ones are
+# your own copies — delete the folder yourself for a clean slate.
+clear_previous_screenshots(false)
+
+# Apple's 9:41 status bar, full bars, full battery — no stray clock in the store.
+override_status_bar(true)
+
+# NOT reinstall_app: reinstalling de-registers the app's Safari extension, so
+# every run would undo the one-time manual "Allow Extension" and the settings
+# screenshot would show "Extension: Off" with a warning icon. The UI test
+# controls onboarding state with a launch argument instead, so a reinstall buys
+# nothing.
+reinstall_app(false)
+concurrent_simulators(true)

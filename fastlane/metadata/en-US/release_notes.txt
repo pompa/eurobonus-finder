@@ -1,0 +1,1 @@
+First public release. Spots EuroBonus partners in Safari, badges them in Google results, and gets you to the SAS login in one tap.

@@ -1,23 +1,32 @@
-// Builds the website (eurobonus.pompa.se) from the READMEs, so the page and the
-// repo never drift apart. One page per language:
+// Builds the website (eurobonus.pompa.se) from the markdown in the repo, so the
+// page and the repo never drift apart. One page per document per language:
 //
-//   README.md    → _site/index.html
-//   README.sv.md → _site/sv/index.html
+//   README.md      → _site/index.html
+//   README.sv.md   → _site/sv/index.html
+//   PRIVACY.md     → _site/privacy/index.html      (the App Store privacy URL)
+//   PRIVACY.sv.md  → _site/sv/privacy/index.html
 //
 // Markdown is rendered by GitHub's own API, so the site matches github.com. The
 // page shell (styles, meta tags, analytics) is docs/template.html; everything
 // else in docs/ (icons, badges, CNAME) is copied as-is.
 //
-// Usage: node scripts/build-site.mjs  (GITHUB_TOKEN optional; avoids rate limits)
+// Usage: node scripts/build-site.mjs           (GITHUB_TOKEN optional; avoids rate limits)
+//        node scripts/build-site.mjs --serve   build, then preview on :8000
 
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { createServer } from "node:http";
+import { extname } from "node:path";
 
 const REPO = "pompa/eurobonus-finder";
 const SITE = "https://eurobonus.pompa.se";
 const OUT = "_site";
+// `doc` groups the translations of one document: the language switch and the
+// hreflang alternates link between siblings, not across every page on the site.
 const PAGES = [
-  { lang: "en", ogLocale: "en_US", readme: "README.md", path: "/" },
-  { lang: "sv", ogLocale: "sv_SE", readme: "README.sv.md", path: "/sv/" },
+  { doc: "home", lang: "en", ogLocale: "en_US", readme: "README.md", path: "/" },
+  { doc: "home", lang: "sv", ogLocale: "sv_SE", readme: "README.sv.md", path: "/sv/" },
+  { doc: "privacy", lang: "en", ogLocale: "en_US", readme: "PRIVACY.md", path: "/privacy/" },
+  { doc: "privacy", lang: "sv", ogLocale: "sv_SE", readme: "PRIVACY.sv.md", path: "/sv/privacy/" },
 ];
 const pathOf = Object.fromEntries(PAGES.map((p) => [p.readme, p.path]));
 
@@ -53,6 +62,7 @@ await rm(OUT, { recursive: true, force: true });
 await cp("docs", OUT, { recursive: true, filter: (src) => !src.endsWith("template.html") });
 
 for (const page of PAGES) {
+  const siblings = PAGES.filter((p) => p.doc === page.doc);
   let html = rewriteLinks(await renderMarkdown(await readFile(page.readme, "utf8")));
   // The "Website" badge links to this very site — drop it here.
   html = html.replace(/<a href="https:\/\/eurobonus\.pompa\.se\/?"[^>]*>.*?<\/a>\s*/s, "");
@@ -71,8 +81,8 @@ for (const page of PAGES) {
     title: attr(title),
     description: attr(text(description)),
     url: SITE + page.path,
-    alternates: PAGES.map((p) => `<link rel="alternate" hreflang="${p.lang}" href="${SITE + p.path}" />`).join("\n    "),
-    langSwitch: PAGES.map(
+    alternates: siblings.map((p) => `<link rel="alternate" hreflang="${p.lang}" href="${SITE + p.path}" />`).join("\n    "),
+    langSwitch: siblings.map(
       (p) => `<a href="${p.path}" hreflang="${p.lang}"${p === page ? ' aria-current="page"' : ""}>${p.lang.toUpperCase()}</a>`,
     ).join(""),
     content: html,
@@ -81,4 +91,29 @@ for (const page of PAGES) {
   await mkdir(OUT + page.path, { recursive: true });
   await writeFile(`${OUT}${page.path}index.html`, out);
   console.log(`${page.readme} → ${OUT}${page.path}index.html`);
+}
+
+// Preview the built site. node: builtins only — nothing to install.
+if (process.argv.includes("--serve")) {
+  const PORT = 8000;
+  const TYPES = {
+    ".html": "text/html; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".js": "text/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".svg": "image/svg+xml",
+    ".png": "image/png",
+  };
+  createServer(async (req, res) => {
+    // Directory URLs serve index.html, the way GitHub Pages does.
+    let path = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+    if (path.endsWith("/")) path += "index.html";
+    try {
+      const body = await readFile(OUT + path);
+      res.writeHead(200, { "content-type": TYPES[extname(path)] ?? "application/octet-stream" });
+      res.end(body);
+    } catch {
+      res.writeHead(404, { "content-type": "text/plain" }).end("Not found");
+    }
+  }).listen(PORT, () => console.log(`\n→ http://localhost:${PORT}`));
 }

@@ -1,0 +1,4 @@
+# The real bundle id never lives in the repo — same rule as
+# Config/Signing.local.xcconfig. CI passes it in as $APP_BUNDLE_ID; fetch (not
+# ENV[]) so a missing value fails loudly instead of uploading to nothing.
+app_identifier ENV.fetch("APP_BUNDLE_ID")

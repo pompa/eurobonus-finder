@@ -1,0 +1,101 @@
+# Pushes the localized App Store listing that lives in fastlane/metadata and
+# fastlane/screenshots. The binary is NOT uploaded here — Xcode Cloud archives
+# and uploads it (see scripts/cut-release.sh); this lane only writes the text
+# and images around it.
+#
+# Run by .github/workflows/app-store-metadata.yml on a CalVer tag, or locally:
+#   APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8=$(base64 -i key.p8) \
+#     fastlane metadata
+default_platform(:ios)
+
+# fastlane regenerates fastlane/README.md with its own lane documentation after
+# every run, overwriting the hand-written guide that lives there. Don't.
+skip_docs
+
+platform :ios do
+  desc "Capture the app's App Store screenshots (devices + languages in Snapfile)"
+  lane :screenshots do |options|
+    # Devices, languages, output path and the 9:41 status bar all live in
+    # fastlane/Snapfile. The Safari banner shot cannot be captured here — it
+    # needs the extension enabled in Settings and a real partner site, neither
+    # of which a UI test can drive. See fastlane/README.md.
+    #
+    # Narrow a run while iterating (the full matrix is 2 devices x 5 languages
+    # and takes a while):
+    #   fastlane screenshots devices:"iPhone 17 Pro Max" languages:sv
+    params = {}
+    params[:devices] = options[:devices].split(",") if options[:devices]
+    params[:languages] = options[:languages].split(",") if options[:languages]
+    capture_screenshots(params)
+  end
+
+  desc "Upload the localized store listing (metadata + screenshots) to App Store Connect"
+  lane :metadata do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_content: ENV.fetch("ASC_KEY_P8"),
+      is_key_content_base64: true,
+    )
+
+    # App Review contact details are PII, so they are NOT in the repo — they come
+    # from CI secrets (or your shell) and are sent only when all four are
+    # present. Apple rejects a partial update: touching review information at
+    # all requires first name, last name, email AND phone, which is why
+    # review_notes.txt lives here rather than in metadata/review_information/,
+    # where deliver would auto-load it on its own and trigger that rejection.
+    contact = {
+      first_name: ENV["ASC_REVIEW_FIRST_NAME"],
+      last_name: ENV["ASC_REVIEW_LAST_NAME"],
+      email_address: ENV["ASC_REVIEW_EMAIL"],
+      phone_number: ENV["ASC_REVIEW_PHONE"], # must start with +<country code>
+    }
+    review_information =
+      if contact.values.all? { |v| !v.to_s.strip.empty? }
+        contact.merge(notes: File.read(File.join(__dir__, "review_notes.txt")))
+      else
+        UI.important("ASC_REVIEW_* not set — leaving App Review information untouched.")
+        nil
+      end
+
+    # Screenshots are captured by scripts/screenshots.sh and are NOT committed,
+    # so CI has none and pushes text only, while a local run after capturing
+    # pushes both. No flag to remember, and CI can never wipe the live
+    # screenshots by uploading an empty set.
+    # sync_screenshots refuses to run without this acknowledgement.
+    ENV["FASTLANE_ENABLE_BETA_DELIVER_SYNC_SCREENSHOTS"] = "1"
+    screenshots = Dir.glob(File.join(__dir__, "screenshots", "**", "*.png"))
+    UI.message("Screenshots: #{screenshots.empty? ? 'none on disk — text only' : "#{screenshots.count} found"}")
+
+    # Target the version the release tag built, rather than whichever version
+    # happens to be editable. APP_STORE_VERSION is the tag with any "-2"
+    # same-day suffix stripped — exactly what ci_post_clone.sh stamps into
+    # MARKETING_VERSION, so the build and its listing always carry one version.
+    # Unset (a local run) leaves deliver to pick the editable version as before.
+    app_store_version = ENV["APP_STORE_VERSION"].to_s.split("-").first
+    UI.message("Target version: #{app_store_version.to_s.empty? ? 'whichever is editable' : app_store_version}")
+
+    upload_to_app_store(
+      skip_binary_upload: true,
+      app_version: app_store_version.to_s.empty? ? nil : app_store_version,
+      skip_screenshots: screenshots.empty?,
+      app_review_information: review_information,
+      # KNOWN ISSUE — screenshots upload TWICE, then need a manual dedupe in
+      # App Store Connect. deliver verifies its upload against localization
+      # objects it cached BEFORE uploading, so every fresh screenshot looks
+      # "missing", it retries, and the whole set lands a second time. This
+      # reproduces on every run and is not affected by overwrite_screenshots.
+      # deliver's `sync_screenshots` beta path avoids that loop but crashes on
+      # its own processing check with retries exhausted, failing the whole lane
+      # — including the text. So: this path, which completes, and a dedupe
+      # afterwards. CI is unaffected, it has no screenshots to upload.
+      overwrite_screenshots: true,
+      # Deliberately not submitting: this lane keeps the listing current, a
+      # human still presses "Submit for Review" in App Store Connect. Flip to
+      # true once the flow has shipped a few times unattended.
+      submit_for_review: false,
+      precheck_include_in_app_purchases: false,
+      force: true, # skip the HTML preview prompt (no TTY in CI)
+    )
+  end
+end

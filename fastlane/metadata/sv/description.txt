@@ -1,0 +1,21 @@
+EuroBonus Finder knuffar till dig när butiken du surfar på är en SAS EuroBonus-partner — direkt i Safari på din iPhone och iPad.
+
+Shoppar man i mobilen upptäcker man ofta efter köpet att butiken var EuroBonus-partner hela tiden. De poängen är borta för gott. EuroBonus Finder ser till att det slutar hända: när en sida ger poäng får du en lugn knuff om att logga in via SAS först. Ett tryck, sedan shoppar du som vanligt.
+
+VARFÖR DEN FINNS
+SAS har en officiell EuroBonus Finder för Chrome på datorn. Det finns inget för mobilen i din hand — där de flesta av oss faktiskt handlar. Det här är den saknade biten.
+
+DET HÄR FÅR DU
+• En knuff hos partnerbutiker. En liten rad högst upp på sidan visar vad du tjänar när butiken ger EuroBonus-poäng.
+• Ett tryck till SAS-inloggningen, så att sessionen startar på det sätt som registrerar poängen.
+• Märken i Googles resultat. Partnerbutiker markeras direkt i sökresultaten, innan du klickar.
+• Samma data som den officiella. Vi läser samma partnerlista som SAS publicerar till sitt eget Chrome-tillägg, uppdaterad varje natt, så butiker och poängnivåer är alltid aktuella.
+• Din marknad, din lista. Sverige, Norge, Danmark eller Finland.
+• Ur vägen. Inget konto, ingen spårning, inga annonser.
+
+SÅ KOMMER DU IGÅNG
+1. Installera appen och välj din region.
+2. Aktivera tillägget i Inställningar → Appar → Safari → Tillägg, och tillåt det på alla webbplatser.
+3. Shoppa som vanligt.
+
+EuroBonus Finder är ett oberoende projekt. Det är inte anslutet till SAS – Scandinavian Airlines, EuroBonus eller någon av butikspartnerna. Tjänsten använder SAS publikt tillgängliga partnerdata.

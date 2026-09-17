@@ -1,4 +1,4 @@
-name: EB Finder
+name: EuroBonus Finder
 
 # ---------------------------------------------------------------------------
 # Project options
@@ -79,7 +79,7 @@ targets:
 
   # SwiftUI host app. Code + assets are recursed from App/, so new files in
   # App/Features, App/DesignSystem, App/Core, etc. are picked up automatically.
-  EB Finder:
+  EuroBonus Finder:
     type: application
     platform: iOS
     sources:
@@ -112,12 +112,12 @@ targets:
         INFOPLIST_KEY_UIStatusBarHidden: NO
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown
     dependencies:
-      - target: EB Finder Extension
+      - target: EuroBonus Finder Extension
         embed: true
 
   # Safari Web Extension. The web bundle lives in the standard Safari location
   # (Extension/Resources) so it nests naturally under the Extension group.
-  EB Finder Extension:
+  EuroBonus Finder Extension:
     type: app-extension
     platform: iOS
     sources:
@@ -195,19 +195,40 @@ targets:
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest.json
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/feed.js
 
+  # UI tests that exist only to capture App Store screenshots
+  # (`fastlane screenshots`). SnapshotHelper.swift is vendored from fastlane;
+  # ScreenshotTests.swift drives the app. Not part of the shipped product.
+  EuroBonus Finder UITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).uitests
+        TEST_TARGET_NAME: EuroBonus Finder
+        CODE_SIGN_IDENTITY: Apple Development
+        # SnapshotHelper.swift is fastlane's, kept byte-identical so it can be
+        # replaced wholesale on upgrade — it is not Swift 6 concurrency clean.
+        SWIFT_VERSION: "5.0"
+    dependencies:
+      - target: EuroBonus Finder
+
 # ---------------------------------------------------------------------------
-# Schemes (replaces the hand-maintained EB Finder.xcscheme)
+# Schemes (replaces the hand-maintained EuroBonus Finder.xcscheme)
 # ---------------------------------------------------------------------------
 schemes:
-  EB Finder:
+  EuroBonus Finder:
     build:
       targets:
-        EB Finder: all
+        EuroBonus Finder: all
     run:
       config: Debug
     test:
       config: Debug
       gatherCoverageData: false
+      targets:
+        - EuroBonus Finder UITests
     profile:
       config: Release
     analyze:

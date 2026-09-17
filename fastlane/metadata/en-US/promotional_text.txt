@@ -1,0 +1,1 @@
+The partner list refreshes nightly from the same source SAS uses, so new shops and point rates show up on their own.

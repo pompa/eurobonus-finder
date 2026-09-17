@@ -1,0 +1,21 @@
+EuroBonus Finder napauttaa olkapäälle, kun selaamasi kauppa on SAS EuroBonus -kumppani — suoraan Safarissa iPhonella ja iPadilla.
+
+Puhelimella ostaessa huomaa usein vasta kaupan jälkeen, että liike oli koko ajan EuroBonus-kumppani. Ne pisteet ovat menetetty lopullisesti. EuroBonus Finder tekee siitä lopun: kun sivusto kerryttää pisteitä, saat rauhallisen muistutuksen kirjautua ensin SAS:n kautta. Yksi napautus, ja sitten ostat kuten ennenkin.
+
+MIKSI SE ON OLEMASSA
+SAS:lla on virallinen EuroBonus Finder tietokoneen Chromeen. Kädessäsi olevaan puhelimeen ei ole mitään — vaikka juuri siellä useimmat meistä ostavat. Tämä on se puuttuva pala.
+
+MITÄ SAAT
+• Muistutuksen kumppanikaupoissa. Sivun yläreunaan ilmestyy pieni palkki, joka kertoo mitä ansaitset, kun kauppa kerryttää EuroBonus-pisteitä.
+• Yhden napautuksen SAS-kirjautumiseen, jotta istunto alkaa tavalla joka rekisteröi pisteet.
+• Merkinnät Googlen tuloksissa. Kumppanikaupat merkitään suoraan hakutuloksiin, jo ennen klikkausta.
+• Samat tiedot kuin virallisessa. Luemme saman kumppanilistan jonka SAS julkaisee omaan Chrome-laajennukseensa, päivitettynä joka yö, joten kaupat ja pistetasot ovat aina ajan tasalla.
+• Oma markkinasi, oma listasi. Ruotsi, Norja, Tanska tai Suomi.
+• Tieltä pois. Ei tiliä, ei seurantaa, ei mainoksia.
+
+NÄIN OTAT KÄYTTÖÖN
+1. Asenna sovellus ja valitse alueesi.
+2. Ota laajennus käyttöön: Asetukset → Apit → Safari → Laajennukset, ja salli se kaikilla sivustoilla.
+3. Osta kuten ennenkin.
+
+EuroBonus Finder on itsenäinen projekti. Se ei ole yhteydessä SAS – Scandinavian Airlines -yhtiöön, EuroBonus-ohjelmaan eikä mihinkään kauppakumppaniin. Palvelu käyttää SAS:n julkisesti saatavilla olevia kumppanitietoja.
