@@ -1,0 +1,19 @@
+EuroBonus Finder is a Safari Web Extension. It checks the site you are browsing
+against a list of SAS EuroBonus partner shops and their current campaigns, and
+shows a bar when the shop earns points.
+
+The app itself is just the installer and settings screen, so the extension has
+to be turned on before there is anything to see:
+
+1. Launch the app and complete onboarding (any region; Sweden has the most
+   partner shops).
+2. Settings > Apps > Safari > Extensions > EuroBonus Finder > turn on.
+3. Under "Permissions", set "All Websites" to Allow.
+4. In Safari, visit a partner shop — e.g. https://www.adidas.se or
+   https://www.apotea.se — and a bar appears at the top of the page showing the
+   points that shop earns.
+5. Searching for a partner shop on Google marks the matching results with an
+   "EB" badge.
+
+No account or login is needed to review the app. The button in the bar opens
+SAS's own public website; no credentials are required.

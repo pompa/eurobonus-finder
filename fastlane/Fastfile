@@ -1,0 +1,42 @@
+# Pushes the localized App Store listing that lives in fastlane/metadata and
+# fastlane/screenshots. The binary is NOT uploaded here — Xcode Cloud archives
+# and uploads it (see scripts/cut-release.sh); this lane only writes the text
+# and images around it.
+#
+# Run by .github/workflows/app-store-metadata.yml on a CalVer tag, or locally:
+#   APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8=$(base64 -i key.p8) \
+#     fastlane metadata
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload the localized store listing (metadata + screenshots) to App Store Connect"
+  lane :metadata do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_content: ENV.fetch("ASC_KEY_P8"),
+      is_key_content_base64: true,
+    )
+
+    # Screenshots are captured by scripts/screenshots.sh and are NOT committed,
+    # so CI has none and pushes text only, while a local run after capturing
+    # pushes both. No flag to remember, and CI can never wipe the live
+    # screenshots by uploading an empty set.
+    screenshots = Dir.glob(File.join(__dir__, "screenshots", "**", "*.png"))
+    UI.message("Screenshots: #{screenshots.empty? ? 'none on disk — text only' : "#{screenshots.count} found"}")
+
+    upload_to_app_store(
+      skip_binary_upload: true,
+      skip_screenshots: screenshots.empty?,
+      # Keep App Store Connect in sync with what's on disk rather than
+      # appending duplicates on every run.
+      overwrite_screenshots: true,
+      # Deliberately not submitting: this lane keeps the listing current, a
+      # human still presses "Submit for Review" in App Store Connect. Flip to
+      # true once the flow has shipped a few times unattended.
+      submit_for_review: false,
+      precheck_include_in_app_purchases: false,
+      force: true, # skip the HTML preview prompt (no TTY in CI)
+    )
+  end
+end

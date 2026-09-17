@@ -1,0 +1,1 @@
+Ensimmäinen julkinen versio. Löytää EuroBonus-kumppanit Safarissa, merkitsee ne Googlen tuloksiin ja vie SAS-kirjautumiseen yhdellä napautuksella.

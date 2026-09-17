@@ -1,0 +1,1 @@
+Partnerlistan uppdateras varje natt från samma källa som SAS använder, så nya butiker och poängnivåer dyker upp av sig själva.

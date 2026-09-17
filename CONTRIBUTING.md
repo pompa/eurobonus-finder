@@ -85,11 +85,51 @@ There's nothing to manage — **versions are calendar-based and fully automatic*
   by the "Stamp manifest version" Xcode build phase (defined in `project.yml`),
   so the app and extension always share one version — on local builds too. The
   committed `manifest.json` carries only a `0.0.0` placeholder.
-- Xcode Cloud builds when you **cut a release** — push a `v*` tag (e.g.
-  `gh release create v2026.6.5 --generate-notes`) and the build uploads to
-  TestFlight. Merging to `main` does not build.
-- "Releasing" is just promoting a build to TestFlight or the App Store from App
-  Store Connect whenever you choose — the repo plays no part in shipping.
+- Xcode Cloud builds when you **cut a release** — `scripts/cut-release.sh`
+  publishes a GitHub Release tagged with the CalVer date (e.g. `2026.6.5`, no
+  `v` prefix) and the build uploads to TestFlight. Merging to `main` does not
+  build.
+- The **store listing** ships from the repo too — see below. The same tag that
+  triggers the build also pushes the localized metadata and screenshots.
+- "Releasing" is the final human step: promote the build and press **Submit for
+  Review** in App Store Connect whenever you choose.
+
+## Store listing
+
+The App Store listing is version-controlled in [`fastlane/`](fastlane) and
+uploaded by [`fastlane deliver`](https://docs.fastlane.tools/actions/deliver/) —
+no typing into the App Store Connect web form. Full details:
+[`fastlane/README.md`](fastlane/README.md).
+
+- **Text** lives in `fastlane/metadata/<locale>/*.txt` — `en-US`, `sv`, `da`,
+  `no`, `fi`, matching the languages the app itself ships. Edit the files, not
+  the website.
+- **Screenshots** are **not** committed — they are megabytes that regenerate in
+  minutes. `scripts/screenshots.sh <locale>` drives the Simulator and captures
+  them into `fastlane/screenshots/<locale>/`; upload them with a local
+  `fastlane metadata` run.
+- **Review notes** for Apple's reviewer are in
+  `fastlane/metadata/review_information/notes.txt` (a Safari extension needs
+  turning on before a reviewer can see anything).
+
+Check the field limits before you commit — App Store subtitles cap at 30
+characters, keywords at 100:
+
+```sh
+scripts/check-store-metadata.sh
+```
+
+The [App Store metadata workflow](.github/workflows/app-store-metadata.yml)
+runs that check and then `fastlane metadata` on every CalVer tag, and can be
+re-run by hand from the Actions tab for a typo fix. CI uploads the **text
+only** — the lane uploads screenshots when they are on disk and skips them when
+they are not, so CI can never wipe the live set. It needs four repository
+secrets: `APP_BUNDLE_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_KEY_P8` (the
+base64 of the App Store Connect API `.p8` key).
+
+The lane deliberately **does not** submit for review — it keeps the listing
+current and leaves the submit button to you (`submit_for_review:` in
+[`fastlane/Fastfile`](fastlane/Fastfile)).
 
 `MARKETING_VERSION` in
 [`EB Finder/Config/Version.xcconfig`](EB%20Finder/Config/Version.xcconfig) is only

@@ -1,0 +1,53 @@
+# Pushes the localized App Store listing (fastlane/metadata) to App Store
+# Connect when a release is cut.
+#
+# Text only: screenshots are not committed (scripts/screenshots.sh captures
+# them locally and `fastlane metadata` uploads them from there), so the lane
+# skips them here rather than wiping the live set with an empty upload.
+#
+# The binary is not touched here: scripts/cut-release.sh publishes a CalVer tag,
+# Xcode Cloud archives and uploads the build, and this workflow — triggered by
+# the same tag — updates the listing around it. Submitting for review stays a
+# human click in App Store Connect (see fastlane/Fastfile).
+name: App Store metadata
+
+on:
+  push:
+    # CalVer tags cut by scripts/cut-release.sh: 2026.9.17, and 2026.9.17-2 for
+    # a second release the same day. No "v" prefix.
+    tags:
+      - "20*"
+  # Re-push the listing without cutting a release (a typo fix).
+  workflow_dispatch:
+
+concurrency:
+  group: app-store-metadata
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    # macOS runners ship fastlane preinstalled — nothing to install, and free
+    # for public repositories.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Cheap guard: catches an over-long subtitle or a missing locale before
+      # we start PATCHing App Store Connect halfway through a release.
+      - run: scripts/check-store-metadata.sh
+
+      - run: fastlane metadata
+        env:
+          APP_BUNDLE_ID: ${{ secrets.APP_BUNDLE_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          # base64 of the .p8 private key downloaded from App Store Connect →
+          # Users and Access → Integrations → App Store Connect API.
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          FASTLANE_SKIP_UPDATE_CHECK: "1"
+          FASTLANE_HIDE_CHANGELOG: "1"
+          # Required: the Swedish/Danish/Norwegian/Finnish metadata is full of
+          # å/ä/ö/æ/ø. fastlane warns and mangles non-ASCII under a non-UTF-8
+          # locale, which would silently corrupt the listing.
+          LANG: en_US.UTF-8
+          LC_ALL: en_US.UTF-8
