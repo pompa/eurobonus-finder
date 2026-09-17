@@ -65,7 +65,6 @@ fastlane/screenshots/**/*.png
 fastlane/screenshots/screenshots.html
 ## deliver run output
 fastlane/report.xml
-*.mobileprovision
 fastlane/Preview.html
 fastlane/test_output/
 

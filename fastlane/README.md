@@ -45,26 +45,10 @@ App Store Connect. deliver verifies its upload against localizations it cached
 *before* uploading, so each one looks missing, it retries, and the set lands
 again.
 
-## Ship a build
-
-Xcode Cloud builds on a release tag. To build from a machine instead:
-
-1. Register `group.<APP_BUNDLE_ID>` under Identifiers → App Groups at
-   [developer.apple.com](https://developer.apple.com/account/resources/identifiers/list/applicationGroup),
-   then enable **App Groups** on both `<APP_BUNDLE_ID>` and
-   `<APP_BUNDLE_ID>.extension` and tick that group. Once only — the App Store
-   Connect API cannot do this.
-2. ```bash
-   APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8="$(base64 -i key.p8)" \
-     fastlane release version:2026.9.18 build:1
-   ```
-3. Attach the build to its App Store version in App Store Connect and submit.
-
-Bump `build:` to upload again for the same version.
-
 ## Versions
 
-The release tag is the version everywhere: `cut-release.sh` tags `2026.9.18`,
+Xcode Cloud builds on a release tag. The tag is the version everywhere:
+`cut-release.sh` tags `2026.9.18`,
 `ci_post_clone.sh` stamps it into `MARKETING_VERSION` and the extension's
 `manifest.json`, and the workflow passes it as `APP_STORE_VERSION` so the
 listing lands on the matching version. A same-day `2026.9.18-2` tag drops the
