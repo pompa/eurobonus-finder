@@ -50,27 +50,71 @@ shows it from the first update onward, so release notes start mattering at 1.1.
 
 ## Screenshots
 
-Screenshots are captured against the Simulator and **kept out of the repo** —
-they are ~12 MB per locale and regenerate in minutes.
+Screenshots are **kept out of the repo** (gitignored) — megabytes that
+regenerate in minutes.
+
+### The app screens — automated
 
 ```bash
-scripts/screenshots.sh en-US              # both devices
-scripts/screenshots.sh sv --only iphone
+fastlane screenshots
 ```
 
-The script boots the simulator, installs the app, sets Apple's 9:41 status bar,
-opens the partner site, and pauses before each shot so you can set the screen
-up; Enter captures it at the right size and filename.
+[`Snapfile`](Snapfile) holds the devices and languages; `snapshot` re-runs the
+UI test in [`EB Finder/UITests/ScreenshotTests.swift`](../EB%20Finder/UITests/ScreenshotTests.swift)
+for every combination — 2 devices x 5 languages — and files the results under
+`screenshots/<language>/`. Adding a language is one line in the Snapfile.
 
-Two things it cannot do for you, both once per simulator:
+It also sets Apple's 9:41 status bar (`override_status_bar`) and reinstalls the
+app each run, so no stray clock or half-drawn screen reaches the store.
 
-- **Turn the extension on** — Settings → Apps → Safari → Extensions → EuroBonus
-  Finder → Allow, then Permissions → Other Websites → Allow. A tap will *not*
-  flip a switch in the Simulator; drag across it.
-- **Set the device language** for a non-English banner shot — the extension
-  follows Safari, not the app's launch arguments.
+**Enable the extension on each simulator before the first run** (steps below).
+Otherwise the settings screenshot shows "Extension: Off" with a warning icon —
+accurate, but not what you want in the App Store. Enabling it is a Safari
+setting that survives `reinstall_app`, so it is a once-per-simulator job, and
+it is the same step the banner shot needs anyway.
 
-Then upload from the same machine:
+The test finds the onboarding button by the accessibility identifier
+`onboarding.cta`, never by its title — the titles are localized. It starts the
+app past onboarding for the settings shot by passing `-hasCompletedOnboarding
+YES`, which lands in `UserDefaults` and so in the app's `@AppStorage` without
+any test-only code in the app.
+
+### The Safari banner — by hand
+
+The banner shot is the product, and no UI test can take it: it needs the
+extension enabled in Settings and a real partner site in Safari. Per simulator,
+once:
+
+1. Settings → Apps → Safari → Extensions → EuroBonus Finder → Allow, then
+   Permissions → Other Websites → Allow. **A tap will not flip a switch in the
+   Simulator — drag across it.**
+2. For a non-English shot, set the *device* language (General → Language &
+   Region). The extension follows Safari, not the app's launch arguments.
+
+Then:
+
+```bash
+DEVICE=$(xcrun simctl list devices available | sed -n 's/^ *iPhone 17 Pro Max (\([0-9A-F-]*\)) (.*/\1/p' | head -1)
+xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState charged \
+  --batteryLevel 100 --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4
+xcrun simctl openurl "$DEVICE" https://www.adidas.se/
+# dismiss the site's cookie wall, then relaunch Safari so the status bar has no
+# "< Settings" back affordance left over from whatever opened it:
+xcrun simctl terminate "$DEVICE" com.apple.mobilesafari
+xcrun simctl launch "$DEVICE" com.apple.mobilesafari
+xcrun simctl io "$DEVICE" screenshot "fastlane/screenshots/en-US/iPhone 17 Pro Max-0_banner.png"
+```
+
+Match snapshot's naming — `<Device Name>-<order>_<name>.png`, spaces and all,
+exactly as the files it writes are named — so the shot sorts before
+`1_welcome` and lands in the right App Store device slot.
+
+On iPhone the banner renders its **compact** form (short title, "Earn"): the
+`@container (max-width: 720px)` rule in `content.css` drops the points line at
+any phone width. The iPad shot is the one showing the full "Earn 25 points per
+100 kr". Both are honest; that is the real product at each width.
+
+### Uploading
 
 ```bash
 APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8="$(base64 -i key.p8)" \
@@ -80,5 +124,9 @@ APP_BUNDLE_ID=... ASC_KEY_ID=... ASC_ISSUER_ID=... ASC_KEY_P8="$(base64 -i key.p
 The lane uploads screenshots when they are on disk and skips them when they are
 not — so CI pushes text only, and a local run pushes both.
 
-`en-US` is the complete set; the other locales are the same loop with the
-language switched, and can land one at a time.
+**Known issue:** every screenshot uploads twice and needs a manual dedupe in
+App Store Connect. deliver verifies its upload against localization objects it
+cached *before* uploading, so each fresh screenshot looks missing, it retries,
+and the set lands again. Reproduces every run, unaffected by
+`overwrite_screenshots`; deliver's `sync_screenshots` beta path avoids the loop
+but crashes on its own processing check and fails the whole lane.

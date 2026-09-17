@@ -13,6 +13,22 @@ default_platform(:ios)
 skip_docs
 
 platform :ios do
+  desc "Capture the app's App Store screenshots (devices + languages in Snapfile)"
+  lane :screenshots do |options|
+    # Devices, languages, output path and the 9:41 status bar all live in
+    # fastlane/Snapfile. The Safari banner shot cannot be captured here — it
+    # needs the extension enabled in Settings and a real partner site, neither
+    # of which a UI test can drive. See fastlane/README.md.
+    #
+    # Narrow a run while iterating (the full matrix is 2 devices x 5 languages
+    # and takes a while):
+    #   fastlane screenshots devices:"iPhone 17 Pro Max" languages:sv
+    params = {}
+    params[:devices] = options[:devices].split(",") if options[:devices]
+    params[:languages] = options[:languages].split(",") if options[:languages]
+    capture_screenshots(params)
+  end
+
   desc "Upload the localized store listing (metadata + screenshots) to App Store Connect"
   lane :metadata do
     app_store_connect_api_key(

@@ -105,8 +105,9 @@ no typing into the App Store Connect web form. Full details:
   `no`, `fi`, matching the languages the app itself ships. Edit the files, not
   the website.
 - **Screenshots** are **not** committed — they are megabytes that regenerate in
-  minutes. `scripts/screenshots.sh <locale>` drives the Simulator and captures
-  them into `fastlane/screenshots/<locale>/`; upload them with a local
+  minutes. `fastlane screenshots` runs a UI test across every device and
+  language in `fastlane/Snapfile`; the Safari banner shot is captured by hand
+  (a UI test cannot enable the extension). Upload them with a local
   `fastlane metadata` run.
 - **Review notes** for Apple's reviewer are in `fastlane/review_notes.txt` (a
   Safari extension needs turning on before a reviewer can see anything). The

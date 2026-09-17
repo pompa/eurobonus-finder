@@ -195,6 +195,25 @@ targets:
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest.json
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/feed.js
 
+  # UI tests that exist only to capture App Store screenshots
+  # (`fastlane screenshots`). SnapshotHelper.swift is vendored from fastlane;
+  # ScreenshotTests.swift drives the app. Not part of the shipped product.
+  EB Finder UITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).uitests
+        TEST_TARGET_NAME: EB Finder
+        CODE_SIGN_IDENTITY: Apple Development
+        # SnapshotHelper.swift is fastlane's, kept byte-identical so it can be
+        # replaced wholesale on upgrade — it is not Swift 6 concurrency clean.
+        SWIFT_VERSION: "5.0"
+    dependencies:
+      - target: EB Finder
+
 # ---------------------------------------------------------------------------
 # Schemes (replaces the hand-maintained EB Finder.xcscheme)
 # ---------------------------------------------------------------------------
@@ -208,6 +227,8 @@ schemes:
     test:
       config: Debug
       gatherCoverageData: false
+      targets:
+        - EB Finder UITests
     profile:
       config: Release
     analyze:

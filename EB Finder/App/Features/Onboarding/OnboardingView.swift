@@ -614,6 +614,7 @@ private struct OnboardingCTAButton: View {
             .modifier(CTABackground(variant: variant, shimmerX: shimmerX, shimmer: shimmer))
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("onboarding.cta")
         .onAppear {
             guard shimmer else { return }
             withAnimation(.easeInOut(duration: 2.6).repeatForever(autoreverses: false)) {

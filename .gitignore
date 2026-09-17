@@ -61,6 +61,8 @@ Package.resolved
 ## there — ~12 MB per locale, regenerated in minutes, so they stay out of git.
 ## The listing TEXT under fastlane/metadata IS committed.
 fastlane/screenshots/**/*.png
+## snapshot's generated overview page
+fastlane/screenshots/screenshots.html
 ## deliver run output
 fastlane/report.xml
 fastlane/Preview.html
