@@ -54,8 +54,9 @@ globalThis.EBFeed = (() => {
     }
   };
 
-  // Feed keys are `host` or `host/firstSegment` (lowercase, no www.), so a
-  // lookup is at most two key hits. Returns the matching key or null.
+  // Feed keys are `host` or `host/firstSegment` (lowercase, no www.). Any subdomain
+  // belongs to its partner, so drop leading labels down to the apex, closest host
+  // first. Returns the matching key or null.
   const matchKey = (urlStr, data) => {
     let url;
     try {
@@ -63,13 +64,18 @@ globalThis.EBFeed = (() => {
     } catch (e) {
       return null;
     }
-    const host = url.hostname.toLowerCase().replace(/^www\./, "");
     const segment = url.pathname.split("/").find(Boolean);
-    if (segment) {
-      const withPath = `${host}/${segment.toLowerCase()}`;
-      if (data[withPath]) return withPath;
+    const labels = url.hostname.toLowerCase().replace(/^www\./, "").split(".");
+    // Stop at two labels: a bare TLD or public suffix is never a partner key.
+    for (let i = 0; i + 2 <= labels.length; i++) {
+      const host = labels.slice(i).join(".");
+      if (segment) {
+        const withPath = `${host}/${segment.toLowerCase()}`;
+        if (data[withPath]) return withPath;
+      }
+      if (data[host]) return host;
     }
-    return data[host] ? host : null;
+    return null;
   };
 
   const hostOfKey = (key) => key.split("/")[0];
