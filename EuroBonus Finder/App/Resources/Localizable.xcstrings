@@ -1,26 +1,10 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-      "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ""
-          }
-        }
-      }
-    },
     "about.disclaimer.body" : {
       "comment" : "About page — independence disclaimer body.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and uses SAS's publicly available partner data."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -57,12 +41,6 @@
       "comment" : "About page — disclaimer section header.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Disclaimer"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -99,12 +77,6 @@
       "comment" : "About page row → pushes to the License page.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "License"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -141,12 +113,6 @@
       "comment" : "About page row → opens the GitHub source repository.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Source code"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -183,12 +149,6 @@
       "comment" : "About page navigation title.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "About"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -225,12 +185,6 @@
       "comment" : "About page row label — paired with the marketing version number.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Version"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -267,12 +221,6 @@
       "comment" : "CTA label while the app re-checks the extension/permission state.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "CHECKING…"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -309,12 +257,6 @@
       "comment" : "CTA that advances to the next onboarding step once the current one is satisfied.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "CONTINUE"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -351,12 +293,6 @@
       "comment" : "Final onboarding CTA; completes setup and enters the app.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "FINISH"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -393,12 +329,6 @@
       "comment" : "Title on the final 'all set' onboarding screen.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "All done"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -435,12 +365,6 @@
       "comment" : "CTA on the 'turn on the extension' step → opens Safari settings.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "OPEN SAFARI SETTINGS"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -477,12 +401,6 @@
       "comment" : "Body on the 'turn on the extension' step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Switch on EuroBonus Finder in Safari settings so we can spot EuroBonus partners while you browse."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -519,12 +437,6 @@
       "comment" : "Confirmation body once the extension is enabled.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus Finder is enabled in Safari."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -561,12 +473,6 @@
       "comment" : "Confirmation title once the extension is enabled.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The extension is on"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -603,12 +509,6 @@
       "comment" : "Settings breadcrumb chip on the 'turn on the extension' step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Settings › Apps › Safari › Extensions"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -645,12 +545,6 @@
       "comment" : "Title on the 'turn on the extension' step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Turn on the extension"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -687,12 +581,6 @@
       "comment" : "Instruction shown next to each domain in the onboarding permissions list (Safari's 'Allow' setting).",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Select Allow"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -729,12 +617,6 @@
       "comment" : "CTA on the 'allow all websites' step → opens Safari settings.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "OPEN PERMISSIONS"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -771,12 +653,6 @@
       "comment" : "Body on the permissions step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus Finder needs these permissions to work."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -813,12 +689,6 @@
       "comment" : "Secondary button on the permissions step; moves on so users are never trapped if live detection lags.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "DONE"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -855,12 +725,6 @@
       "comment" : "Confirmation body once all-websites access is granted.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus Finder can read all websites."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -897,12 +761,6 @@
       "comment" : "Confirmation title once all-websites access is granted.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Access granted"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -939,12 +797,6 @@
       "comment" : "Title on the 'allow all websites' step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permissions"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -981,12 +833,6 @@
       "comment" : "Body on the 'choose your region' onboarding step. The region picks which country's EuroBonus partners are shown.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus partners and points differ by country. Pick the country where you shop — you can change it later in Settings."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1023,12 +869,6 @@
       "comment" : "Title on the 'choose your region' onboarding step.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Choose your region"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1065,12 +905,6 @@
       "comment" : "Welcome screen primary CTA; starts the setup flow.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GET STARTED"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1107,12 +941,6 @@
       "comment" : "Welcome screen subtitle.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "EuroBonus Finder spots EuroBonus partners automatically and reminds you to sign in via SAS — before you buy."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1149,12 +977,6 @@
       "comment" : "Welcome screen headline. The newline is intentional (two balanced lines).",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Earn points\nwhile you browse"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1191,12 +1013,6 @@
       "comment" : "What all-websites access is used for, and what isn't done with it.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Reads the site's domain to match it against partners."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1233,12 +1049,6 @@
       "comment" : "Permission name — must match Safari's extension settings label for the all-sites row (\"Other Websites\").",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Other Websites"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1275,12 +1085,6 @@
       "comment" : "What access to the feed domain is used for.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Downloads the list of partners."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1317,12 +1121,6 @@
       "comment" : "Settings root row → About page.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "About"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1359,12 +1157,6 @@
       "comment" : "Settings root row → opens a mailto to support.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Support"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1401,12 +1193,6 @@
       "comment" : "Settings root row → opens Safari's extension settings.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Extension"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1443,12 +1229,6 @@
       "comment" : "Extension row value when the extension is switched off.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Off"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1485,12 +1265,6 @@
       "comment" : "Extension row value when the extension is switched on.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1527,12 +1301,6 @@
       "comment" : "Accessibility label for the warning marker on the Extension Settings row.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Needs attention"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1569,12 +1337,6 @@
       "comment" : "Guided-test card — primary action button; opens a Google search in Safari.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Search for a product"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1611,12 +1373,6 @@
       "comment" : "Guided-test card — caption under the button.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Opens a Google search in Safari."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1653,12 +1409,6 @@
       "comment" : "Guided-test card — shown instead of the caption when the extension is off or lacks all-sites access.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Turn the extension on (with access to all websites) to run the test."
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1695,12 +1445,6 @@
       "comment" : "Guided-test card — step 1 label.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Search for a product"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1737,12 +1481,6 @@
       "comment" : "Guided-test card — step 2 label.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Visit a EuroBonus partner"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1779,12 +1517,6 @@
       "comment" : "Guided-test card — header title.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Try it out"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1821,12 +1553,6 @@
       "comment" : "Label above the author's name in the credit card on the settings root.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Made by"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1863,12 +1589,6 @@
       "comment" : "Settings root row → menu to change the EuroBonus market (country).",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Region"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1905,12 +1625,6 @@
       "comment" : "Settings row that re-runs the setup onboarding.",
       "extractionState" : "manual",
       "localizations" : {
-        "base" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Reset onboarding"
-          }
-        },
         "da" : {
           "stringUnit" : {
             "state" : "needs_review",
