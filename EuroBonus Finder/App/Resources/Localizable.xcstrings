@@ -7,7 +7,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder er ikke officielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uafhængigt projekt og bruger SAS' offentligt tilgængelige partnerdata."
           }
         },
@@ -19,13 +19,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder ei ole virallisesti yhteydessä SAS – Scandinavian Airlines -yhtiöön tai EuroBonus-ohjelmaan. Palvelu on itsenäinen projekti, ja se käyttää SAS:n julkisesti saatavilla olevia kumppanitietoja."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder er ikke offisielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uavhengig prosjekt og bruker SAS' offentlig tilgjengelige partnerdata."
           }
         },
@@ -43,7 +43,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ansvarsfraskrivelse"
           }
         },
@@ -55,13 +55,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vastuuvapauslauseke"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ansvarsfraskrivelse"
           }
         },
@@ -79,7 +79,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Licens"
           }
         },
@@ -91,13 +91,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lisenssi"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lisens"
           }
         },
@@ -115,7 +115,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kildekode"
           }
         },
@@ -127,13 +127,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lähdekoodi"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kildekode"
           }
         },
@@ -151,7 +151,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Om"
           }
         },
@@ -163,13 +163,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tietoja"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Om"
           }
         },
@@ -187,7 +187,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Version"
           }
         },
@@ -199,13 +199,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Versio"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Versjon"
           }
         },
@@ -223,7 +223,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "KONTROLLERER…"
           }
         },
@@ -235,13 +235,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "TARKISTETAAN…"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "SJEKKER…"
           }
         },
@@ -259,7 +259,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "FORTSÆT"
           }
         },
@@ -271,13 +271,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "JATKA"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "FORTSETT"
           }
         },
@@ -295,7 +295,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "AFSLUT"
           }
         },
@@ -307,13 +307,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "VALMIS"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "FULLFØR"
           }
         },
@@ -331,7 +331,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Alt er klar"
           }
         },
@@ -343,13 +343,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kaikki valmista"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Alt klart"
           }
         },
@@ -367,7 +367,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ÅBN SAFARI-INDSTILLINGER"
           }
         },
@@ -379,13 +379,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "AVAA SAFARIN ASETUKSET"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ÅPNE SAFARI-INNSTILLINGER"
           }
         },
@@ -403,7 +403,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Slå EuroBonus Finder til i Safari-indstillingerne, så vi kan finde EuroBonus-partnere, mens du surfer."
           }
         },
@@ -415,13 +415,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ota EuroBonus Finder käyttöön Safarin asetuksissa, niin löydämme EuroBonus-kumppanit selatessasi."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Slå på EuroBonus Finder i Safari-innstillingene, så vi kan finne EuroBonus-partnere mens du surfer."
           }
         },
@@ -439,7 +439,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder er slået til i Safari."
           }
         },
@@ -451,13 +451,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder on käytössä Safarissa."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder er slått på i Safari."
           }
         },
@@ -475,7 +475,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Udvidelsen er aktiveret"
           }
         },
@@ -487,13 +487,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Laajennus on käytössä"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Utvidelsen er aktivert"
           }
         },
@@ -511,7 +511,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Indstillinger › Apps › Safari › Udvidelser"
           }
         },
@@ -523,13 +523,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Asetukset › Apit › Safari › Laajennukset"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Innstillinger › Apper › Safari › Utvidelser"
           }
         },
@@ -547,7 +547,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aktivér udvidelsen"
           }
         },
@@ -559,13 +559,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ota laajennus käyttöön"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aktiver utvidelsen"
           }
         },
@@ -619,7 +619,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ÅBN TILLADELSER"
           }
         },
@@ -631,13 +631,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "AVAA LUVAT"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ÅPNE TILLATELSER"
           }
         },
@@ -727,7 +727,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder kan læse alle websteder."
           }
         },
@@ -739,13 +739,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder voi lukea kaikkia verkkosivustoja."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder kan lese alle nettsteder."
           }
         },
@@ -763,7 +763,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Adgang givet"
           }
         },
@@ -775,13 +775,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Käyttöoikeus myönnetty"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tilgang gitt"
           }
         },
@@ -835,7 +835,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus-partnere og point varierer fra land til land. Vælg det land, hvor du handler — du kan ændre det senere i indstillingerne."
           }
         },
@@ -847,13 +847,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus-kumppanit ja pisteet vaihtelevat maittain. Valitse maa, jossa teet ostoksesi — voit vaihtaa sen myöhemmin asetuksista."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus-partnere og poeng varierer fra land til land. Velg landet der du handler — du kan endre det senere i innstillingene."
           }
         },
@@ -871,7 +871,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vælg din region"
           }
         },
@@ -883,13 +883,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Valitse alueesi"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Velg din region"
           }
         },
@@ -907,7 +907,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "KOM I GANG"
           }
         },
@@ -919,13 +919,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "ALOITETAAN"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "KOM I GANG"
           }
         },
@@ -943,7 +943,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder finder automatisk EuroBonus-partnere og minder dig om at logge ind via SAS — før du handler."
           }
         },
@@ -955,13 +955,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder tunnistaa EuroBonus-kumppanit automaattisesti ja muistuttaa sinua kirjautumaan SAS:n kautta — ennen kuin ostat."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "EuroBonus Finder oppdager EuroBonus-partnere automatisk og minner deg på å logge inn via SAS — før du handler."
           }
         },
@@ -979,7 +979,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Optjen point\nmens du surfer"
           }
         },
@@ -991,13 +991,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kerää pisteitä\nselatessasi"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tjen poeng\nmens du surfer"
           }
         },
@@ -1051,7 +1051,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Andre websteder"
           }
         },
@@ -1063,13 +1063,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Muut verkkosivustot"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Andre nettsteder"
           }
         },
@@ -1123,7 +1123,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Om"
           }
         },
@@ -1135,13 +1135,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tietoja"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Om"
           }
         },
@@ -1159,7 +1159,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Support"
           }
         },
@@ -1171,13 +1171,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tuki"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kundestøtte"
           }
         },
@@ -1195,7 +1195,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Udvidelse"
           }
         },
@@ -1207,13 +1207,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Laajennus"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Utvidelse"
           }
         },
@@ -1231,7 +1231,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fra"
           }
         },
@@ -1243,13 +1243,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Pois"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Av"
           }
         },
@@ -1267,7 +1267,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Til"
           }
         },
@@ -1279,13 +1279,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Päällä"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "På"
           }
         },
@@ -1303,7 +1303,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kræver handling"
           }
         },
@@ -1315,13 +1315,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vaatii toimenpiteitä"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Krever handling"
           }
         },
@@ -1339,7 +1339,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Søg efter et produkt"
           }
         },
@@ -1351,13 +1351,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Hae tuotetta"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Søk etter et produkt"
           }
         },
@@ -1375,7 +1375,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Åbner en Google-søgning i Safari."
           }
         },
@@ -1387,13 +1387,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Avaa Google-haun Safarissa."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Åpner en Google-søkning i Safari."
           }
         },
@@ -1411,7 +1411,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aktivér udvidelsen (med adgang til alle websteder) for at køre testen."
           }
         },
@@ -1423,13 +1423,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ota laajennus käyttöön (kaikkien verkkosivustojen käyttöoikeudella) suorittaaksesi testin."
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aktiver utvidelsen (med tilgang til alle nettsteder) for å kjøre testen."
           }
         },
@@ -1447,7 +1447,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Søg efter et produkt"
           }
         },
@@ -1459,13 +1459,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Hae tuotetta"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Søk etter et produkt"
           }
         },
@@ -1483,7 +1483,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Besøg en EuroBonus-partner"
           }
         },
@@ -1495,13 +1495,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vieraile EuroBonus-kumppanin sivustolla"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Besøk en EuroBonus-partner"
           }
         },
@@ -1519,7 +1519,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Prøv det"
           }
         },
@@ -1531,13 +1531,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Kokeile"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Prøv det"
           }
         },
@@ -1591,7 +1591,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Region"
           }
         },
@@ -1603,13 +1603,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Alue"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Region"
           }
         },
@@ -1627,7 +1627,7 @@
       "localizations" : {
         "da" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nulstil onboarding"
           }
         },
@@ -1639,13 +1639,13 @@
         },
         "fi" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nollaa käyttöönotto"
           }
         },
         "nb" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tilbakestill onboarding"
           }
         },
