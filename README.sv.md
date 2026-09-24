@@ -12,8 +12,7 @@ för att logga in via SAS, shoppa som vanligt och se poängen rulla in.
 
 <p align="center">
   <a href="https://eurobonus.pompa.se/"><img alt="Website" src="https://img.shields.io/badge/Website-1E3A8A?style=for-the-badge&logo=safari&logoColor=white"></a>
-  <a href="https://link.pompa.se/eb-testflight"><img alt="TestFlight beta" src="docs/badges/testflight.svg"></a>
-</p>
+ <a href="https://link.pompa.se/eb-finder"><img alt="App Store" src="https://img.shields.io/badge/App%20Store-0071E3?style=for-the-badge&logo=appstore&logoColor=white"></a>
 
 ## Varför den finns
 
