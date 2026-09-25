@@ -14,9 +14,8 @@ DerivedData/
 ## (cd "EB Finder" && xcodegen generate)
 *.xcodeproj
 
-## Local signing identity (DEVELOPMENT_TEAM) — owner/CI only, never committed
-**/Signing.local.xcconfig
-**/Feed.local.xcconfig
+## Local build overrides (DEVELOPMENT_TEAM, APP_BUNDLE_ID, FEED_HOST) — never committed
+**/Build.local.xcconfig
 
 ## Various settings
 ExportOptions.plist

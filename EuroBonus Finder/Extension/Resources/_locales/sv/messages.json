@@ -126,5 +126,13 @@
   "popupRegion": {
     "message": "Region: {region}",
     "description": "Popup footer: the user's EuroBonus market. {region} = country name."
+  },
+  "popupSetupTitle": {
+    "message": "Slutför konfigurationen",
+    "description": "Popup notice when the extension lacks access to all websites."
+  },
+  "popupSetupDesc": {
+    "message": "EuroBonus Finder behöver åtkomst till alla webbplatser för att hitta partners. Tryck för att öppna appen.",
+    "description": "Popup notice body; tapping it opens the host app."
   }
 }

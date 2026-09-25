@@ -15,9 +15,11 @@
     "1024": "images/icon-1024.png"
   },
 
-  "host_permissions": ["https://__FEED_HOST__/*"],
+  "permissions": ["storage", "activeTab", "nativeMessaging"],
 
-  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
 
   "action": {
     "default_popup": "popup.html",

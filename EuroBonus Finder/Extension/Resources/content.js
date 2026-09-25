@@ -739,37 +739,12 @@
   }
 })();
 
-async function reportHostPermission(api) {
-  // Ping the native handler on every page load so the host app can live-verify
-  // Safari's website-access grant (e.g. while the onboarding screen waits for
-  // the user to switch "All Websites" on). Fire-and-forget — failures just
-  // leave the host app on its "set permissions" step.
-  if (!api.runtime || !api.runtime.sendNativeMessage) return;
-  const hasAllUrls = await hasAllSitesAccess(api);
-  try {
-    await api.runtime.sendNativeMessage("application.id", {
-      type: "host-permission-ping",
-      origin: location.origin,
-      hasAllUrls: hasAllUrls,
-      timestamp: Date.now(),
-    });
-  } catch (e) {}
-}
-
-async function hasAllSitesAccess(api) {
-  // Safari can report the all-websites grant under more than one match-pattern
-  // shape, so probe several rather than trusting a single pattern (the cause of
-  // the host app sometimes never confirming the permission step).
-  if (!api.permissions || !api.permissions.contains) return false;
-  const candidates = [
-    ["*://*/*"],
-    ["https://*/*", "http://*/*"],
-    ["<all_urls>"],
-  ];
-  for (const origins of candidates) {
-    try {
-      if (await api.permissions.contains({ origins })) return true;
-    } catch (e) {}
-  }
-  return false;
+function reportHostPermission(api) {
+  // Ask the background script to ping the host app on every page load so it can
+  // live-verify Safari's website-access grant (content scripts can't read
+  // permissions). Fire-and-forget.
+  if (!api.runtime || !api.runtime.sendMessage) return;
+  Promise.resolve(
+    api.runtime.sendMessage({ type: "report-permissions", origin: location.origin })
+  ).catch(() => {});
 }

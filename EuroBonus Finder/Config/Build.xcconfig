@@ -1,22 +1,25 @@
 // Base build configuration applied to every target/config (referenced from
 // project.yml → configFiles). It composes the committed version numbers and the
-// public placeholder bundle id with an optional, git-ignored local override —
-// so the public project carries no Apple Developer team and no real bundle id,
-// and contributors can build without either.
+// public placeholders with an optional, git-ignored local override — so the
+// public project carries no Apple Developer team, real bundle id or feed host,
+// and contributors can build without them.
 #include "Version.xcconfig"
 
 // Bundle id root. Everything else is derived from it: the extension is
 // $(APP_BUNDLE_ID).extension and the shared app group is group.$(APP_BUNDLE_ID)
-// (project.yml, both .entitlements, Extension/Info.plist). Override it locally
-// or in CI via Signing.local.xcconfig — the placeholder below builds fine on the
-// simulator.
+// (project.yml, both .entitlements, Extension/Info.plist). The placeholder
+// builds fine on the simulator.
 APP_BUNDLE_ID = com.example.ebfinder
 
-// Local, git-ignored overrides: DEVELOPMENT_TEAM and APP_BUNDLE_ID.
-#include? "Signing.local.xcconfig"
+// URL scheme the app registers (App/Info.plist) and the extension links to
+// (feed.js), e.g. eurobonusfinder://extension.
+APP_URL_SCHEME = eurobonusfinder
 
 // Host serving the partner feed (e.g. feed.example.com). Deliberately empty in
-// the repo: set it in the git-ignored Feed.local.xcconfig, or via the FEED_HOST
-// env var on Xcode Cloud (ci_scripts/ci_post_clone.sh writes that file).
+// the repo; the extension build fails until it's set.
 FEED_HOST =
-#include? "Feed.local.xcconfig"
+
+// Local, git-ignored overrides for any of the above plus DEVELOPMENT_TEAM.
+// Included last so its values win. Xcode Cloud writes it from env vars
+// (ci_scripts/ci_post_clone.sh).
+#include? "Build.local.xcconfig"

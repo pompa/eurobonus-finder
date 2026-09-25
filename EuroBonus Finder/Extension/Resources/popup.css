@@ -75,6 +75,11 @@ body.eb-popup {
   box-shadow: none;
 }
 
+/* "Finish setup" notice — a status card that links to the host app. */
+.setup-notice {
+  text-decoration: none;
+}
+
 /* Primary "earn" action = full-width button (default variant, h-10). */
 .cta {
   box-sizing: border-box;
