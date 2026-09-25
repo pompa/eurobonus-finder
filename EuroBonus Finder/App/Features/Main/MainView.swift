@@ -71,8 +71,7 @@ struct MainView: View {
                 CreditCard()
             }
         }
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(Text(verbatim: appName))
     }
 
     /// Kick off the guided test: bump the shared nonce the content script polls
@@ -129,7 +128,7 @@ struct AboutView: View {
             }
         }
         .navigationTitle("about.title")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

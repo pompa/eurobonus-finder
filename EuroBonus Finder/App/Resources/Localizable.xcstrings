@@ -1,7 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {},
     "about.disclaimer.body" : {
       "comment" : "About page — independence disclaimer body.",
       "extractionState" : "manual",

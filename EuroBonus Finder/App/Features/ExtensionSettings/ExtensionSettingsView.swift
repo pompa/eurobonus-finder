@@ -54,7 +54,7 @@ struct ExtensionSettingsView: View {
             }
         }
         .navigationTitle("settings.extension")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func openSettingsRow(detail: Text?) -> some View {
