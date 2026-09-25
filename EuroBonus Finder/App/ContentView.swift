@@ -1,29 +1,30 @@
 import SwiftUI
 
-/// App root: onboarding until it's finished, then the main navigation stack.
+/// App root: Setup until it's finished, then the main navigation stack.
 /// Routes are mapped to screens here, in one place.
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var extensionState = ExtensionState()
     @State private var path: [Route] = []
-    @AppStorage(OnboardingState.storageKey) private var onboardingState = OnboardingState.active
+    @AppStorage(SharedDefaultsKey.setupState, store: .shared) private var setupState = SetupState.active
 
     var body: some View {
         Group {
-            if onboardingState == .active {
-                OnboardingView(state: extensionState) { result in
-                    withAnimation(.snappy) { onboardingState = result }
+            if setupState == .active {
+                SetupView(state: extensionState) { result in
+                    withAnimation(.snappy) { setupState = result }
                 }
             } else {
                 NavigationStack(path: $path) {
-                    MainView(state: extensionState) {
-                        withAnimation(.snappy) { onboardingState = .active }
-                    }
-                    .navigationDestination(for: Route.self, destination: screen)
+                    MainView(state: extensionState)
+                        .navigationDestination(for: Route.self, destination: screen)
                 }
                 .tint(.blue)
             }
         }
+        // A Reset (from About or the extension) drops back to Setup; start the
+        // main stack fresh when the user comes out of it.
+        .onChange(of: setupState) { if setupState == .active { path = [] } }
         .onOpenURL(perform: open)
         .task(id: scenePhase) {
             if scenePhase == .active { await extensionState.refresh() }
@@ -38,13 +39,13 @@ struct ContentView: View {
         }
     }
 
-    /// Deep links open on the main stack; one arriving mid-onboarding skips the
+    /// Deep links open on the main stack; one arriving mid-Setup skips the
     /// rest of it (the user can finish setting up from extension settings).
     private func open(_ url: URL) {
         guard let route = Route.path(for: url) else { return }
-        if onboardingState == .active {
+        if setupState == .active {
             Market.preselectDeviceDefault()
-            onboardingState = .incomplete
+            setupState = .incomplete
         }
         path = route
     }

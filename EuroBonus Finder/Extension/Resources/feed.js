@@ -36,7 +36,7 @@ globalThis.EBFeed = (() => {
 
   // Resolves to the feed's `data` map (key → entry), or null.
   const loadFeed = async (market) => {
-    const cacheKey = `feed_${market}`;
+    const cacheKey = `feed.${market}`;
     try {
       const r = await api.storage.local.get([cacheKey]);
       const c = r[cacheKey];

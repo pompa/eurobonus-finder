@@ -4,8 +4,8 @@ import SwiftUI
 // `ButtonStyle` (it gets press state and `isEnabled` for free); `SButton` is the
 // ergonomic wrapper so call sites read like the rest of SwiftCN.
 //
-// Shape is a full-width capsule to match the app's CTA language (onboarding +
-// guided test). ponytail: one variant and size because there's one call site;
+// Shape is a full-width capsule to match the app's CTA language (Setup +
+// Tutorial card). ponytail: one variant and size because there's one call site;
 // bring shadcn's variants back when a second look is needed.
 
 struct SButton: View {

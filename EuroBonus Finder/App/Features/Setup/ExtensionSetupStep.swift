@@ -1,9 +1,9 @@
 import SwiftUI
 
-// Extension setup — the onboarding step that turns the extension on and allows
+// Extension setup — the Setup step that turns the extension on and allows
 // it on all websites (`ExtensionSetupContent` + `ExtensionSetupActions` fill the
-// onboarding's content and button slots). Everything reflects the live
-// `ExtensionState`; after onboarding, `ExtensionSettingsView` covers the same.
+// Setup's content and button slots). Everything reflects the live
+// `ExtensionState`; after Setup, `ExtensionSettingsView` covers the same.
 
 /// Icon, copy, extension status and permissions.
 struct ExtensionSetupContent: View {
@@ -17,11 +17,11 @@ struct ExtensionSetupContent: View {
                 .foregroundStyle(BrandPalette.ink)
                 .frame(height: 104)
 
-            Text("onboarding.setup.title")
+            Text("setup.extension.title")
                 .brandTitle(BrandPalette.ink)
                 .padding(.top, 30)
 
-            Text("onboarding.setup.detail")
+            Text("setup.extension.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 320)
                 .padding(.top, 14)
@@ -66,16 +66,16 @@ struct ExtensionSetupActions: View {
         VStack(spacing: 14) {
             if state.isRateLimited {
                 TimelineView(.periodic(from: .now, by: 1)) { context in
-                    BrandButton("onboarding.setup.buttonWait \(state.settingsCountdown(at: context.date))",
+                    BrandButton("setup.extension.buttonWait \(state.settingsCountdown(at: context.date))",
                                 variant: .ghost, action: {})
                         .disabled(true)
                 }
             } else {
-                BrandButton("onboarding.setup.button", variant: .ghost) {
+                BrandButton("setup.extension.button", variant: .ghost) {
                     Task { await state.openSafariExtensionPreferences() }
                 }
             }
-            BrandButton("onboarding.continue", variant: .primary,
+            BrandButton("setup.continue", variant: .primary,
                         showArrow: true, shimmer: state.isSetUp, action: onContinue)
         }
     }
@@ -107,10 +107,10 @@ private struct PermissionsCard: View {
                     // Safari only reveals Allow; Ask, Deny and not-yet-reported
                     // all need the user's attention.
                     if state.isGranted(permission) == true {
-                        Text("onboarding.permissions.allowed")
+                        Text("setup.permissions.allowed")
                     } else {
                         WarningMark()
-                        Text("onboarding.permissions.allow")
+                        Text("setup.permissions.allow")
                             .fontWeight(.semibold)
                     }
                 }
@@ -138,10 +138,10 @@ private struct ExtensionStatusCard: View {
             Spacer(minLength: 8)
             switch status {
             case .enabled:
-                Text("onboarding.extension.enabled")
+                Text("setup.extension.enabled")
             case .disabled, .error:
                 WarningMark()
-                Text("onboarding.extension.disabled")
+                Text("setup.extension.disabled")
             case .unknown:
                 EmptyView()
             }

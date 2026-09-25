@@ -1,16 +1,5 @@
 import SafariServices
 
-/// Stamped into Info.plist from $(APP_BUNDLE_ID) at build time — the appex
-/// can't derive the container app's id from its own.
-let appGroupID = Bundle.main.object(forInfoDictionaryKey: "AppGroupID") as! String
-
-enum SharedDefaultsKey {
-    static let permissionPingTimestamp = "permission.lastPingTimestamp"
-    static let permissionHasAllUrls = "permission.hasAllUrls"
-    static let permissionLastOrigin = "permission.lastOrigin"
-    static let market = "market"
-}
-
 final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     func beginRequest(with context: NSExtensionContext) {
         let request = context.inputItems.first as? NSExtensionItem
@@ -24,21 +13,39 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     private func handle(message: Any?) -> [String: Any] {
         guard
             let dict = message as? [String: Any],
-            let type = dict["type"] as? String,
-            let defaults = UserDefaults(suiteName: appGroupID)
+            let type = dict["type"] as? String
         else { return ["ok": true] }
+        let defaults = UserDefaults.shared
 
-        if type == "get-market" {
+        switch type {
+        case "get-market":
             // Absent until the user picks a region; pre-region users were Swedish.
             return ["market": defaults.string(forKey: SharedDefaultsKey.market) ?? "se"]
-        }
-        guard type == "host-permission-ping" else { return ["ok": true] }
 
-        let hasAllUrls = dict["hasAllUrls"] as? Bool ?? false
-        let origin = dict["origin"] as? String ?? ""
-        defaults.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
-        defaults.set(hasAllUrls, forKey: SharedDefaultsKey.permissionHasAllUrls)
-        defaults.set(origin, forKey: SharedDefaultsKey.permissionLastOrigin)
+        case "host-permission-ping":
+            defaults.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
+            defaults.set(dict["hasAllUrls"] as? Bool ?? false, forKey: SharedDefaultsKey.permissionHasAllUrls)
+            defaults.set(dict["origin"] as? String ?? "", forKey: SharedDefaultsKey.permissionLastOrigin)
+
+        case "tutorial-progress":
+            // Mirror of the extension's `tutorialProgress`, one Bool per step for the app.
+            let progress = dict["tutorialProgress"] as? [String: Any] ?? [:]
+            for step in TutorialStep.allCases {
+                defaults.set(progress[step.rawValue] as? Bool ?? false,
+                             forKey: SharedDefaultsKey.tutorialProgress(step))
+            }
+
+        case "get-last-reset-at":
+            return ["lastResetAt": defaults.integer(forKey: SharedDefaultsKey.lastResetAt)]
+
+        case "reset":
+            // The extension's dev page asked for a Reset: wipe the App Group (the app
+            // lands in Setup) and stamp it; the extension wipes its own storage.
+            return ["lastResetAt": UserDefaults.resetShared()]
+
+        default:
+            break
+        }
         return ["ok": true]
     }
 }

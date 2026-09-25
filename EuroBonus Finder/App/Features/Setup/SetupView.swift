@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Guided onboarding — the "EuroBonus Finder Onboarding — Guided" design.
+// Setup — the app's first-run flow.
 //
 //   welcome → region → extension setup → completed (or incomplete, if skipped)
 //
@@ -10,13 +10,13 @@ import SwiftUI
 // (even when already set up) and never advances on its own — "Continue" moves
 // on, or skips it.
 
-struct OnboardingView: View {
+struct SetupView: View {
     let state: ExtensionState
-    /// Called with `.completed` or `.incomplete` when the user leaves onboarding.
-    let onFinish: (OnboardingState) -> Void
+    /// Called with `.completed` or `.incomplete` when the user leaves setup.
+    let onFinish: (SetupState) -> Void
 
     @State private var screen: Screen = .welcome
-    @AppStorage(SharedDefaultsKey.market, store: Market.store) private var market = Market.se
+    @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
 
     private enum Screen: Hashable { case welcome, chooseRegion, extensionSetup, completed, incomplete }
 
@@ -84,9 +84,9 @@ struct OnboardingView: View {
         case .extensionSetup:
             ExtensionSetupContent(state: state)
         case .completed:
-            finish(title: "onboarding.completed.title") { CompletionCheck(size: 96) }
+            finish(title: "setup.completed.title") { CompletionCheck(size: 96) }
         case .incomplete:
-            finish(title: "onboarding.incomplete.title", detail: "onboarding.incomplete.detail") {
+            finish(title: "setup.incomplete.title", detail: "setup.incomplete.detail") {
                 glyph("clock.arrow.circlepath")
             }
         }
@@ -95,10 +95,10 @@ struct OnboardingView: View {
     private var welcome: some View {
         VStack(spacing: 0) {
             EBAppIcon(size: 96, float: true)
-            Text("onboarding.welcome.title")
+            Text("setup.welcome.title")
                 .brandTitle(BrandPalette.ink)
                 .padding(.top, 30)
-            Text("onboarding.welcome.detail")
+            Text("setup.welcome.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 300)
                 .padding(.top, 16)
@@ -110,10 +110,10 @@ struct OnboardingView: View {
     private var chooseRegion: some View {
         VStack(spacing: 0) {
             glyph("globe.europe.africa")
-            Text("onboarding.region.title")
+            Text("setup.region.title")
                 .brandTitle(BrandPalette.ink)
                 .padding(.top, 30)
-            Text("onboarding.region.detail")
+            Text("setup.region.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 320)
                 .padding(.top, 14)
@@ -180,15 +180,15 @@ struct OnboardingView: View {
     private var actions: some View {
         switch screen {
         case .welcome:
-            BrandButton("onboarding.welcome.button", showArrow: true, shimmer: true, action: goNext)
-                .accessibilityIdentifier("onboarding.next")
+            BrandButton("setup.welcome.button", showArrow: true, shimmer: true, action: goNext)
+                .accessibilityIdentifier("setup.next")
         case .chooseRegion:
-            BrandButton("onboarding.continue", showArrow: true, action: goNext)
-                .accessibilityIdentifier("onboarding.next")
+            BrandButton("setup.continue", showArrow: true, action: goNext)
+                .accessibilityIdentifier("setup.next")
         case .extensionSetup:
             ExtensionSetupActions(state: state, onContinue: goNext)
         case .completed, .incomplete:
-            BrandButton("onboarding.finish", showArrow: true, shimmer: true, action: goNext)
+            BrandButton("setup.finish", showArrow: true, shimmer: true, action: goNext)
         }
     }
 

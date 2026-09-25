@@ -1,11 +1,11 @@
 import SwiftUI
 
-// Brand surface shared by onboarding and the extension setup screen: a fixed
+// Brand surface shared by Setup and the extension setup screen: a fixed
 // deep-blue atmosphere with light ink, its marks and its capsule buttons.
 
 // MARK: - Palette (brand-derived, light/dark)
 
-/// The brand atmosphere (onboarding + extension setup) — a deep-blue brand wash (`Brand → Primary →
+/// The brand atmosphere (Setup + extension settings) — a deep-blue brand wash (`Brand → Primary →
 /// Brand`) with ambient `Primary`/`Brand` glows. Text, icons and dots use the
 /// `BrandForeground` pair so they read light on it. A fixed brand moment: it
 /// looks the same in light and dark (these colors don't flip).

@@ -1,5 +1,5 @@
 /* =============================================================================
-   PAGE-INJECTED UI — top banner + guided-test coachmark, rendered inside a
+   PAGE-INJECTED UI — top banner + Tutorial Coachmark, rendered inside a
    Shadow DOM on host pages. Loaded after tokens.css. Deliberately lean: only
    the CSS that content.js injects ships to every visited site.
 
@@ -222,7 +222,7 @@
   }
 }
 
-/* --- Guided-test coachmark — shadcn-style popover --------------------------
+/* --- Tutorial Coachmark — shadcn-style popover --------------------------
    Mirrors shadcn's Base UI PopoverContent: w-72 rounded-2xl bg-popover p-4
    text-sm text-popover-foreground shadow-2xl + a ring-1 ring-foreground/5
    hairline (no solid border), entering with fade-in-0 + zoom-in-95 + a small

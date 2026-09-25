@@ -7,10 +7,6 @@ let appName = "EuroBonus Finder"
 
 @main
 struct EBFinderApp: App {
-    init() {
-        OnboardingState.migrateLegacyFlag()
-    }
-
     var body: some Scene {
         WindowGroup {
             ContentView()

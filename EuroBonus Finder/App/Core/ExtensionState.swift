@@ -1,14 +1,5 @@
 import SafariServices
 
-let appGroupID = "group." + Bundle.main.bundleIdentifier!
-
-enum SharedDefaultsKey {
-    static let permissionPingTimestamp = "permission.lastPingTimestamp"
-    static let permissionHasAllUrls = "permission.hasAllUrls"
-    static let permissionLastOrigin = "permission.lastOrigin"
-    static let market = "market"
-}
-
 enum ExtensionStatus: Equatable {
     case unknown
     case enabled
@@ -32,7 +23,8 @@ final class ExtensionState {
     private var recentOpens: [Date] = []
     private static let rateLimitWindow: TimeInterval = 61
     /// App-only, so `.standard` like our `@AppStorage` keys — not the shared app-group suite.
-    private static let rateLimitedUntilKey = "rateLimitedUntil"
+    /// Survives a Reset: it records a limit iOS still enforces.
+    static let rateLimitedUntilKey = "rateLimitedUntil"
     static let settingsAppsURL = URL(string: "App-Prefs:SAFARI")!
 
     init() {
@@ -167,11 +159,10 @@ final class ExtensionState {
     }
 
     private func readHostPermission() -> HostPermission {
-        guard
-            let defaults = UserDefaults(suiteName: appGroupID),
-            defaults.object(forKey: SharedDefaultsKey.permissionPingTimestamp) != nil
-        else { return .unknown }
-        return defaults.bool(forKey: SharedDefaultsKey.permissionHasAllUrls)
+        guard UserDefaults.shared.object(forKey: SharedDefaultsKey.permissionPingTimestamp) != nil else {
+            return .unknown
+        }
+        return UserDefaults.shared.bool(forKey: SharedDefaultsKey.permissionHasAllUrls)
             ? .allWebsites
             : .someWebsites
     }

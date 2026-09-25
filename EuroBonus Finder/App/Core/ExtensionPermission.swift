@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The website access Safari grants the extension, explained on the onboarding
+/// The website access Safari grants the extension, explained in Setup
 /// setup step. Mirrors `content_scripts` in manifest.json.
 enum ExtensionPermission: CaseIterable, Identifiable {
     case allWebsites

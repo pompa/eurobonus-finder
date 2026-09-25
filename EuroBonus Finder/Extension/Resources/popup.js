@@ -20,7 +20,7 @@
   const storePendingReturn = (originalUrl, shopUuid) => {
     try {
       return api.storage.local.set({
-        [`pending_return_${shopUuid}`]: {
+        [`pendingSasShoppingReturn.${shopUuid}`]: {
           originalUrl,
           timestamp: Date.now(),
         },
