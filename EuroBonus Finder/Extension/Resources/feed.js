@@ -1,9 +1,11 @@
 // Shared by content.js and popup.js: the user's market, the per-market partner
-// feed (built by workers/eb-feed) and localized strings.
+// feed (built by workers/eb-feed), localized strings and the link into the app.
 globalThis.EBFeed = (() => {
   const api = globalThis.browser || globalThis.chrome;
-  // __FEED_HOST__ is replaced with $(FEED_HOST) at build time (project.yml).
+  // __FEED_HOST__ / __APP_URL_SCHEME__ are replaced with $(FEED_HOST) /
+  // $(APP_URL_SCHEME) at build time (project.yml).
   const FEED_BASE = "https://__FEED_HOST__";
+  const APP_URL = "__APP_URL_SCHEME__://";
   const MARKETS = ["se", "no", "dk", "fi"];
   const MARKET_KEY = "market";
   const CACHE_TTL_MS = 60 * 60 * 1000;
@@ -100,6 +102,7 @@ globalThis.EBFeed = (() => {
     formatPoints(entry.campaign && entry.campaignPoints ? entry.campaignPoints : entry.points);
 
   return {
+    appURL: (path) => APP_URL + path,
     getMarket,
     refreshMarket,
     loadFeed,

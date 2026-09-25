@@ -6,25 +6,20 @@ starting a PR so we can discuss the change first.
 ## Set up
 
 1. `brew install xcodegen`
-2. Create `EuroBonus Finder/Config/Signing.local.xcconfig` (git-ignored):
+2. Create `EuroBonus Finder/Config/Build.local.xcconfig` (git-ignored). It
+   overrides the placeholders in `Config/Build.xcconfig`:
 
    ```
+   FEED_HOST = feed.example.com
    DEVELOPMENT_TEAM = YOURTEAMID
    APP_BUNDLE_ID = com.yourcompany.ebfinder
    ```
 
-   Only needed to run on a physical device; the simulator needs no signing.
+   `FEED_HOST` is required — the build fails with a hint without it (see
+   [Partner feed](#partner-feed)). The signing lines are only needed to run on
+   a physical device; the simulator needs no signing.
 
-3. Create `EuroBonus Finder/Config/Feed.local.xcconfig` (git-ignored):
-
-   ```
-   FEED_HOST = feed.example.com
-   ```
-
-   Required — the build fails with a hint without it. See
-   [Partner feed](#partner-feed).
-
-4. ```sh
+3. ```sh
    cd "EuroBonus Finder"
    xcodegen generate
    open "EuroBonus Finder.xcodeproj"

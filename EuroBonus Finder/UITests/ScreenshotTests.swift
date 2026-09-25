@@ -34,7 +34,7 @@ final class ScreenshotTests: XCTestCase {
         // @AppStorage reads UserDefaults, and `-key value` launch arguments set
         // it — so we can start either before onboarding or after it without a
         // test-only code path in the app.
-        app.launchArguments += ["-hasCompletedOnboarding", onboardingCompleted ? "YES" : "NO"]
+        app.launchArguments += ["-onboardingState", onboardingCompleted ? "completed" : "active"]
         setupSnapshot(app)
         app.launch()
         return app
@@ -43,7 +43,7 @@ final class ScreenshotTests: XCTestCase {
     func testOnboardingScreens() {
         let app = launch(onboardingCompleted: false)
 
-        let cta = app.buttons["onboarding.cta"]
+        let cta = app.buttons["onboarding.next"]
         XCTAssertTrue(cta.waitForExistence(timeout: 20), "onboarding welcome did not appear")
         snapshot("1_welcome")
 

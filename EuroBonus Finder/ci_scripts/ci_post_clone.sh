@@ -25,7 +25,7 @@
 # Version keys live in EuroBonus Finder/Config/Version.xcconfig and are read at build
 # time. Nothing private is committed: neither the signing identity nor the real
 # bundle id is in the repo — DEVELOPMENT_TEAM and APP_BUNDLE_ID live only in the
-# git-ignored Config/Signing.local.xcconfig (composed via `#include?` from
+# git-ignored Config/Build.local.xcconfig (composed via `#include?` from
 # Config/Build.xcconfig; the committed default is a placeholder). For Archive actions
 # Xcode Cloud manages distribution signing automatically, so no team is needed
 # by default; the optional DEVELOPMENT_TEAM env var below is an escape hatch.
@@ -38,11 +38,11 @@
 # mark secret values as such). Unset → the step is skipped, no change in
 # behavior:
 #   DEVELOPMENT_TEAM            Apple Developer Team ID. When set, written into
-#                              Config/Signing.local.xcconfig so the build picks
+#                              Config/Build.local.xcconfig so the build picks
 #                              up the team. Leave unset to let Xcode Cloud
 #                              manage signing.
 #   FEED_HOST                   Host serving the partner feed. Required: written
-#                              into Config/Feed.local.xcconfig; the build fails
+#                              into Config/Build.local.xcconfig; the build fails
 #                              without it.
 #   APP_BUNDLE_ID               Bundle id root (the extension and the app group
 #                              derive from it). Set this on any workflow that
@@ -101,24 +101,24 @@ rm -f "$VERSION_XCCONFIG.bak"
 # read at build time via `#include?` in Config/Build.xcconfig, so this composes
 # without touching project.yml — plain `xcodegen generate` keeps working with no
 # env set.
-LOCAL_XCCONFIG="EuroBonus Finder/Config/Signing.local.xcconfig"
+LOCAL_XCCONFIG="EuroBonus Finder/Config/Build.local.xcconfig"
 : > "$LOCAL_XCCONFIG"
 if [[ -n "${DEVELOPMENT_TEAM:-}" ]]; then
-  echo "==> Writing DEVELOPMENT_TEAM into Config/Signing.local.xcconfig"
+  echo "==> Writing DEVELOPMENT_TEAM into Config/Build.local.xcconfig"
   printf 'DEVELOPMENT_TEAM = %s\n' "$DEVELOPMENT_TEAM" >> "$LOCAL_XCCONFIG"
 else
   echo "==> DEVELOPMENT_TEAM not set — leaving signing to Xcode Cloud"
 fi
 if [[ -n "${APP_BUNDLE_ID:-}" ]]; then
-  echo "==> Writing APP_BUNDLE_ID into Config/Signing.local.xcconfig"
+  echo "==> Writing APP_BUNDLE_ID into Config/Build.local.xcconfig"
   printf 'APP_BUNDLE_ID = %s\n' "$APP_BUNDLE_ID" >> "$LOCAL_XCCONFIG"
 else
   echo "==> APP_BUNDLE_ID not set — building with the placeholder bundle id"
 fi
 
 if [[ -n "${FEED_HOST:-}" ]]; then
-  echo "==> Writing Config/Feed.local.xcconfig from \$FEED_HOST"
-  printf 'FEED_HOST = %s\n' "$FEED_HOST" > "EuroBonus Finder/Config/Feed.local.xcconfig"
+  echo "==> Writing FEED_HOST into Config/Build.local.xcconfig"
+  printf 'FEED_HOST = %s\n' "$FEED_HOST" >> "$LOCAL_XCCONFIG"
 else
   echo "==> FEED_HOST not set — the extension build will fail"
 fi

@@ -39,7 +39,7 @@ configFiles:
 settings:
   base:
     # DEVELOPMENT_TEAM is intentionally NOT set here — it lives in the
-    # git-ignored Config/Signing.local.xcconfig (see Config/Build.xcconfig).
+    # git-ignored Config/Build.local.xcconfig (see Config/Build.xcconfig).
     SWIFT_VERSION: "6.0"
     SDKROOT: iphoneos
     SUPPORTED_PLATFORMS: iphoneos iphonesimulator
@@ -168,9 +168,9 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
     # The manifest's "version" is derived from $MARKETING_VERSION (one source of
     # truth for both the app and the extension), so it's never hard-coded in the
-    # committed JSON. The feed host is likewise kept out of the repo: manifest.json
-    # and feed.js carry a __FEED_HOST__ placeholder filled from $(FEED_HOST)
-    # (Config/Build.xcconfig). Both files are excluded from the resource copy
+    # committed JSON. The feed host and the app's URL scheme are likewise build
+    # settings: feed.js carries __FEED_HOST__ / __APP_URL_SCHEME__ placeholders
+    # filled from $(FEED_HOST) / $(APP_URL_SCHEME) (Config/Build.xcconfig). Both files are excluded from the resource copy
     # above; this phase generates the bundled copies. Declared
     # input/output keep incremental builds correct; sandboxing is disabled for this
     # target (above) because the sandbox blocks writing into the .appex on signed
@@ -181,14 +181,14 @@ targets:
         script: |
           set -euo pipefail
           if [ -z "${FEED_HOST:-}" ]; then
-            echo "error: FEED_HOST is not set. Add 'FEED_HOST = feed.example.com' to Config/Feed.local.xcconfig (see workers/eb-feed/README.md)."
+            echo "error: FEED_HOST is not set. Add 'FEED_HOST = feed.example.com' to Config/Build.local.xcconfig (see workers/eb-feed/README.md)."
             exit 1
           fi
           mkdir -p "$(dirname "$SCRIPT_OUTPUT_FILE_0")"
           sed -E -e 's/("version"[[:space:]]*:[[:space:]]*")[^"]+(")/\1'"${MARKETING_VERSION}"'\2/' \
-            -e "s/__FEED_HOST__/${FEED_HOST}/g" \
             "$SCRIPT_INPUT_FILE_0" > "$SCRIPT_OUTPUT_FILE_0"
-          sed -e "s/__FEED_HOST__/${FEED_HOST}/g" "$SCRIPT_INPUT_FILE_1" > "$SCRIPT_OUTPUT_FILE_1"
+          sed -e "s/__FEED_HOST__/${FEED_HOST}/g" -e "s/__APP_URL_SCHEME__/${APP_URL_SCHEME}/g" \
+            "$SCRIPT_INPUT_FILE_1" > "$SCRIPT_OUTPUT_FILE_1"
         inputFiles:
           - $(SRCROOT)/Extension/Resources/manifest.json
           - $(SRCROOT)/Extension/Resources/feed.js

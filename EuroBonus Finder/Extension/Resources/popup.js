@@ -89,6 +89,17 @@
     }
   };
 
+  // Missing website access: nudge the user to finish setup in the app.
+  Promise.resolve(api.runtime.sendMessage({ type: "get-permissions" }))
+    .then((grants) => {
+      if (!grants || grants.hasAllUrls) return;
+      const noticeEl = document.getElementById("setup-notice");
+      noticeEl.href = EBFeed.appURL("extension");
+      noticeEl.innerHTML = `<span class="status-icon">${INFO_ICON}</span><div class="status-body"><strong>${t("popupSetupTitle")}</strong>${t("popupSetupDesc")}</div>`;
+      noticeEl.style.display = "grid";
+    })
+    .catch(() => {});
+
   const tab = await getCurrentTab();
   if (!tab || !tab.url) {
     setStatus(t("popupNoTab"), "empty");

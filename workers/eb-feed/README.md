@@ -108,9 +108,8 @@ the default bucket name `eb-feed`; replace both with your own.
    Check it works: `curl -I https://feed.example.com/se.json`.
 
 5. **Point the app at it.** The feed host isn't committed; the build injects it
-   from the `FEED_HOST` build setting into the extension (`manifest.json`,
-   `feed.js`) and the app. Set it in the git-ignored
-   `EuroBonus Finder/Config/Feed.local.xcconfig`, then rebuild:
+   from the `FEED_HOST` build setting into the extension's `feed.js`. Set it in
+   the git-ignored `EuroBonus Finder/Config/Build.local.xcconfig`, then rebuild:
 
    ```
    FEED_HOST = feed.example.com
