@@ -15,6 +15,7 @@
         all: "Det funkar! EuroBonus Finder får köras på alla webbplatser.",
         partial: "Nästan framme: tillägget körs här, men inte på alla webbplatser än. Se nedan.",
         back: "Tillbaka till appen",
+        reload: "Ladda om",
       }
     : {
         waiting: "Waiting for the extension…",
@@ -22,30 +23,55 @@
         all: "It works! EuroBonus Finder is allowed on every website.",
         partial: "Almost there: the extension runs here, but not on every website yet. See below.",
         back: "Back to the app",
+        reload: "Reload",
       };
 
   const style = document.createElement("style");
   style.textContent = `
-    .ebf-status { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px;
-      margin: 0 0 32px; padding: 16px 20px; border-radius: 16px;
+    .ebf-status { position: relative; margin: 0 0 32px; padding: 18px 56px 18px 20px; border-radius: 16px;
       background: oklch(0.967 0.0029 264.542); color: var(--foreground); font-weight: 600; }
     .ebf-status[data-state="all"] { background: oklch(0.95 0.05 150); }
     .ebf-status[data-state="partial"], .ebf-status[data-state="notDetected"] { background: oklch(0.97 0.05 85); }
-    .ebf-status p { flex: 1 1 240px; margin: 0; }
-    .ebf-status a { flex: none; padding: 9px 16px; border-radius: var(--radius-full);
-      background: var(--primary); color: var(--primary-foreground); text-decoration: none; font-size: 14px; }
+    .ebf-status p { margin: 0; }
+    .ebf-corner { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center; }
+    .ebf-spinner { width: 20px; height: 20px; border-radius: 50%;
+      border: 2.5px solid oklch(0 0 0 / 0.12); border-top-color: var(--primary);
+      animation: ebf-spin 0.8s linear infinite; }
+    @keyframes ebf-spin { to { transform: rotate(360deg); } }
+    .ebf-reload { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+      background: oklch(0 0 0 / 0.06); color: var(--foreground); display: flex; align-items: center; justify-content: center; }
+    .ebf-reload:hover { background: oklch(0 0 0 / 0.1); }
+    .ebf-back { display: block; margin: 16px -36px 0 0; padding: 15px 22px; border-radius: var(--radius-full);
+      background: var(--primary); color: var(--primary-foreground); text-decoration: none;
+      font-size: 17px; font-weight: 700; text-align: center; }
+    @media (min-width: 600px) {
+      .ebf-back { display: inline-block; margin-right: 0; padding: 11px 20px; font-size: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .ebf-spinner { animation-duration: 2s; } }
   `;
   document.head.appendChild(style);
 
   const box = document.createElement("section");
   box.className = "ebf-status";
   box.setAttribute("role", "status");
-  box.innerHTML = `<p></p><a href="${APP_URL}">${T.back}</a>`;
+  box.innerHTML = `
+    <p></p>
+    <div class="ebf-corner"></div>
+    <a class="ebf-back" href="${APP_URL}" hidden>${T.back}</a>`;
   const text = box.querySelector("p");
+  const corner = box.querySelector(".ebf-corner");
+  const back = box.querySelector(".ebf-back");
+  const spinner = `<span class="ebf-spinner" aria-hidden="true"></span>`;
+  const reload = `<button class="ebf-reload" type="button" aria-label="${T.reload}">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12a9 9 0 1 1-2.6-6.4"/><polyline points="21 3 21 9 15 9"/></svg></button>`;
+  corner.addEventListener("click", (e) => { if (e.target.closest(".ebf-reload")) location.reload(); });
   const hero = document.querySelector("main .hero");
   (hero || document.querySelector("main")).after(box);
 
   const started = Date.now();
+  let shown = "";
   const render = () => {
     if (document.getElementById("ebfinder-setup")) {
       box.hidden = true;
@@ -54,8 +80,12 @@
     const access = document.documentElement.dataset.ebfinderAccess;
     const state = access || (Date.now() - started >= NOT_DETECTED_AFTER_MS ? "notDetected" : "waiting");
     box.hidden = false;
+    if (state === shown) return;
+    shown = state;
     box.dataset.state = state;
     text.textContent = T[state];
+    corner.innerHTML = state === "waiting" ? spinner : reload;
+    back.hidden = state === "waiting";
   };
   render();
   // Keep polling: Safari can start the extension on this page after the user allows it.
