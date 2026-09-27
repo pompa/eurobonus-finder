@@ -1,21 +1,22 @@
 import SwiftUI
 
-// Brand surface shared by Setup and the extension setup screen: a fixed
-// deep-blue atmosphere with light ink, its marks and its capsule buttons.
+// Setup's brand surface: a fixed deep-blue atmosphere with light ink, its marks
+// and its capsule buttons. Setup is the one branded screen; everything after it
+// is native lists on the system tint.
 
 // MARK: - Palette (brand-derived, light/dark)
 
-/// The brand atmosphere (Setup + extension settings) — a deep-blue brand wash (`Brand → Primary →
-/// Brand`) with ambient `Primary`/`Brand` glows. Text, icons and dots use the
-/// `BrandForeground` pair so they read light on it. A fixed brand moment: it
+/// The brand atmosphere — a deep-blue wash (`brand → brandAccent → brand`)
+/// with ambient `brandAccent`/`brand` glows. Text, icons and dots use
+/// `brandForeground` so they read light on it. A fixed brand moment: it
 /// looks the same in light and dark (these colors don't flip).
 enum BrandPalette {
     static var pageGradient: LinearGradient {
-        LinearGradient(colors: [Theme.Colors.brand, Theme.Colors.primary, Theme.Colors.brand],
+        LinearGradient(colors: [Color.brand, Color.brandAccent, Color.brand],
                        startPoint: .top, endPoint: .bottom)
     }
     /// Text, glyphs, chip labels and the active progress dot.
-    static let ink = Theme.Colors.brandForeground
+    static let ink = Color.brandForeground
     static let sub = ink.opacity(0.72)
     static let chipBackground = ink.opacity(0.12)
     static let dotInactive = ink.opacity(0.4)
@@ -31,9 +32,9 @@ enum BrandPalette {
 
     /// Ambient blurred glows of the brand tokens over the gradient.
     static let blobs = [
-        Blob(id: 0, color: Theme.Colors.primary, size: 360, alignment: .topTrailing,   offset: CGSize(width: 80, height: -90), opacity: 0.35),
-        Blob(id: 1, color: Theme.Colors.brand,   size: 320, alignment: .leading,        offset: CGSize(width: -100, height: 0), opacity: 0.32),
-        Blob(id: 2, color: Theme.Colors.primary, size: 260, alignment: .bottomTrailing, offset: CGSize(width: 60, height: 70), opacity: 0.26),
+        Blob(id: 0, color: Color.brandAccent, size: 360, alignment: .topTrailing,   offset: CGSize(width: 80, height: -90), opacity: 0.35),
+        Blob(id: 1, color: Color.brand,   size: 320, alignment: .leading,        offset: CGSize(width: -100, height: 0), opacity: 0.32),
+        Blob(id: 2, color: Color.brandAccent, size: 260, alignment: .bottomTrailing, offset: CGSize(width: 60, height: 70), opacity: 0.26),
     ]
 }
 
@@ -133,13 +134,13 @@ struct SetupButton: View {
         case .primary:
             Button(action: action) { label }
                 .buttonStyle(.glassProminent)
-                .tint(Theme.Colors.primary)
+                .tint(.brandAccent)
                 .overlay { if shimmer && !reduceMotion { ShimmerSweep().clipShape(.capsule).allowsHitTesting(false) } }
-                .shadow(color: Theme.Colors.primary.opacity(0.40), radius: 13, x: 0, y: 10)
+                .shadow(color: Color.brandAccent.opacity(0.40), radius: 13, x: 0, y: 10)
         case .ghost:
             Button(action: action) { label.padding(.vertical, 10) }
                 .buttonStyle(.plain)
-                .foregroundStyle(Theme.Colors.brandForeground)
+                .foregroundStyle(.brandForeground)
         case .skip:
             Button(action: action) { label.padding(.vertical, 10) }
                 .buttonStyle(.plain)
@@ -153,7 +154,6 @@ struct SetupButton: View {
                 Image(systemName: icon)
             }
             Text(title)
-                .kerning(0.6)
             if let trailingIcon = trailingIcon ?? (role == .skip ? "chevron.right" : nil) {
                 Image(systemName: trailingIcon)
             }
@@ -186,14 +186,16 @@ private struct ShimmerSweep: View {
 // MARK: - Helpers
 
 extension Text {
+    /// Screen headline on the brand background: the system title style, semibold.
     func brandTitle(_ color: Color) -> some View {
-        self.typography(.title)
+        self.font(.title.weight(.semibold))
             .foregroundStyle(color)
             .fixedSize(horizontal: false, vertical: true)
     }
 
+    /// Running copy on the brand background.
     func brandBody(_ color: Color) -> some View {
-        self.typography(.body)
+        self.font(.body)
             .foregroundStyle(color)
             .fixedSize(horizontal: false, vertical: true)
     }

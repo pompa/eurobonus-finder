@@ -24,7 +24,7 @@ struct ExtensionSetupContent: View {
             Text("setup.extension.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 320)
-                .padding(.top, 14)
+                .padding(.top)
 
             // Always shown, even when everything is set: the cards are the step.
             VStack(spacing: 12) {
@@ -51,12 +51,12 @@ struct ExtensionSetupContent: View {
                 Text(verbatim: error)
                     .font(.footnote)
                     .foregroundStyle(BrandPalette.sub.opacity(0.8))
-                    .padding(.top, 14)
+                    .padding(.top)
                     .frame(maxWidth: 300)
             }
         }
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 30)
+        .padding(.horizontal)
         .task { await state.refresh() }
     }
 }
@@ -142,7 +142,7 @@ private struct PermissionsCard: View {
                     }
                 }
                 .font(.footnote.weight(.medium))
-                .padding(.horizontal, 16)
+                .padding(.horizontal)
                 .padding(.vertical, 12)
                 .accessibilityElement(children: .combine)
             }
@@ -172,7 +172,7 @@ private struct ExtensionStatusCard: View {
             }
         }
         .font(.footnote.weight(.medium))
-        .padding(.horizontal, 16)
+        .padding(.horizontal)
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
         .setupCard()
@@ -192,6 +192,6 @@ extension View {
 struct WarningMark: View {
     var body: some View {
         Image(systemName: "exclamationmark.triangle.fill")
-            .foregroundStyle(Theme.Colors.warning)
+            .foregroundStyle(.orange)
     }
 }

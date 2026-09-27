@@ -31,6 +31,39 @@ Re-run `xcodegen generate` after pulling changes to `project.yml`. The
 `APP_BUNDLE_ID` is the single root: the extension is `$(APP_BUNDLE_ID).extension`
 and the app group is `group.$(APP_BUNDLE_ID)`.
 
+## Project structure
+
+```
+EuroBonus Finder/
+  App/                      SwiftUI host app
+    EBFinderApp.swift       entry point
+    ContentView.swift       root: Setup until finished, then the main stack
+    Route.swift             screens on the main stack, and their deep links
+    Features/<Feature>/     one folder per screen or flow; views private to it live here
+    Models/                 state and value types (ExtensionState, Market, SetupState, ...)
+    Views/                  views and modifiers reused by more than one feature
+    Resources/              asset catalog, string catalog, app icon
+  Shared/                   code compiled into both the app and the extension
+  Extension/                the Safari web extension (Swift handler + web bundle)
+  UITests/                  screenshot tests for the store listing
+```
+
+Where a new file goes:
+
+- A screen, or a view only that screen uses: its `Features/<Feature>/` folder.
+- A view used by two or more features: `Views/`.
+- A type that holds state or data: `Models/`.
+- There is no design system folder. Colors are asset catalog colorsets read
+  through the generated symbols (`.brand`, `.brandAccent`, `.brandForeground`);
+  everything else is SwiftUI's own: system text styles, default padding, the
+  default tint. Setup is the one branded surface; every screen after it is a
+  native list.
+- Asset names must not shadow SwiftUI's (`primary`, `secondary`,
+  `accentColor`): symbol generation is on, and a collision breaks the build.
+- There is no `AccentColor` asset on purpose. The app tint is the system
+  default so lists look native; Setup tints its own controls with
+  `.brandAccent`.
+
 ## Release
 
 1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's

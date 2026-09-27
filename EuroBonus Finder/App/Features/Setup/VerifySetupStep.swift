@@ -48,7 +48,7 @@ struct VerifyContent: View {
             Text("setup.verify.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 320)
-                .padding(.top, 14)
+                .padding(.top)
 
             AccessCard(status: status)
                 .padding(.top, 22)
@@ -59,7 +59,7 @@ struct VerifyContent: View {
                     .font(.footnote)
                     .foregroundStyle(BrandPalette.sub)
                     .frame(maxWidth: 320)
-                    .padding(.top, 14)
+                    .padding(.top)
             case .notDetected:
                 Text("setup.verify.troubleshoot")
                     .font(.footnote)
@@ -70,13 +70,13 @@ struct VerifyContent: View {
                         return .handled
                     })
                     .frame(maxWidth: 320)
-                    .padding(.top, 14)
+                    .padding(.top)
             case .idle, .checking:
                 EmptyView()
             }
         }
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 30)
+        .padding(.horizontal)
         .animation(.snappy, value: status)
         .sheet(isPresented: $troubleshooting) { TroubleshootSheet() }
         .onChange(of: scenePhase) {
@@ -149,7 +149,7 @@ private struct AccessCard: View {
             }
         }
         .font(.footnote.weight(.medium))
-        .padding(.horizontal, 16)
+        .padding(.horizontal)
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
         .setupCard()
