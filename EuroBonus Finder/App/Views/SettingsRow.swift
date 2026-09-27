@@ -1,9 +1,11 @@
 import SwiftUI
 
-/// A row in the app's inset-grouped lists: optional leading SF Symbol, title,
-/// secondary value, warning mark and trailing accessory.
+/// A row in the app's inset-grouped lists: optional leading SF Symbol or image
+/// asset (an app-icon tile, as in iOS Settings), title, secondary value, warning
+/// mark and trailing accessory.
 struct SettingsRow: View {
     var symbol: String? = nil
+    var image: String? = nil
     let title: LocalizedStringKey
     var detail: Text? = nil
     var warning: Bool = false
@@ -11,15 +13,22 @@ struct SettingsRow: View {
 
     enum Trailing { case none, external }
 
-    @ScaledMetric(relativeTo: .body) private var symbolWidth: CGFloat = 26
+    // iOS Settings' 29pt icon tiles; symbols center in the same column.
+    @ScaledMetric(relativeTo: .body) private var iconSize: CGFloat = 29
 
     var body: some View {
         HStack(spacing: 12) {
-            if let symbol {
+            if let image {
+                Image(image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: iconSize, height: iconSize)
+                    .clipShape(RoundedRectangle(cornerRadius: iconSize * 0.225, style: .continuous))
+            } else if let symbol {
                 Image(systemName: symbol)
                     .font(.body)
                     .foregroundStyle(.secondary)
-                    .frame(width: symbolWidth, alignment: .center)
+                    .frame(width: iconSize, alignment: .center)
             }
             Text(title)
                 .foregroundStyle(.primary)

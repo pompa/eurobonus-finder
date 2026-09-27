@@ -1,6 +1,42 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "about.card.subtitle" : {
+      "comment" : "About page — the card under the app name: purpose and author. Opens the website.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gå aldrig glip af EuroBonus-point i Safari. Lavet af Ronald Pompa."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never miss EuroBonus points in Safari. Made by Ronald Pompa."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Älä jää paitsi EuroBonus-pisteistä Safarissa. Tekijä: Ronald Pompa."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gå aldri glipp av EuroBonus-poeng i Safari. Laget av Ronald Pompa."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missa aldrig EuroBonus-poäng i Safari. Skapat av Ronald Pompa."
+          }
+        }
+      }
+    },
     "about.debug" : {
       "comment" : "About page — row (and screen title) for the Debug screen showing raw app and extension values.",
       "extractionState" : "manual",
@@ -37,44 +73,8 @@
         }
       }
     },
-    "about.disclaimer.body" : {
-      "comment" : "About page — independence disclaimer body.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EuroBonus Finder er ikke officielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uafhængigt projekt og bruger SAS' offentligt tilgængelige partnerdata."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EuroBonus Finder is not officially affiliated with SAS – Scandinavian Airlines or EuroBonus. It is an independent project and uses SAS's publicly available partner data."
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EuroBonus Finder ei ole virallisesti yhteydessä SAS – Scandinavian Airlines -yhtiöön tai EuroBonus-ohjelmaan. Palvelu on itsenäinen projekti, ja se käyttää SAS:n julkisesti saatavilla olevia kumppanitietoja."
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EuroBonus Finder er ikke offisielt tilknyttet SAS – Scandinavian Airlines eller EuroBonus. Tjenesten er et uavhengig prosjekt og bruker SAS' offentlig tilgjengelige partnerdata."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "EuroBonus Finder är inte officiellt anslutet till SAS – Scandinavian Airlines eller EuroBonus. Tjänsten är ett oberoende projekt och använder SAS publikt tillgängliga partnerdata."
-          }
-        }
-      }
-    },
-    "about.disclaimer.header" : {
-      "comment" : "About page — disclaimer section header.",
+    "about.disclaimer" : {
+      "comment" : "About page — row that opens the disclaimer page on the website.",
       "extractionState" : "manual",
       "localizations" : {
         "da" : {
@@ -105,42 +105,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ansvarsfriskrivning"
-          }
-        }
-      }
-    },
-    "about.license" : {
-      "comment" : "About page row → pushes to the License page.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Licens"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "License"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lisenssi"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lisens"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Licens"
           }
         }
       }
@@ -757,38 +721,38 @@
         }
       }
     },
-    "settings.contact" : {
-      "comment" : "Settings root row → opens a mailto to support.",
+    "settings.email" : {
+      "comment" : "Main view — the support email row; the address is the value.",
       "extractionState" : "manual",
       "localizations" : {
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Support"
+            "value" : "E-mail"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Support"
+            "value" : "Email"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tuki"
+            "value" : "Sähköposti"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kundestøtte"
+            "value" : "E-post"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Support"
+            "value" : "E-post"
           }
         }
       }
@@ -973,42 +937,6 @@
         }
       }
     },
-    "settings.madeBy" : {
-      "comment" : "Label above the author's name in the credit card on the settings root.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lavet af"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Made by"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tekijä"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laget av"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skapat av"
-          }
-        }
-      }
-    },
     "settings.region" : {
       "comment" : "Settings root row → menu to change the EuroBonus market (country).",
       "extractionState" : "manual",
@@ -1041,6 +969,78 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Region"
+          }
+        }
+      }
+    },
+    "settings.support" : {
+      "comment" : "Main view — header of the Support group (email + About).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuki"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kundestøtte"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        }
+      }
+    },
+    "settings.title" : {
+      "comment" : "Main view row and screen title for the Settings screen (region, language, reset).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indstillinger"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asetukset"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Innstillinger"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inställningar"
           }
         }
       }

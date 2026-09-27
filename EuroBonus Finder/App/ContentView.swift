@@ -22,7 +22,7 @@ struct ContentView: View {
                 }
             }
         }
-        // A Reset (from About or the extension) drops back to Setup; start the
+        // A Reset (from Settings or the extension) drops back to Setup; start the
         // main stack fresh when the user comes out of it.
         .onChange(of: setupState) { if setupState == .active { path = [] } }
         .onOpenURL(perform: open)
@@ -35,6 +35,7 @@ struct ContentView: View {
     private func screen(for route: Route) -> some View {
         switch route {
         case .extensionSettings: ExtensionSettingsView(state: extensionState)
+        case .settings: SettingsView()
         case .about: AboutView()
         #if DEBUG
         case .debug: DebugView(state: extensionState)

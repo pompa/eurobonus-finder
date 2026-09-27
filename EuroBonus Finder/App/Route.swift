@@ -4,6 +4,7 @@ import SwiftUI
 /// deep link, `$(APP_URL_SCHEME)://<host>` (the scheme is a build setting).
 enum Route: Hashable {
     case extensionSettings
+    case settings
     case about
     #if DEBUG
     case debug
@@ -20,9 +21,10 @@ enum Route: Hashable {
     static func path(for url: URL) -> [Route]? {
         switch url.host() {
         case "extension": [.extensionSettings]
+        case "settings": [.settings]
         case "about": [.about]
         #if DEBUG
-        case "debug": [.about, .debug]
+        case "debug": [.settings, .debug]
         #endif
         default: nil
         }

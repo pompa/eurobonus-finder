@@ -60,6 +60,10 @@ EuroBonus, or any of the shopping partners. Full notice:
 No accounts, no tracking, no ads — what the app does and doesn't do with your
 data: [Privacy Policy](PRIVACY.md).
 
+## Made by
+
+Ronald Pompa — [GitHub](https://link.pompa.se/gh) · [X](https://link.pompa.se/x) · [LinkedIn](https://link.pompa.se/ln)
+
 ## License
 
 [MIT](LICENSE)
