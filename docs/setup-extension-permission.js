@@ -1,8 +1,7 @@
 // Live status box for /setup-extension-permission/ (the Test page the app's
 // Setup opens). The extension's content script marks
 // <html data-ebfinder-access="all|partial"> when it runs here; until then Safari
-// isn't letting it run on this page. In Setup the extension shows its own banner
-// (#ebfinder-setup), which replaces this box.
+// isn't letting it run on this page. Success is drawn here too, in the brand blue.
 (() => {
   // APP_URL_SCHEME in EuroBonus Finder/Config/Build.xcconfig — the site build has no access to it.
   const APP_URL = "eurobonusfinder://setup/verify";
@@ -30,7 +29,9 @@
   style.textContent = `
     .ebf-status { position: relative; margin: 0 0 32px; padding: 18px 56px 18px 20px; border-radius: 16px;
       background: oklch(0.967 0.0029 264.542); color: var(--foreground); font-weight: 600; }
-    .ebf-status[data-state="all"] { background: oklch(0.95 0.05 150); }
+    .ebf-status[data-state="all"] { background: var(--primary); color: var(--primary-foreground); }
+    .ebf-status[data-state="all"] .ebf-back { background: var(--primary-foreground); color: var(--primary); }
+    .ebf-status[data-state="all"] .ebf-reload { background: oklch(1 0 0 / 0.18); color: var(--primary-foreground); }
     .ebf-status[data-state="partial"], .ebf-status[data-state="notDetected"] { background: oklch(0.97 0.05 85); }
     .ebf-status p { margin: 0; }
     .ebf-corner { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
@@ -73,13 +74,8 @@
   const started = Date.now();
   let shown = "";
   const render = () => {
-    if (document.getElementById("ebfinder-setup")) {
-      box.hidden = true;
-      return;
-    }
     const access = document.documentElement.dataset.ebfinderAccess;
     const state = access || (Date.now() - started >= NOT_DETECTED_AFTER_MS ? "notDetected" : "waiting");
-    box.hidden = false;
     if (state === shown) return;
     shown = state;
     box.dataset.state = state;
