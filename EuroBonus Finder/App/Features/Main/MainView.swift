@@ -1,6 +1,6 @@
 import SwiftUI
 
-// The main view — where the app lands after onboarding, and the root of the
+// The main view — where the app lands after Setup, and the root of the
 // navigation stack. A standard iOS inset-grouped settings list:
 // native surfaces and tint, plain SF Symbol leading icons (no colored tiles).
 // The Extension row drills into extension settings and shows a warning marker
@@ -8,24 +8,14 @@ import SwiftUI
 
 struct MainView: View {
     let state: ExtensionState
-    /// Sends the user back through onboarding; `ContentView` owns that state.
-    let onResetOnboarding: () -> Void
-    @Environment(\.openURL) private var openURL
-    @AppStorage("guidedTestNonce") private var guidedTestNonce = 0
-    @AppStorage(SharedDefaultsKey.market, store: Market.store) private var market = Market.se
+    @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
+    // Tutorial progress, mirrored from the extension (one key per `TutorialStep`).
+    @AppStorage(SharedDefaultsKey.tutorialProgress(.seenBadge), store: .shared) private var seenBadge = false
+    @AppStorage(SharedDefaultsKey.tutorialProgress(.visitedPartner), store: .shared) private var visitedPartner = false
+    @AppStorage(SharedDefaultsKey.tutorialProgress(.sasShoppingReturn), store: .shared) private var sasShoppingReturn = false
 
     var body: some View {
         List {
-            // Guided "try it out" test — runs the badge + banner tour in Safari.
-            Section {
-                GuidedTestCard(disabled: state.needsAttention, action: startGuidedTest)
-
-                Button(action: onResetOnboarding) {
-                    SettingsRow(symbol: "arrow.counterclockwise", title: "settings.resetOnboarding")
-                }
-                .buttonStyle(.plain)
-            }
-
             Section {
                 NavigationLink(value: Route.extensionSettings) {
                     SettingsRow(symbol: "puzzlepiece.extension.fill", title: "settings.extension",
@@ -70,65 +60,20 @@ struct MainView: View {
             Section {
                 CreditCard()
             }
+
+            // Gone once every Tutorial step is done; a Reset brings it back.
+            if !(seenBadge && visitedPartner && sasShoppingReturn) {
+                Section {
+                    // Standalone button: no inset-grouped card behind it.
+                    TutorialCard(disabled: state.needsAttention)
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
+                } header: {
+                    Text("tutorial.title")
+                }
+            }
         }
         .navigationTitle(Text(verbatim: appName))
-    }
-
-    /// Kick off the guided test: bump the shared nonce the content script polls
-    /// for, then open a Google search in Safari for the user's market (`gl` searches
-    /// as if from that country — market codes double as Google's ccTLDs — `hl` is the
-    /// app's UI language; the partner-name terms bias the shopping results toward
-    /// EuroBonus partners so a badge reliably appears).
-    private func startGuidedTest() {
-        // Carry a fresh, monotonic nonce in the URL fragment (#ebf=…). The content
-        // script reads it synchronously on the results page to start the tour; a
-        // new value each run is what lets the test be re-run.
-        guidedTestNonce += 1
-        var components = URLComponents(string: "https://www.google.\(market.rawValue)/search")!
-        components.queryItems = [
-            URLQueryItem(name: "q", value: "apple studio display xdr webhallen komplett proshop"),
-            URLQueryItem(name: "hl", value: Bundle.main.preferredLocalizations.first ?? "en"),
-            URLQueryItem(name: "gl", value: market.rawValue),
-        ]
-        components.fragment = "ebf=\(guidedTestNonce)"
-        if let url = components.url { openURL(url) }
-    }
-}
-
-// MARK: - About
-
-struct AboutView: View {
-    private var appVersion: String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
-    }
-
-    var body: some View {
-        List {
-            Section {
-                SettingsRow(title: "about.version", detail: Text(verbatim: appVersion))
-            }
-
-            Section {
-                Link(destination: URL(string: "https://github.com/pompa/eurobonus-finder")!) {
-                    SettingsRow(title: "about.source", trailing: .external)
-                }
-                .buttonStyle(.plain)
-                Link(destination: URL(string: "https://github.com/pompa/eurobonus-finder/blob/main/LICENSE")!) {
-                    SettingsRow(title: "about.license", detail: Text(verbatim: "MIT"), trailing: .external)
-                }
-                .buttonStyle(.plain)
-            }
-
-            Section {
-                Text("about.disclaimer.body")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            } header: {
-                Text("about.disclaimer.header")
-            }
-        }
-        .navigationTitle("about.title")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -164,64 +109,5 @@ private struct CreditCard: View {
             }
         }
         .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Guided test card
-
-/// The "try it out" card at the top of the main view — a 2-step guided test the user
-/// runs in Safari. Step 1 (the button) opens a Google search for the user's market; the
-/// extension then coaches the EB badge and, on the partner site, the banner.
-/// Disabled until the extension is on with all-sites access, otherwise the
-/// content script never runs and nothing would happen.
-private struct GuidedTestCard: View {
-    let disabled: Bool
-    let action: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack(spacing: 9) {
-                Image(systemName: "sparkles")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(Theme.Colors.primary)
-                Text("settings.guidedTest.title")
-                    .font(.headline)
-            }
-
-            VStack(alignment: .leading, spacing: 9) {
-                GuidedTestStepRow(index: 1, title: "settings.guidedTest.step1")
-                GuidedTestStepRow(index: 2, title: "settings.guidedTest.step2")
-            }
-
-            SButton("settings.guidedTest.button", systemImage: "magnifyingglass", action: action)
-                .disabled(disabled)
-
-            Text(disabled ? "settings.guidedTest.disabledHint" : "settings.guidedTest.caption")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
-        }
-        .padding(.vertical, 4)
-    }
-}
-
-/// A single numbered step in the guided-test card (numbered disc + label).
-private struct GuidedTestStepRow: View {
-    let index: Int
-    let title: LocalizedStringKey
-    @ScaledMetric(relativeTo: .footnote) private var discSize: CGFloat = 22
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Text(verbatim: "\(index)")
-                .font(.footnote.bold())
-                .foregroundStyle(Theme.Colors.primaryForeground)
-                .frame(width: discSize, height: discSize)
-                .background(Theme.Colors.primary, in: .circle)
-            Text(title)
-                .font(.subheadline)
-                .foregroundStyle(.primary)
-        }
     }
 }

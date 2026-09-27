@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Shared app group, derived from $(APP_BUNDLE_ID) at build time (read by
+	     Shared/SharedDefaults.swift, like the extension's Info.plist). -->
+	<key>AppGroupID</key>
+	<string>group.$(APP_BUNDLE_ID)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -1,35 +1,39 @@
+// The Test page (eurobonus.pompa.se/test-extension, opened by the
+// app's Setup): tell the page whether we run here and with what access; its own
+// script draws the result, and handles the "extension never ran" case (then
+// neither do we). Setup opens it with #ebfSetup, which forces a fresh ping.
+const TEST_PAGE_HOST = "eurobonus.pompa.se";
+// Declared before the IIFE below: it runs synchronously up to its first await.
+
 (async function () {
   const api = globalThis.browser || globalThis.chrome;
   if (!api || !api.storage) return;
 
-  // Guided test: the host app appends #ebf=<nonce> to the Google URL it opens.
+  // Tutorial: the app's Tutorial card opens its Google search with #ebfTutorial.
   // Capture it synchronously now, before Google's SERP JS can rewrite the URL.
-  // This is the primary launch signal (a native-message read can hang from a
-  // content script in Safari, so we never depend on it to start the tour).
-  const launchNonce = (() => {
-    const h = /[#&]ebf=(\d+)/.exec(window.location.hash || "");
-    if (h) return parseInt(h[1], 10);
-    const q = new URLSearchParams(window.location.search).get("ebf");
-    return q && /^\d+$/.test(q) ? parseInt(q, 10) : null;
-  })();
-  if (launchNonce != null)
-    console.info("[EuroBonus Finder] guided-test launch nonce:", launchNonce);
+  const fromTutorialCard = /[#&]ebfTutorial\b/.test(window.location.hash || "");
+  // Setup: the app's verify step opens the Test page with #ebfSetup.
+  const fromSetup = /[#&]ebfSetup\b/.test(window.location.hash || "");
 
-  reportHostPermission(api);
+  reportHostPermission(api, fromSetup);
 
   const { t } = EBFeed;
+
+  if (window.location.hostname === TEST_PAGE_HOST) {
+    await markTestPage(api);
+    return;
+  }
   EBFeed.refreshMarket();
   const market = await EBFeed.getMarket();
 
-  const SESSION_KEY = "ebfinder_banner_closed";
+  // Lives in the page's own sessionStorage, shared with the site — hence the prefix.
+  const SESSION_KEY = "ebfinder.bannerClosed";
   const ROOT_ID = "ebfinder-root";
   const DECORATED_ATTR = "data-ebfinder-decorated";
   const BADGE_CLASS = "ebfinder-badge";
-  const PENDING_KEY_PREFIX = "pending_return_";
+  const PENDING_KEY_PREFIX = "pendingSasShoppingReturn.";
   const PENDING_TTL_MS = 60 * 60 * 1000;
   const COACH_ROOT_ID = "ebfinder-coach-root";
-  const TOUR_KEY = "ebfinder_tour";
-  const TOUR_TTL_MS = 30 * 60 * 1000;
 
   const detectedMatches = new Set();
 
@@ -154,6 +158,8 @@
     try {
       await api.storage.local.remove([key]);
     } catch (e) {}
+    // No Coachmark for this step yet — the console line stands in for one.
+    await completeTutorialStep("sasShoppingReturn");
     location.replace(returnUrl);
     return true;
   };
@@ -428,39 +434,32 @@
   };
 
   // ===========================================================================
-  // GUIDED TEST — coachmark tour ("prova det", launched from the host app card)
-  // The card bumps a nonce in the app group and opens a Swedish Google search.
-  // Here we detect that nonce, coach the first EB badge, then (on the partner
-  // site we navigate to) coach the banner. State lives in browser.storage.local
-  // so it survives the Google → partner navigation.
+  // TUTORIAL — Coachmarks for the Tutorial steps the user hasn't completed yet
+  // (in any order). Progress lives in storage.local; the background script owns
+  // writes and mirrors them to the app. Closing a Coachmark completes its step.
   // ===========================================================================
 
-  const getTour = async () => {
+  // Applies a pending Reset from the app first (capped: native messaging can be
+  // slow), so a fresh start isn't coached from stale progress.
+  const getTutorialProgress = async () => {
     try {
-      const r = await api.storage.local.get([TOUR_KEY]);
-      return r[TOUR_KEY] || null;
+      await Promise.race([
+        api.runtime.sendMessage({ type: "sync-reset" }),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ]);
+      const r = await api.storage.local.get(["tutorialProgress"]);
+      return r.tutorialProgress || {};
     } catch (e) {
-      return null;
+      return {};
     }
   };
-  const setTour = (tour) => {
+
+  const completeTutorialStep = async (step) => {
+    // ponytail: always logs; gate on a dev build once the extension has a build step (Vite).
+    console.info(`[EuroBonus Finder] tutorial step completed: ${step}`);
     try {
-      return api.storage.local.set({ [TOUR_KEY]: tour });
-    } catch (e) {
-      return Promise.resolve();
-    }
-  };
-  // Mark the run finished while RETAINING the nonce, so a normal Google search
-  // later (same nonce, no fresh tap) can't be mistaken for a new run and
-  // re-coach the user. A fresh run only starts when the host app bumps the nonce.
-  const endTour = (nonce) => {
-    try {
-      return api.storage.local.set({
-        [TOUR_KEY]: { nonce, step: "done", ts: Date.now() },
-      });
-    } catch (e) {
-      return Promise.resolve();
-    }
+      await api.runtime.sendMessage({ type: "complete-tutorial-step", step });
+    } catch (e) {}
   };
 
   // A known EuroBonus-partner origin to fall back to when results show no badge.
@@ -475,7 +474,7 @@
     return first ? cleanHost(first) : null;
   };
 
-  // Anchored popover for the guided test. Own Shadow DOM overlay (like the
+  // Coachmark: an anchored popover for the Tutorial. Own Shadow DOM overlay (like the
   // banner) so host-page CSS can't reach it; position tracks a live getRect().
   // Self-guards on COACH_ROOT_ID so the Google MutationObserver can't duplicate it.
   const createCoachmark = ({
@@ -582,15 +581,13 @@
     return { remove };
   };
 
-  // Advance search → banner, then visit the partner in the same tab so the
-  // banner (and the next coachmark) appear on the page we land on.
-  const visitPartner = async (nonce, host) => {
-    if (!host) return;
-    await setTour({ nonce, step: "banner", ts: Date.now() });
-    window.location.href = "https://" + cleanHost(host);
+  // Visit the partner in the same tab so the Banner (and its Coachmark) appear
+  // on the page we land on.
+  const visitPartner = (host) => {
+    if (host) window.location.href = "https://" + cleanHost(host);
   };
 
-  const showSearchCoachmark = (shopList, nonce) => {
+  const showBadgeCoachmark = (shopList) => {
     const badge = document.querySelector("." + BADGE_CLASS);
     if (!badge) return;
     const host = badge.dataset.ebHost || partnerHostFromShops(shopList);
@@ -600,13 +597,18 @@
       body: t("coachSearchBody"),
       ctaLabel: t("coachSearchCta"),
       showGlyph: true,
-      onCta: () => visitPartner(nonce, host),
-      onClose: () => endTour(nonce),
+      onCta: async () => {
+        await completeTutorialStep("seenBadge");
+        visitPartner(host);
+      },
+      onClose: () => completeTutorialStep("seenBadge"),
     });
     badge.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
-  const showEmptyCoachmark = (shopList, nonce) => {
+  // No Badge showed up on the Tutorial card's search: point at a known partner
+  // instead. Completes nothing — the user still hasn't seen a Badge.
+  const showNoBadgeCoachmark = (shopList) => {
     const host = partnerHostFromShops(shopList);
     createCoachmark({
       getRect: () => ({
@@ -621,12 +623,11 @@
       body: t("coachEmptyBody"),
       ctaLabel: t("coachSearchCta"),
       showGlyph: true,
-      onCta: () => visitPartner(nonce, host),
-      onClose: () => endTour(nonce),
+      onCta: () => visitPartner(host),
     });
   };
 
-  const showBannerCoachmark = (nonce) => {
+  const showBannerCoachmark = () => {
     if (document.getElementById(COACH_ROOT_ID)) return;
     const bannerRoot = document.getElementById(ROOT_ID);
     const cta =
@@ -639,39 +640,17 @@
       title: t("coachBannerTitle"),
       body: t("coachBannerBody"),
       ctaLabel: t("coachBannerCta"),
-      onCta: async () => {
-        // Cross-tour guard: only end the run this coachmark belongs to.
-        const cur = await getTour();
-        if (!cur || cur.nonce === nonce) await endTour(nonce);
-      },
-      onClose: () => endTour(nonce),
+      onCta: () => completeTutorialStep("visitedPartner"),
+      onClose: () => completeTutorialStep("visitedPartner"),
     });
   };
 
-  // On a Google results page, decide whether a guided test is active and, if so,
-  // coach the first badge — polling briefly since Google hydrates cards async,
-  // with a generic fallback when no partner shows up.
-  const maybeStartSearchTour = async (shopList) => {
-    // The launch nonce travels in the URL fragment (#ebf=…) the host app sets.
-    // No marker → not a guided-test launch → nothing to do.
-    const nonce = launchNonce;
-    if (nonce == null) return;
-    const tour = await getTour();
-    const now = Date.now();
-    let activeNonce = null;
-
-    if (nonce != null && (!tour || nonce !== tour.nonce)) {
-      activeNonce = nonce; // brand-new run requested from the host app
-      await setTour({ nonce, step: "search", ts: now });
-    } else if (
-      tour &&
-      tour.step === "search" &&
-      tour.nonce === nonce &&
-      now - tour.ts < TOUR_TTL_MS
-    ) {
-      activeNonce = tour.nonce; // same run, page reloaded — keep coaching
-    }
-    if (activeNonce == null) return;
+  // On a Google results page, coach the first Badge while `seenBadge` is open —
+  // polling briefly since Google hydrates cards async. With no Badge, only the
+  // Tutorial card's own search falls back to the no-Badge Coachmark.
+  const maybeShowSearchCoachmark = async (shopList) => {
+    const progress = await getTutorialProgress();
+    if (progress.seenBadge) return;
 
     let elapsed = 0;
     const STEP_MS = 400;
@@ -679,9 +658,9 @@
     const tick = () => {
       if (document.getElementById(COACH_ROOT_ID)) return;
       if (document.querySelector("." + BADGE_CLASS)) {
-        showSearchCoachmark(shopList, activeNonce);
+        showBadgeCoachmark(shopList);
       } else if (elapsed >= LIMIT_MS) {
-        showEmptyCoachmark(shopList, activeNonce);
+        if (fromTutorialCard) showNoBadgeCoachmark(shopList);
       } else {
         elapsed += STEP_MS;
         setTimeout(tick, STEP_MS);
@@ -701,50 +680,45 @@
       timer = setTimeout(() => decorateGooglePartners(shops), 200);
     });
     observer.observe(document.body, { childList: true, subtree: true });
-    // Only a results page (not the consent interstitial / home) starts the tour.
+    // Only a results page (not the consent interstitial / home) is coached.
     if (location.pathname.startsWith("/search"))
-      await maybeStartSearchTour(shops);
+      await maybeShowSearchCoachmark(shops);
     return;
   }
 
   const matchedId = EBFeed.matchKey(window.location.href, shops);
+  if (!matchedId) return;
 
-  // Guided test: did the search coachmark's "Besök sajten" send us to this
-  // partner? If so, force the banner — bypassing the affiliate-return redirect
-  // and the session "closed" suppression — and coach the user on it.
-  let bannerTour = false;
-  let bannerTourNonce = null;
-  if (matchedId) {
-    const tour = await getTour();
-    if (tour && tour.step === "banner" && Date.now() - tour.ts < TOUR_TTL_MS) {
-      bannerTour = true;
-      bannerTourNonce = tour.nonce;
-    }
-  }
+  if (await handlePendingReturn(matchedId)) return;
 
-  if (matchedId && !bannerTour) {
-    const redirected = await handlePendingReturn(matchedId);
-    if (redirected) return;
-  }
-
-  if (!bannerTour) {
+  // While `visitedPartner` is open, show the Banner even if closed earlier this
+  // session, and coach it.
+  const coachBanner = !(await getTutorialProgress()).visitedPartner;
+  if (!coachBanner) {
     try {
       if (sessionStorage.getItem(SESSION_KEY) === "true") return;
     } catch (e) {}
   }
 
-  if (matchedId) {
-    showTopBanner(matchedId, shops);
-    if (bannerTour) showBannerCoachmark(bannerTourNonce);
-  }
+  showTopBanner(matchedId, shops);
+  if (coachBanner) showBannerCoachmark();
 })();
 
-function reportHostPermission(api) {
+function reportHostPermission(api, force = false) {
   // Ask the background script to ping the host app on every page load so it can
   // live-verify Safari's website-access grant (content scripts can't read
-  // permissions). Fire-and-forget.
+  // permissions). Fire-and-forget. `force` re-pings even when nothing changed.
   if (!api.runtime || !api.runtime.sendMessage) return;
   Promise.resolve(
-    api.runtime.sendMessage({ type: "report-permissions", origin: location.origin })
+    api.runtime.sendMessage({ type: "report-permissions", origin: location.origin, force })
   ).catch(() => {});
+}
+
+// See TEST_PAGE_HOST at the top of the file.
+async function markTestPage(api) {
+  let hasAllUrls = false;
+  try {
+    ({ hasAllUrls } = await api.runtime.sendMessage({ type: "get-permissions" }));
+  } catch (e) {}
+  document.documentElement.dataset.ebfinderAccess = hasAllUrls ? "all" : "partial";
 }

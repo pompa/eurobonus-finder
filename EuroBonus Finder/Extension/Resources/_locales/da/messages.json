@@ -61,35 +61,35 @@
   },
   "coachSearchTitle": {
     "message": "Dette er EB-mærket",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
     "message": "Vi fandt en EuroBonus-partner i resultaterne. Kig efter dette ikon ved siden af en butik — det viser, at du kan optjene point der.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
     "message": "Besøg webstedet",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyTitle": {
     "message": "Kig efter EB-mærket",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyBody": {
     "message": "EB-mærket vises ved siden af butikker, der er EuroBonus-partnere. Besøg en partner, så viser vi, hvordan det ser ud.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
     "message": "Sådan ser det ud hos en partner",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
     "message": "Når du besøger en EuroBonus-partner, viser vi denne bjælke øverst. Log ind og handl via SAS for at optjene point på købet.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Forstået",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "popupSearching": {
     "message": "Søger efter partnere…",
@@ -135,4 +135,4 @@
     "message": "EuroBonus Finder skal have adgang til alle websteder for at finde partnere. Tryk for at åbne appen.",
     "description": "Popup notice body; tapping it opens the host app."
   }
-}
+}\n

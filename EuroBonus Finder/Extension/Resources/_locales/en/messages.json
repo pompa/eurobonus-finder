@@ -61,35 +61,35 @@
   },
   "coachSearchTitle": {
     "message": "This is the EB badge",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
     "message": "We found a EuroBonus partner in the results. Look for this icon next to a shop — it means you can earn points there.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
     "message": "Visit the site",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyTitle": {
     "message": "Look for the EB badge",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyBody": {
     "message": "The EB badge appears next to shops that are EuroBonus partners. Visit a partner and we'll show you what it looks like.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
     "message": "This is how it looks at a partner",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
     "message": "When you visit a EuroBonus partner, we show this bar at the top. Log in and shop via SAS to earn points on your purchase.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Got it",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "popupSearching": {
     "message": "Looking for partners…",
@@ -135,4 +135,4 @@
     "message": "EuroBonus Finder needs access to all websites to find partners. Tap to open the app.",
     "description": "Popup notice body; tapping it opens the host app."
   }
-}
+}\n

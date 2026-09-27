@@ -61,35 +61,35 @@
   },
   "coachSearchTitle": {
     "message": "Tämä on EB-merkki",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
     "message": "Löysimme tuloksista EuroBonus-kumppanin. Etsi tämä kuvake kaupan vierestä — se kertoo, että voit ansaita siellä pisteitä.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
     "message": "Siirry sivustolle",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyTitle": {
     "message": "Etsi EB-merkkiä",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachEmptyBody": {
     "message": "EB-merkki näkyy EuroBonus-kumppaneina toimivien kauppojen vieressä. Vieraile kumppanin sivustolla, niin näytämme, miltä se näyttää.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
     "message": "Tältä se näyttää kumppanin sivustolla",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
     "message": "Kun vierailet EuroBonus-kumppanin sivustolla, näytämme tämän palkin ylälaidassa. Kirjaudu ja osta SAS:n kautta, niin ansaitset ostoksesta pisteitä.",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Selvä",
-    "description": "Guided test."
+    "description": "Tutorial Coachmark."
   },
   "popupSearching": {
     "message": "Etsitään kumppaneita…",
@@ -135,4 +135,4 @@
     "message": "EuroBonus Finder tarvitsee pääsyn kaikille verkkosivustoille löytääkseen kumppanit. Avaa appi napauttamalla.",
     "description": "Popup notice body; tapping it opens the host app."
   }
-}
+}\n

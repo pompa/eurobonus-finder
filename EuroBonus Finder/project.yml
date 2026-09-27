@@ -89,6 +89,7 @@ targets:
           - Info.plist            # referenced via INFOPLIST_FILE, not bundled
           - EBFinder.entitlements # referenced via CODE_SIGN_ENTITLEMENTS
           - "**/.DS_Store"
+      - Shared
       - path: App/Info.plist
         buildPhase: none
       - path: App/EBFinder.entitlements
@@ -123,6 +124,7 @@ targets:
     platform: iOS
     sources:
       - Extension/SafariWebExtensionHandler.swift
+      - Shared
       - path: Extension/Info.plist
         buildPhase: none
       - path: Extension/Extension.entitlements

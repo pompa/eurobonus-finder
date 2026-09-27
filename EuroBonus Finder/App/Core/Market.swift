@@ -19,11 +19,9 @@ enum Market: String, CaseIterable, Identifiable {
         Locale.current.region.flatMap { Market(rawValue: $0.identifier.lowercased()) } ?? .se
     }
 
-    static let store = UserDefaults(suiteName: appGroupID)
-
     /// Stores the device region as the market unless one was already chosen.
     static func preselectDeviceDefault() {
-        guard store?.string(forKey: SharedDefaultsKey.market) == nil else { return }
-        store?.set(deviceDefault.rawValue, forKey: SharedDefaultsKey.market)
+        guard UserDefaults.shared.string(forKey: SharedDefaultsKey.market) == nil else { return }
+        UserDefaults.shared.set(deviceDefault.rawValue, forKey: SharedDefaultsKey.market)
     }
 }

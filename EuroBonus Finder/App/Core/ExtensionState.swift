@@ -1,14 +1,5 @@
 import SafariServices
 
-let appGroupID = "group." + Bundle.main.bundleIdentifier!
-
-enum SharedDefaultsKey {
-    static let permissionPingTimestamp = "permission.lastPingTimestamp"
-    static let permissionHasAllUrls = "permission.hasAllUrls"
-    static let permissionLastOrigin = "permission.lastOrigin"
-    static let market = "market"
-}
-
 enum ExtensionStatus: Equatable {
     case unknown
     case enabled
@@ -27,12 +18,17 @@ enum HostPermission: Equatable {
 final class ExtensionState {
     var status: ExtensionStatus = .unknown
     var hostPermission: HostPermission = .unknown
+    /// When the extension last reported its grants, or nil before its first ping.
+    var lastPingAt: Date?
 
     private(set) var rateLimitedUntil: Date?
+    /// Whether Safari's extension settings were opened from here this launch.
+    private(set) var openedSettings = false
     private var recentOpens: [Date] = []
     private static let rateLimitWindow: TimeInterval = 61
     /// App-only, so `.standard` like our `@AppStorage` keys — not the shared app-group suite.
-    private static let rateLimitedUntilKey = "rateLimitedUntil"
+    /// Survives a Reset: it records a limit iOS still enforces.
+    static let rateLimitedUntilKey = "rateLimitedUntil"
     static let settingsAppsURL = URL(string: "App-Prefs:SAFARI")!
 
     init() {
@@ -48,14 +44,14 @@ final class ExtensionState {
 
     func refresh() async {
         // The permission ping is a cheap synchronous read — pick it up immediately.
-        hostPermission = readHostPermission()
+        readPermissionPing()
 
         // The state check bridges into Safari and can't be cancelled, so apply
         // its result when it lands rather than blocking the UI on it…
         Task { @MainActor in
             let result = await self.checkExtensionState()
             self.status = result
-            self.hostPermission = self.readHostPermission()
+            self.readPermissionPing()
         }
         // …and if no check has landed shortly (a landed one is never `.unknown`),
         // fall back to the actionable setup step instead of hanging. A late result
@@ -94,6 +90,7 @@ final class ExtensionState {
         let now = Date.now
         do {
             try await SFSafariSettings.openExtensionsSettings(forIdentifiers: [extensionBundleIdentifier])
+            openedSettings = true
             recordOpen(at: now)
         } catch let error as NSError where error.domain == "SFErrorDomain" && error.code == 6 {
             lock(until: now + Self.rateLimitWindow)
@@ -166,12 +163,22 @@ final class ExtensionState {
         }
     }
 
-    private func readHostPermission() -> HostPermission {
-        guard
-            let defaults = UserDefaults(suiteName: appGroupID),
-            defaults.object(forKey: SharedDefaultsKey.permissionPingTimestamp) != nil
-        else { return .unknown }
-        return defaults.bool(forKey: SharedDefaultsKey.permissionHasAllUrls)
+    /// Whether a ping newer than `date` reported access to all websites — what
+    /// the Test page proves. Older pings don't cover settings changed since.
+    func hasAllWebsitesAccess(since date: Date) -> Bool {
+        hostPermission == .allWebsites && (lastPingAt ?? .distantPast) >= date
+    }
+
+    /// Reads the extension's last ping from the App Group. Cheap: the Test page
+    /// flow polls it while waiting for Safari.
+    func readPermissionPing() {
+        guard let timestamp = UserDefaults.shared.object(forKey: SharedDefaultsKey.permissionPingTimestamp) as? Double else {
+            hostPermission = .unknown
+            lastPingAt = nil
+            return
+        }
+        lastPingAt = Date(timeIntervalSince1970: timestamp)
+        hostPermission = UserDefaults.shared.bool(forKey: SharedDefaultsKey.permissionHasAllUrls)
             ? .allWebsites
             : .someWebsites
     }
