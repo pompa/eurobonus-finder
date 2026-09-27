@@ -14,6 +14,12 @@ struct MainView: View {
     @AppStorage(SharedDefaultsKey.tutorialProgress(.visitedPartner), store: .shared) private var visitedPartner = false
     @AppStorage(SharedDefaultsKey.tutorialProgress(.sasShoppingReturn), store: .shared) private var sasShoppingReturn = false
 
+    /// The app's active UI language, named in itself ("Svenska").
+    private var languageName: String {
+        let code = Bundle.main.preferredLocalizations.first ?? "en"
+        return Locale(identifier: code).localizedString(forLanguageCode: code)?.localizedCapitalized ?? code
+    }
+
     var body: some View {
         List {
             Section {
@@ -43,6 +49,14 @@ struct MainView: View {
                     // Menu labels take the list's blue tint; keep the value neutral like its siblings.
                     .tint(.primary)
                 }
+
+                // The extension takes its language from Safari, which the app can't override,
+                // so the app doesn't either: iOS lists a Language row on the app's Settings page.
+                Link(destination: URL(string: UIApplication.openSettingsURLString)!) {
+                    SettingsRow(symbol: "character.bubble.fill", title: "settings.language",
+                                detail: Text(verbatim: languageName), trailing: .external)
+                }
+                .buttonStyle(.plain)
             }
 
             Section {
