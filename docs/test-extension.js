@@ -1,4 +1,4 @@
-// Live status box for /setup-extension-permission/ (the Test page the app's
+// Live status box for /test-extension/ (the Test page the app's
 // Setup opens). The extension's content script marks
 // <html data-ebfinder-access="all|partial"> when it runs here; until then Safari
 // isn't letting it run on this page. Success is drawn here too, in the brand blue.
