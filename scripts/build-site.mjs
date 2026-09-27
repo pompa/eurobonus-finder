@@ -5,10 +5,13 @@
 //   README.sv.md   → _site/sv/index.html
 //   PRIVACY.md     → _site/privacy/index.html      (the App Store privacy URL)
 //   PRIVACY.sv.md  → _site/sv/privacy/index.html
+//   SETUP-EXTENSION.md    → _site/setup-extension-permission/index.html      (the Test page the app opens)
+//   SETUP-EXTENSION.sv.md → _site/sv/setup-extension-permission/index.html
 //
 // Markdown is rendered by GitHub's own API, so the site matches github.com. The
 // page shell (styles, meta tags, analytics) is docs/template.html; everything
-// else in docs/ (icons, badges, CNAME) is copied as-is.
+// else in docs/ (icons, badges, CNAME, page scripts) is copied as-is. A page's
+// `script` is a file in docs/ that only that page loads.
 //
 // Usage: node scripts/build-site.mjs           (GITHUB_TOKEN optional; avoids rate limits)
 //        node scripts/build-site.mjs --serve   build, then preview on :8000
@@ -27,6 +30,8 @@ const PAGES = [
   { doc: "home", lang: "sv", ogLocale: "sv_SE", readme: "README.sv.md", path: "/sv/" },
   { doc: "privacy", lang: "en", ogLocale: "en_US", readme: "PRIVACY.md", path: "/privacy/" },
   { doc: "privacy", lang: "sv", ogLocale: "sv_SE", readme: "PRIVACY.sv.md", path: "/sv/privacy/" },
+  { doc: "setup", lang: "en", ogLocale: "en_US", readme: "SETUP-EXTENSION.md", path: "/setup-extension-permission/", script: "/setup-extension-permission.js" },
+  { doc: "setup", lang: "sv", ogLocale: "sv_SE", readme: "SETUP-EXTENSION.sv.md", path: "/sv/setup-extension-permission/", script: "/setup-extension-permission.js" },
 ];
 const pathOf = Object.fromEntries(PAGES.map((p) => [p.readme, p.path]));
 
@@ -45,11 +50,12 @@ async function renderMarkdown(text) {
 }
 
 // README paths are repo-relative: images live in docs/ (the site root), the
-// READMEs are pages on the site, and everything else points at GitHub.
+// READMEs are pages on the site, and everything else (bar links with a scheme)
+// points at GitHub.
 function rewriteLinks(html) {
   return html
     .replace(/(src|href)="docs\/([^"]+)"/g, '$1="/$2"')
-    .replace(/href="(?!https?:|mailto:|#|\/)([^"]+)"/g, (_, target) =>
+    .replace(/href="(?![a-z][a-z0-9+.-]*:|#|\/)([^"]+)"/g, (_, target) =>
       `href="${pathOf[target] ?? `https://github.com/${REPO}/blob/main/${target}`}"`,
     );
 }
@@ -86,6 +92,7 @@ for (const page of PAGES) {
       (p) => `<a href="${p.path}" hreflang="${p.lang}"${p === page ? ' aria-current="page"' : ""}>${p.lang.toUpperCase()}</a>`,
     ).join(""),
     content: html,
+    script: page.script ? `<script src="${page.script}" defer></script>` : "",
   };
   const out = template.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key]);
   await mkdir(OUT + page.path, { recursive: true });
