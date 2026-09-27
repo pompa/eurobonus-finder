@@ -1,38 +1,74 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "about.card.subtitle" : {
-      "comment" : "About page — the card under the app name: purpose and author. Opens the website.",
+    "about.card.developedBy" : {
+      "comment" : "About page — last line of the card; the name is a Markdown link to ronald.pompa.se.",
       "extractionState" : "manual",
       "localizations" : {
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gå aldrig glip af EuroBonus-point i Safari. Lavet af Ronald Pompa."
+            "value" : "Udviklet af [Ronald Pompa](https://ronald.pompa.se)"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Never miss EuroBonus points in Safari. Made by Ronald Pompa."
+            "value" : "Developed by [Ronald Pompa](https://ronald.pompa.se)"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Älä jää paitsi EuroBonus-pisteistä Safarissa. Tekijä: Ronald Pompa."
+            "value" : "Kehittäjä: [Ronald Pompa](https://ronald.pompa.se)"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gå aldri glipp av EuroBonus-poeng i Safari. Laget av Ronald Pompa."
+            "value" : "Utviklet av [Ronald Pompa](https://ronald.pompa.se)"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Missa aldrig EuroBonus-poäng i Safari. Skapat av Ronald Pompa."
+            "value" : "Utvecklad av [Ronald Pompa](https://ronald.pompa.se)"
+          }
+        }
+      }
+    },
+    "about.card.subtitle" : {
+      "comment" : "About page — the card description under the app name (General-style card).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser hvilke butikker der er EuroBonus-partnere, mens du browser og søger i Safari, og hjælper dig med at optjene point via SAS Online Shopping."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows which shops are EuroBonus partners while you browse and search in Safari, and helps you earn points through SAS Online Shopping."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Näyttää, mitkä kaupat ovat EuroBonus-kumppaneita, kun selaat ja haet Safarissa, ja auttaa sinua keräämään pisteitä SAS Online Shoppingin kautta."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser hvilke butikker som er EuroBonus-partnere mens du surfer og søker i Safari, og hjelper deg å tjene poeng via SAS Online Shopping."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visar vilka butiker som är EuroBonus-partner medan du surfar och söker i Safari, och hjälper dig att tjäna poäng via SAS Online Shopping."
           }
         }
       }
@@ -285,6 +321,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
+          }
+        }
+      }
+    },
+    "about.website" : {
+      "comment" : "About page — row that opens eurobonus.pompa.se.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Websted"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verkkosivusto"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nettsted"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webbplats"
           }
         }
       }
