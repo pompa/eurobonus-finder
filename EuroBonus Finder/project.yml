@@ -188,6 +188,11 @@ targets:
             echo "error: FEED_HOST is not set. Add 'FEED_HOST = feed.example.com' to Config/Build.local.xcconfig (see workers/eb-feed/README.md)."
             exit 1
           fi
+          # A stray byte after the closing brace makes Safari drop the whole
+          # locale table and show raw keys; fail the build instead.
+          for f in "$SRCROOT"/Extension/Resources/_locales/*/messages.json; do
+            python3 -m json.tool "$f" >/dev/null || { echo "error: invalid JSON in $f"; exit 1; }
+          done
           mkdir -p "$(dirname "$SCRIPT_OUTPUT_FILE_0")"
           sed -E -e 's/("version"[[:space:]]*:[[:space:]]*")[^"]+(")/\1'"${MARKETING_VERSION}"'\2/' \
             "$SCRIPT_INPUT_FILE_0" > "$SCRIPT_OUTPUT_FILE_0"
