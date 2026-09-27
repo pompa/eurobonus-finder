@@ -68,6 +68,8 @@ struct EBAppIcon: View {
     var size: CGFloat = 96
     var float: Bool = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var shown = false
+    @State private var lifted = false
 
     var body: some View {
         Image("EBIcon")
@@ -76,11 +78,14 @@ struct EBAppIcon: View {
             .frame(width: size, height: size)
             .clipShape(RoundedRectangle(cornerRadius: size * 0.225, style: .continuous))
             .shadow(color: .black.opacity(0.25), radius: 15, x: 0, y: 10)
-            // A single phase never animates, so this rests when floating is off.
-            .phaseAnimator(float && !reduceMotion ? [0, -8] : [0]) { content, lift in
-                content.offset(y: lift)
-            } animation: { _ in
-                .easeInOut(duration: 2.5)
+            // Fades in where it sits, then bobs. Plain state instead of `phaseAnimator`,
+            // which flew the icon in from above the screen when Setup replaced the main view.
+            .opacity(shown ? 1 : 0)
+            .offset(y: lifted ? -8 : 0)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.6)) { shown = true }
+                guard float && !reduceMotion else { return }
+                withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true).delay(0.6)) { lifted = true }
             }
     }
 }
