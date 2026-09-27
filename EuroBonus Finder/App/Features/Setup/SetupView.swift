@@ -2,80 +2,98 @@ import SwiftUI
 
 // Setup — the app's first-run flow.
 //
-//   welcome → region → extension setup → completed (or incomplete, if skipped)
+//   welcome → region → extension setup → verify → completed (or incomplete)
 //
-// A forward-only flow (no back button) on the brand background: centered
-// content, progress dots and docked buttons. The extension setup step is the
-// shared `ExtensionSetupContent` / `ExtensionSetupActions`; it's always shown
-// (even when already set up) and never advances on its own — "Continue" moves
-// on, or skips it.
+// A NavigationStack on the brand background, so pushes, the back button and
+// the swipe-back gesture are the system's. Each screen is centered content
+// with docked buttons and progress dots in place of a title. No step advances
+// on its own — "Continue" moves on, or skips. Extension setup goes straight to
+// incomplete while the extension is off (the Test page couldn't pass); verify
+// goes to completed only once the Test page proved website access. A
+// `setup/<screen>` deep link (the Test page's "Back to the app") opens that screen.
 
 struct SetupView: View {
     let state: ExtensionState
+    /// The last Setup deep link, if any; each new one opens its screen.
+    var link: SetupLink?
     /// Called with `.completed` or `.incomplete` when the user leaves setup.
     let onFinish: (SetupState) -> Void
 
-    @State private var screen: Screen = .welcome
+    /// Screens pushed over welcome.
+    @State private var path: [Screen] = []
+    @State private var verify = VerifyRun()
     @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
 
-    private enum Screen: Hashable { case welcome, chooseRegion, extensionSetup, completed, incomplete }
+    private enum Screen: Hashable { case welcome, chooseRegion, extensionSetup, verify, completed, incomplete }
 
     var body: some View {
-        ZStack {
-            BrandBackground()
-
-            VStack(spacing: 0) {
-                progressBar
-
-                Spacer(minLength: 0)
-
-                content
-                    .id(screen)
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .trailing).combined(with: .opacity),
-                        removal: .move(edge: .leading).combined(with: .opacity)
-                    ))
-
-                Spacer(minLength: 0)
-
-                actions
-                    .padding(.horizontal, 24)
-                    .padding(.top, 14)
-                    .padding(.bottom, 8)
-            }
+        NavigationStack(path: $path) {
+            page(.welcome)
+                .navigationDestination(for: Screen.self, destination: page)
         }
-        .animation(.snappy, value: screen)
+        .onAppear(perform: Market.preselectDeviceDefault)
+        .onChange(of: link, initial: true) {
+            if let link { open(link.screen) }
+        }
+    }
+
+    // MARK: One screen: dots up top, centered content, docked buttons
+
+    private func page(_ screen: Screen) -> some View {
+        VStack(spacing: 0) {
+            Spacer(minLength: 0)
+            content(for: screen)
+            Spacer(minLength: 0)
+            actions(for: screen)
+                .padding(.horizontal, 24)
+                .padding(.top, 14)
+                .padding(.bottom, 8)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .containerBackground(for: .navigation) { BrandBackground() }
+        .toolbar {
+            // Our own back button (the system one is pale glass on the brand
+            // blue); `SwipeBack` keeps the gesture that hiding it would drop.
+            if screen != .welcome {
+                ToolbarItem(placement: .navigation) {
+                    Button(action: { path.removeLast() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.body.weight(.semibold))
+                    }
+                    .buttonStyle(.glassProminent)
+                    .tint(Theme.Colors.primary)
+                    .accessibilityLabel(Text("setup.back"))
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                if let index = dotIndex(for: screen) {
+                    ProgressDots(index: index, total: 4)
+                }
+            }
+            .sharedBackgroundVisibility(.hidden)
+        }
+        .navigationBarBackButtonHidden(screen != .welcome)
+        .background(SwipeBack())
+        .navigationBarTitleDisplayMode(.inline)
         .animation(.snappy, value: state.status)
         .animation(.snappy, value: state.hostPermission)
-        .onAppear(perform: Market.preselectDeviceDefault)
     }
 
-    // MARK: Progress dots (forward-only, no back button)
-
-    private var progressBar: some View {
-        ZStack {
-            if let index = dotIndex {
-                ProgressDots(index: index, total: 3)
-            }
-        }
-        .frame(height: 40)
-        .padding(.top, 12)
-    }
-
-    // Region picker, extension setup, then the completed/incomplete screen.
-    private var dotIndex: Int? {
+    // Region picker, extension setup, verify, then the completed/incomplete screen.
+    private func dotIndex(for screen: Screen) -> Int? {
         switch screen {
-        case .welcome: return nil
-        case .chooseRegion: return 0
-        case .extensionSetup: return 1
-        case .completed, .incomplete: return 2
+        case .welcome: nil
+        case .chooseRegion: 0
+        case .extensionSetup: 1
+        case .verify: 2
+        case .completed, .incomplete: 3
         }
     }
 
     // MARK: Centered content per screen
 
     @ViewBuilder
-    private var content: some View {
+    private func content(for screen: Screen) -> some View {
         switch screen {
         case .welcome:
             welcome
@@ -83,6 +101,8 @@ struct SetupView: View {
             chooseRegion
         case .extensionSetup:
             ExtensionSetupContent(state: state)
+        case .verify:
+            VerifyContent(state: state, run: $verify)
         case .completed:
             finish(title: "setup.completed.title") { CompletionCheck(size: 96) }
         case .incomplete:
@@ -177,36 +197,61 @@ struct SetupView: View {
     // MARK: Docked buttons per screen
 
     @ViewBuilder
-    private var actions: some View {
+    private func actions(for screen: Screen) -> some View {
         switch screen {
         case .welcome:
-            BrandButton("setup.welcome.button", showArrow: true, shimmer: true, action: goNext)
+            SetupButton(title: "setup.welcome.button", trailingIcon: "arrow.right", shimmer: true) { goNext(from: screen) }
                 .accessibilityIdentifier("setup.next")
         case .chooseRegion:
-            BrandButton("setup.continue", showArrow: true, action: goNext)
+            SetupButton(title: "setup.continue", trailingIcon: "arrow.right") { goNext(from: screen) }
                 .accessibilityIdentifier("setup.next")
         case .extensionSetup:
-            ExtensionSetupActions(state: state, onContinue: goNext)
+            ExtensionSetupActions(state: state) { goNext(from: screen) }
+        case .verify:
+            VerifyActions(state: state, run: $verify) { goNext(from: screen) }
         case .completed, .incomplete:
-            BrandButton("setup.finish", showArrow: true, shimmer: true, action: goNext)
+            SetupButton(title: "setup.finish", trailingIcon: "arrow.right", shimmer: true) { goNext(from: screen) }
         }
     }
 
-    // MARK: Navigation (forward-only)
+    // MARK: Navigation
 
-    private func goNext() {
+    private func goNext(from screen: Screen) {
         switch screen {
         case .welcome:
-            screen = .chooseRegion
+            push(.chooseRegion)
         case .chooseRegion:
-            screen = .extensionSetup
+            push(.extensionSetup)
         case .extensionSetup:
-            screen = state.isSetUp ? .completed : .incomplete
+            push(state.status == .enabled ? .verify : .incomplete)
+        case .verify:
+            push(verify.status(state) == .working ? .completed : .incomplete)
         case .completed:
             onFinish(.completed)
         case .incomplete:
             onFinish(.incomplete)
         }
+    }
+
+    /// Verify starts a fresh run each time it's entered: only pings from then on count.
+    private func push(_ screen: Screen) {
+        if screen == .verify { verify = VerifyRun() }
+        path.append(screen)
+    }
+
+    /// A deep link's screen, with the steps before it behind it. Already there
+    /// (the Test page linking back to verify) is a no-op, keeping the run.
+    private func open(_ target: SetupScreen) {
+        let next: [Screen] = switch target {
+        case .welcome: []
+        case .region: [.chooseRegion]
+        case .extension: [.chooseRegion, .extensionSetup]
+        case .verify: [.chooseRegion, .extensionSetup, .verify]
+        case .done: [.chooseRegion, .extensionSetup, .verify, state.isSetUp ? .completed : .incomplete]
+        }
+        guard next != path else { return }
+        if next.last == .verify, path.last != .verify { verify = VerifyRun() }
+        path = next
     }
 }
 
@@ -224,5 +269,6 @@ private struct ProgressDots: View {
                     .frame(width: i == index ? 22 : 7, height: 7)
             }
         }
+        .animation(.snappy, value: index)
     }
 }

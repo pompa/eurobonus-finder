@@ -16,18 +16,6 @@ struct MainView: View {
 
     var body: some View {
         List {
-            // Gone once every Tutorial step is done; a Reset brings it back.
-            if !(seenBadge && visitedPartner && sasShoppingReturn) {
-                Section {
-                    // Standalone button: no inset-grouped card behind it.
-                    TutorialCard(disabled: state.needsAttention)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets())
-                } header: {
-                    Text("tutorial.title")
-                }
-            }
-
             Section {
                 NavigationLink(value: Route.extensionSettings) {
                     SettingsRow(symbol: "puzzlepiece.extension.fill", title: "settings.extension",
@@ -71,6 +59,18 @@ struct MainView: View {
 
             Section {
                 CreditCard()
+            }
+
+            // Gone once every Tutorial step is done; a Reset brings it back.
+            if !(seenBadge && visitedPartner && sasShoppingReturn) {
+                Section {
+                    // Standalone button: no inset-grouped card behind it.
+                    TutorialCard(disabled: state.needsAttention)
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
+                } header: {
+                    Text("tutorial.title")
+                }
             }
         }
         .navigationTitle(Text(verbatim: appName))

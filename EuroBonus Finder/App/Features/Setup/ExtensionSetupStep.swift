@@ -30,12 +30,18 @@ struct ExtensionSetupContent: View {
             VStack(spacing: 12) {
                 ExtensionStatusCard(status: state.status)
                 PermissionsCard(state: state)
+                // The rate-limit fallback matters more than the next-step hint.
                 if state.isRateLimited {
                     Text("extension.settingsPath")
                         .font(.footnote)
                         .foregroundStyle(BrandPalette.sub)
                         .tint(BrandPalette.ink)
                         .opensSettingsApps()
+                        .frame(maxWidth: 320)
+                } else if state.openedSettings, state.isGranted(.allWebsites) == nil {
+                    Text("setup.extension.testHint")
+                        .font(.footnote)
+                        .foregroundStyle(BrandPalette.sub)
                         .frame(maxWidth: 320)
                 }
             }
@@ -55,28 +61,45 @@ struct ExtensionSetupContent: View {
     }
 }
 
-/// "Open Extension Settings" above "Continue". Continue is always available:
-/// permission detection waits on the extension's next page load, so never
-/// trap the user here.
+/// While the extension is off: "Open Extension Settings" leads, "Skip" below.
+/// Once it's on: "Open Extension Settings" (ghost) above "Continue". The user
+/// can always move on: permission detection waits on the Test page anyway.
 struct ExtensionSetupActions: View {
     let state: ExtensionState
     let onContinue: () -> Void
 
+    private var isOff: Bool {
+        switch state.status {
+        case .disabled, .error: true
+        case .enabled, .unknown: false
+        }
+    }
+
     var body: some View {
         VStack(spacing: 14) {
-            if state.isRateLimited {
-                TimelineView(.periodic(from: .now, by: 1)) { context in
-                    BrandButton("setup.extension.buttonWait \(state.settingsCountdown(at: context.date))",
-                                variant: .ghost, action: {})
-                        .disabled(true)
-                }
+            if isOff {
+                settingsButton(role: .primary)
+                SetupButton(title: "setup.skip", role: .skip, action: onContinue)
             } else {
-                BrandButton("setup.extension.button", variant: .ghost) {
-                    Task { await state.openSafariExtensionPreferences() }
-                }
+                settingsButton(role: .ghost)
+                SetupButton(title: "setup.continue", trailingIcon: "arrow.right", shimmer: state.isSetUp, action: onContinue)
             }
-            BrandButton("setup.continue", variant: .primary,
-                        showArrow: true, shimmer: state.isSetUp, action: onContinue)
+        }
+        .animation(.snappy, value: isOff)
+    }
+
+    @ViewBuilder
+    private func settingsButton(role: SetupButton.Role) -> some View {
+        if state.isRateLimited {
+            TimelineView(.periodic(from: .now, by: 1)) { context in
+                SetupButton(title: "setup.extension.buttonWait \(state.settingsCountdown(at: context.date))",
+                            role: role, action: {})
+                    .disabled(true)
+            }
+        } else {
+            SetupButton(title: "setup.extension.button", role: role) {
+                Task { await state.openSafariExtensionPreferences() }
+            }
         }
     }
 }
@@ -104,14 +127,18 @@ private struct PermissionsCard: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer(minLength: 8)
-                    // Safari only reveals Allow; Ask, Deny and not-yet-reported
-                    // all need the user's attention.
-                    if state.isGranted(permission) == true {
+                    // Safari only reveals Allow, and only once a page has loaded
+                    // with the extension — so nothing is known here yet. The
+                    // verify step finds out; only a reported Ask/Deny warns.
+                    switch state.isGranted(permission) {
+                    case true:
                         Text("setup.permissions.allowed")
-                    } else {
+                    case false:
                         WarningMark()
                         Text("setup.permissions.allow")
                             .fontWeight(.semibold)
+                    case nil:
+                        Text("setup.permissions.pending")
                     }
                 }
                 .font(.footnote.weight(.medium))
@@ -120,10 +147,8 @@ private struct PermissionsCard: View {
                 .accessibilityElement(children: .combine)
             }
         }
-        .foregroundStyle(BrandPalette.ink)
         .multilineTextAlignment(.leading)
-        .background(BrandPalette.chipBackground, in: .rect(cornerRadius: 14, style: .continuous))
-        .frame(maxWidth: 320)
+        .setupCard()
     }
 }
 
@@ -147,17 +172,24 @@ private struct ExtensionStatusCard: View {
             }
         }
         .font(.footnote.weight(.medium))
-        .foregroundStyle(BrandPalette.ink)
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .accessibilityElement(children: .combine)
-        .background(BrandPalette.chipBackground, in: .rect(cornerRadius: 14, style: .continuous))
-        .frame(maxWidth: 320)
+        .setupCard()
+    }
+}
+
+extension View {
+    /// The chip the Setup steps show their status rows in.
+    func setupCard() -> some View {
+        foregroundStyle(BrandPalette.ink)
+            .background(BrandPalette.chipBackground, in: .rect(cornerRadius: 14, style: .continuous))
+            .frame(maxWidth: 320)
     }
 }
 
 /// Draws attention to a value that isn't set correctly; sits left of the value.
-private struct WarningMark: View {
+struct WarningMark: View {
     var body: some View {
         Image(systemName: "exclamationmark.triangle.fill")
             .foregroundStyle(Theme.Colors.warning)

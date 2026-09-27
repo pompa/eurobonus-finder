@@ -10,6 +10,8 @@ on:
       - README.sv.md
       - PRIVACY.md
       - PRIVACY.sv.md
+      - SETUP-EXTENSION.md
+      - SETUP-EXTENSION.sv.md
       - docs/**
       - scripts/build-site.mjs
       - .github/workflows/pages.yml

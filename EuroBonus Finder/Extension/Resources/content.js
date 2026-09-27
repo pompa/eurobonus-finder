@@ -1,3 +1,10 @@
+// The Test page (eurobonus.pompa.se/test-extension, opened by the
+// app's Setup): tell the page whether we run here and with what access; its own
+// script draws the result, and handles the "extension never ran" case (then
+// neither do we). Setup opens it with #ebfSetup, which forces a fresh ping.
+const TEST_PAGE_HOST = "eurobonus.pompa.se";
+// Declared before the IIFE below: it runs synchronously up to its first await.
+
 (async function () {
   const api = globalThis.browser || globalThis.chrome;
   if (!api || !api.storage) return;
@@ -5,10 +12,17 @@
   // Tutorial: the app's Tutorial card opens its Google search with #ebfTutorial.
   // Capture it synchronously now, before Google's SERP JS can rewrite the URL.
   const fromTutorialCard = /[#&]ebfTutorial\b/.test(window.location.hash || "");
+  // Setup: the app's verify step opens the Test page with #ebfSetup.
+  const fromSetup = /[#&]ebfSetup\b/.test(window.location.hash || "");
 
-  reportHostPermission(api);
+  reportHostPermission(api, fromSetup);
 
   const { t } = EBFeed;
+
+  if (window.location.hostname === TEST_PAGE_HOST) {
+    await markTestPage(api);
+    return;
+  }
   EBFeed.refreshMarket();
   const market = await EBFeed.getMarket();
 
@@ -690,12 +704,21 @@
   if (coachBanner) showBannerCoachmark();
 })();
 
-function reportHostPermission(api) {
+function reportHostPermission(api, force = false) {
   // Ask the background script to ping the host app on every page load so it can
   // live-verify Safari's website-access grant (content scripts can't read
-  // permissions). Fire-and-forget.
+  // permissions). Fire-and-forget. `force` re-pings even when nothing changed.
   if (!api.runtime || !api.runtime.sendMessage) return;
   Promise.resolve(
-    api.runtime.sendMessage({ type: "report-permissions", origin: location.origin })
+    api.runtime.sendMessage({ type: "report-permissions", origin: location.origin, force })
   ).catch(() => {});
+}
+
+// See TEST_PAGE_HOST at the top of the file.
+async function markTestPage(api) {
+  let hasAllUrls = false;
+  try {
+    ({ hasAllUrls } = await api.runtime.sendMessage({ type: "get-permissions" }));
+  } catch (e) {}
+  document.documentElement.dataset.ebfinderAccess = hasAllUrls ? "all" : "partial";
 }

@@ -23,8 +23,12 @@ _Avoid_: SAS return, affiliate return, pending return
 ### Getting started
 
 **Setup**:
-The app's first-run flow: turning on the extension, granting it website access, and choosing a region.
+The app's first-run flow: choosing a region, turning on the extension, granting it website access, and confirming that on the Test page.
 _Avoid_: Onboarding, intro
+
+**Test page**:
+The page on eurobonus.pompa.se that Setup opens in Safari to confirm the extension runs on every website.
+_Avoid_: Verification page, permission check
 
 **Tutorial**:
 The coaching the extension does in Safari to show the user how Badges, the Banner and the SAS Shopping return work. The app starts it; the extension runs it.

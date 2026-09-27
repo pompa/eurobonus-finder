@@ -23,13 +23,15 @@ const hasAllSitesAccess = async () => {
 
 const readGrants = async () => ({ hasAllUrls: await hasAllSitesAccess() });
 
-// Only wakes the native handler when the grants changed since the last report.
-const reportPermissions = async (origin = "") => {
+// Only wakes the native handler when the grants changed since the last report —
+// unless forced: the Test page needs a fresh ping even when nothing changed
+// (the app may have been Reset since, or wants proof newer than its Setup step).
+const reportPermissions = async (origin = "", force = false) => {
   const grants = await readGrants();
   const key = JSON.stringify(grants);
   try {
     const { reportedPermissions } = await api.storage.local.get("reportedPermissions");
-    if (reportedPermissions === key) return;
+    if (!force && reportedPermissions === key) return;
     await api.runtime.sendNativeMessage("application.id", {
       type: "host-permission-ping",
       origin,
@@ -86,7 +88,7 @@ const reset = async () => {
 
 api.runtime.onMessage.addListener((message) => {
   if (!message) return;
-  if (message.type === "report-permissions") reportPermissions(message.origin);
+  if (message.type === "report-permissions") reportPermissions(message.origin, message.force);
   if (message.type === "get-permissions") return readGrants();
   if (message.type === "sync-reset") return syncReset();
   if (message.type === "complete-tutorial-step") return completeTutorialStep(message.step);

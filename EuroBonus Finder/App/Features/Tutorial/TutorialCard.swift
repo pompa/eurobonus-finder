@@ -10,8 +10,18 @@ struct TutorialCard: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            SButton("tutorial.button", systemImage: "magnifyingglass", action: start)
-                .disabled(disabled)
+            // Flat (not glass): a content button inside the list, like the
+            // system's own "Browse Extensions".
+            Button(action: start) {
+                Label("tutorial.button", systemImage: "magnifyingglass")
+                    .labelStyle(.titleAndIcon) // the list would otherwise drop the icon
+                    .font(.body.weight(.medium))
+                    .frame(maxWidth: .infinity, minHeight: 34)
+            }
+            .buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .tint(Theme.Colors.primary)
+            .disabled(disabled)
 
             Text(disabled ? "tutorial.disabledHint" : "tutorial.caption")
                 .font(.footnote)

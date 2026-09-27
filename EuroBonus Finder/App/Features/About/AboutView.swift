@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// About — version, source, license and disclaimer, plus Reset settings.
+/// About — version, source, license, disclaimer and Debug (Debug builds only), plus Reset settings.
 struct AboutView: View {
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
@@ -31,9 +31,19 @@ struct AboutView: View {
                 Text("about.disclaimer.header")
             }
 
+            #if DEBUG
+            Section {
+                NavigationLink(value: Route.debug) {
+                    SettingsRow(title: "about.debug")
+                }
+            }
+            #endif
+
             Section {
                 // Setup takes over once `setupState` is cleared (see ContentView).
                 Button("about.reset", role: .destructive) { withAnimation(.snappy) { Reset.perform() } }
+            } footer: {
+                Text("about.reset.hint")
             }
         }
         .navigationTitle("about.title")

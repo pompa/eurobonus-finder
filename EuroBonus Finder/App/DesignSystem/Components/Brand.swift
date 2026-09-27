@@ -113,71 +113,55 @@ struct CompletionCheck: View {
 // MARK: - Buttons
 
 /// Full-width capsule button on the brand background.
-struct BrandButton: View {
-    enum Variant { case primary, ghost }
+/// A full-width Setup button: prominent glass in the brand blue, with an
+/// optional shimmer for the step's main action; bare text for a secondary one;
+/// or muted text with a chevron for skipping the step.
+struct SetupButton: View {
+    enum Role { case primary, ghost, skip }
 
-    private let titleKey: LocalizedStringKey
-    private let variant: Variant
-    private let showArrow: Bool
-    private let shimmer: Bool
-    private let action: () -> Void
+    let title: LocalizedStringKey
+    var role: Role = .primary
+    var icon: String? = nil
+    var trailingIcon: String? = nil
+    var shimmer = false
+    let action: () -> Void
 
-    init(_ titleKey: LocalizedStringKey, variant: Variant = .primary,
-         showArrow: Bool = false, shimmer: Bool = false,
-         action: @escaping () -> Void) {
-        self.titleKey = titleKey
-        self.variant = variant
-        self.showArrow = showArrow
-        self.shimmer = shimmer
-        self.action = action
-    }
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 8) {
-                Text(titleKey)
-                    .kerning(0.6)
-                if showArrow {
-                    Image(systemName: "arrow.right")
-                }
-            }
-        }
-        .buttonStyle(BrandButtonStyle(variant: variant, shimmer: shimmer))
-    }
-}
-
-private struct BrandButtonStyle: ButtonStyle {
-    let variant: BrandButton.Variant
-    let shimmer: Bool
-
-    @Environment(\.isEnabled) private var isEnabled
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    func makeBody(configuration: Configuration) -> some View {
-        styled(configuration.label
-            // Tabular digits so the rate-limit countdown doesn't shift the title as it ticks.
-            .font(.subheadline.bold().monospacedDigit())
-            .frame(maxWidth: .infinity, minHeight: 54))
-            .opacity(isEnabled ? 1 : 0.6)
-            .scaleEffect(configuration.isPressed ? 0.97 : 1)
-            .animation(.snappy(duration: 0.12), value: configuration.isPressed)
-    }
-
-    @ViewBuilder
-    private func styled(_ label: some View) -> some View {
-        switch variant {
+    var body: some View {
+        switch role {
         case .primary:
-            label
-                .foregroundStyle(Theme.Colors.primaryForeground)
-                .background(Theme.Colors.primary)
-                .overlay { if shimmer && !reduceMotion { ShimmerSweep() } }
-                .clipShape(.capsule)
+            Button(action: action) { label }
+                .buttonStyle(.glassProminent)
+                .tint(Theme.Colors.primary)
+                .overlay { if shimmer && !reduceMotion { ShimmerSweep().clipShape(.capsule).allowsHitTesting(false) } }
                 .shadow(color: Theme.Colors.primary.opacity(0.40), radius: 13, x: 0, y: 10)
         case .ghost:
-            label
+            Button(action: action) { label.padding(.vertical, 10) }
+                .buttonStyle(.plain)
                 .foregroundStyle(Theme.Colors.brandForeground)
-                .contentShape(.capsule)
+        case .skip:
+            Button(action: action) { label.padding(.vertical, 10) }
+                .buttonStyle(.plain)
+                .foregroundStyle(BrandPalette.sub)
         }
+    }
+
+    private var label: some View {
+        HStack(spacing: 8) {
+            if let icon {
+                Image(systemName: icon)
+            }
+            Text(title)
+                .kerning(0.6)
+            if let trailingIcon = trailingIcon ?? (role == .skip ? "chevron.right" : nil) {
+                Image(systemName: trailingIcon)
+            }
+        }
+        // Tabular digits so the rate-limit countdown doesn't shift the title as it ticks.
+        .font(.subheadline.bold().monospacedDigit())
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
     }
 }
 

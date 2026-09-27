@@ -1,6 +1,42 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "about.debug" : {
+      "comment" : "About page — row (and screen title) for the Debug screen showing raw app and extension values.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        }
+      }
+    },
     "about.disclaimer.body" : {
       "comment" : "About page — independence disclaimer body.",
       "extractionState" : "manual",
@@ -141,6 +177,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Återställ inställningar"
+          }
+        }
+      }
+    },
+    "about.reset.hint" : {
+      "comment" : "About page — footer under Reset settings.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rydder alt og starter opsætningen igen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clears everything and starts Setup again."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyhjentää kaiken ja aloittaa asennuksen alusta."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tømmer alt og starter oppsettet på nytt."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rensar allt och startar om installationen."
           }
         }
       }
@@ -332,31 +404,31 @@
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Åbn Safaris udvidelsesindstillinger"
+            "value" : "Indstillinger"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Safari Extension Settings"
+            "value" : "Settings"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avaa Safarin laajennusasetukset"
+            "value" : "Asetukset"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Åpne Safaris utvidelsesinnstillinger"
+            "value" : "Innstillinger"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öppna Safaris tilläggsinställningar"
+            "value" : "Inställningar"
           }
         }
       }
@@ -433,6 +505,150 @@
         }
       }
     },
+    "extensionSettings.permissions" : {
+      "comment" : "Extension settings — row for the extension's website access (Safari's Other Websites).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilladelser"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissions"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käyttöoikeudet"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillatelser"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheter"
+          }
+        }
+      }
+    },
+    "extensionSettings.test" : {
+      "comment" : "Extension settings — row that opens the Test page in Safari.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test tilladelser"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test Permissions"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testaa käyttöoikeudet"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test tillatelser"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testa behörigheter"
+          }
+        }
+      }
+    },
+    "extensionSettings.testHint" : {
+      "comment" : "Extension settings — footer under the Test page row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbner en side i Safari for at bekræfte tilladelserne."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens page in Safari to verify permissions."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa sivun Safarissa käyttöoikeuksien tarkistamiseksi."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpner en side i Safari for å bekrefte tillatelsene."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppnar en sida i Safari för att verifiera behörigheterna."
+          }
+        }
+      }
+    },
+    "extensionSettings.troubleshoot" : {
+      "comment" : "Extension settings — row that opens the troubleshoot sheet.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fejlfinding"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troubleshoot"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vianmääritys"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feilsøking"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Felsökning"
+          }
+        }
+      }
+    },
     "permissions.allWebsites.detail" : {
       "comment" : "What all-websites access is used for, and what isn't done with it.",
       "extractionState" : "manual",
@@ -440,31 +656,31 @@
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Læser webstedets domæne for at matche det med partnere."
+            "value" : "Læser webadressen for at matche kampagner."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reads the site's domain to match it against partners."
+            "value" : "Reads website address to match campaigns."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lukee sivuston verkkotunnuksen ja vertaa sitä kumppaneihin."
+            "value" : "Lukee verkko-osoitteen kampanjoiden tunnistamiseksi."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leser nettstedets domene for å matche det mot partnere."
+            "value" : "Leser nettadressen for å matche kampanjer."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Läser webbplatsens domän för att matcha den mot partners."
+            "value" : "Läser webbadressen för att matcha kampanjer."
           }
         }
       }
@@ -793,6 +1009,42 @@
         }
       }
     },
+    "setup.back" : {
+      "comment" : "Setup — accessibility label of the back button.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilbage"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takaisin"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilbake"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillbaka"
+          }
+        }
+      }
+    },
     "setup.completed.title" : {
       "comment" : "Title on the last onboarding screen when the extension is fully set up.",
       "extractionState" : "manual",
@@ -1045,6 +1297,42 @@
         }
       }
     },
+    "setup.extension.testHint" : {
+      "comment" : "Setup extension step — footnote after coming back from Safari's settings, while website access is still unreported.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi tester adgangen til websteder i næste trin."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll test website access in the next step."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testaamme sivustojen käyttöoikeuden seuraavassa vaiheessa."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi tester nettstedtilgangen i neste steg."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi testar webbplatsåtkomsten i nästa steg."
+          }
+        }
+      }
+    },
     "setup.extension.title" : {
       "comment" : "Title on the 'set up the extension' step (turn it on + allow all websites).",
       "extractionState" : "manual",
@@ -1261,6 +1549,42 @@
         }
       }
     },
+    "setup.permissions.pending" : {
+      "comment" : "Setup extension step — Other Websites value before Safari has reported anything; the verify step finds out.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg Tillad"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Allow"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valitse Salli"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg Tillat"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj Tillåt"
+          }
+        }
+      }
+    },
     "setup.region.detail" : {
       "comment" : "Body on the 'choose your region' onboarding step. The region picks which country's EuroBonus partners are shown.",
       "extractionState" : "manual",
@@ -1329,6 +1653,402 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Välj din region"
+          }
+        }
+      }
+    },
+    "setup.skip" : {
+      "comment" : "Setup verify step — ghost button that moves on without a passed test (uppercase).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SPRING OVER"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SKIP"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OHITA"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HOPP OVER"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HOPPA ÖVER"
+          }
+        }
+      }
+    },
+    "setup.verify.access" : {
+      "comment" : "Setup verify step — label of the status row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adgang til websteder"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website access"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sivustojen käyttöoikeus"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nettstedtilgang"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webbplatsåtkomst"
+          }
+        }
+      }
+    },
+    "setup.verify.button" : {
+      "comment" : "Setup verify step — button that opens the Test page in Safari (uppercase).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ÅBN I SAFARI"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OPEN IN SAFARI"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AVAA SAFARISSA"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ÅPNE I SAFARI"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ÖPPNA I SAFARI"
+          }
+        }
+      }
+    },
+    "setup.verify.checking" : {
+      "comment" : "Setup verify step — status right after returning from Safari, while the ping may still land.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tjekker…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking…"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarkistetaan…"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sjekker…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kollar…"
+          }
+        }
+      }
+    },
+    "setup.verify.detail" : {
+      "comment" : "Setup verify step — body under the title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi åbner en testside i Safari. Hvis EuroBonus Finder må køre på alle websteder, siger den hej der – kom så tilbage hertil."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll open a test page in Safari. If EuroBonus Finder is allowed on every website, it says hi there — then come back here."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaamme testisivun Safarissa. Jos EuroBonus Finder saa toimia kaikilla sivustoilla, se tervehtii siellä – palaa sitten tänne."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi åpner en testside i Safari. Hvis EuroBonus Finder får kjøre på alle nettsteder, sier den hei der – kom så tilbake hit."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi öppnar en testsida i Safari. Om EuroBonus Finder får köras på alla webbplatser hälsar den där – kom sedan tillbaka hit."
+          }
+        }
+      }
+    },
+    "setup.verify.idle" : {
+      "comment" : "Setup verify step — status before the Test page was opened.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikke testet endnu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not tested yet"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei vielä testattu"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikke testet ennå"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte testat än"
+          }
+        }
+      }
+    },
+    "setup.verify.notDetected" : {
+      "comment" : "Setup verify step — status when no confirmation arrived after returning.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikke helt endnu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not there yet"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei ihan vielä"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikke helt ennå"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte riktigt än"
+          }
+        }
+      }
+    },
+    "setup.verify.successDetail" : {
+      "comment" : "Setup verify step — footnote under the status row on success.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder må køre på alle websteder. Du er klar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder is allowed on every website. You're good to go."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder saa toimia kaikilla sivustoilla. Kaikki valmista."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder får kjøre på alle nettsteder. Du er klar."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EuroBonus Finder får köras på alla webbplatser. Allt är klart."
+          }
+        }
+      }
+    },
+    "setup.verify.title" : {
+      "comment" : "Setup verify step — title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lad os se det virke"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's see it work"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Katsotaan, toimiiko se"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La oss se det virke"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu testar vi"
+          }
+        }
+      }
+    },
+    "setup.verify.troubleshoot" : {
+      "comment" : "Setup verify step — footnote when nothing was detected; the troubleshoot: link opens the troubleshoot sheet.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så du ikke noget? Prøv igen, eller **[fejlfind](troubleshoot:)**."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Didn't see it? Try again, or **[troubleshoot](troubleshoot:)**."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkö nähnyt mitään? Yritä uudelleen tai **[tee vianmääritys](troubleshoot:)**."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så du ingenting? Prøv igjen, eller **[feilsøk](troubleshoot:)**."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Såg du inget? Försök igen eller **[felsök](troubleshoot:)**."
+          }
+        }
+      }
+    },
+    "setup.verify.working" : {
+      "comment" : "Setup verify step — status once the Test page confirmed access to every website.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det virker!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It works!"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se toimii!"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det virker!"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det funkar!"
           }
         }
       }
@@ -1437,6 +2157,330 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tjäna poäng\nmedan du surfar"
+          }
+        }
+      }
+    },
+    "troubleshoot.apple" : {
+      "comment" : "Troubleshoot sheet — link to Apple's Safari extensions support article.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apples vejledning til Safari-udvidelser"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple's guide to Safari extensions"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applen opas Safari-laajennuksiin"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apples veiledning til Safari-utvidelser"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apples guide till Safari-tillägg"
+          }
+        }
+      }
+    },
+    "troubleshoot.contact" : {
+      "comment" : "Troubleshoot sheet — mailto link.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakt support"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact support"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ota yhteyttä tukeen"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakt support"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakta supporten"
+          }
+        }
+      }
+    },
+    "troubleshoot.done" : {
+      "comment" : "Troubleshoot sheet — toolbar button that closes it.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Færdig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valmis"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferdig"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klar"
+          }
+        }
+      }
+    },
+    "troubleshoot.footer" : {
+      "comment" : "Troubleshoot sheet — footer under the steps.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En advarselstrekant ved siden af EuroBonus Finder i Safaris indstillinger betyder, at den ikke er tilladt overalt endnu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A warning triangle next to EuroBonus Finder in Safari's settings means it isn't allowed everywhere yet."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varoituskolmio EuroBonus Finderin vieressä Safarin asetuksissa tarkoittaa, ettei sitä ole vielä sallittu kaikkialla."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En varseltrekant ved siden av EuroBonus Finder i Safaris innstillinger betyr at den ikke er tillatt overalt ennå."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En varningstriangel bredvid EuroBonus Finder i Safaris inställningar betyder att det inte är tillåtet överallt än."
+          }
+        }
+      }
+    },
+    "troubleshoot.guide" : {
+      "comment" : "Troubleshoot sheet — link to the Test page on the website.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hele vejledningen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full guide"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koko opas"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hele veiledningen"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hela guiden"
+          }
+        }
+      }
+    },
+    "troubleshoot.step1" : {
+      "comment" : "Troubleshoot sheet — step 1.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn Safaris udvidelsesindstillinger, og tryk på EuroBonus Finder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Safari's extension settings and tap EuroBonus Finder."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa Safarin laajennusasetukset ja napauta EuroBonus Finder."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne Safaris utvidelsesinnstillinger og trykk på EuroBonus Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Safaris tilläggsinställningar och tryck på EuroBonus Finder."
+          }
+        }
+      }
+    },
+    "troubleshoot.step2" : {
+      "comment" : "Troubleshoot sheet — step 2. Matches Safari's own labels.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sæt Andre websteder til Tillad."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set Other Websites to Allow."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aseta Muut sivustot -asetukseksi Salli."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sett Andre nettsteder til Tillat."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ställ in Andra webbplatser på Tillåt."
+          }
+        }
+      }
+    },
+    "troubleshoot.step3" : {
+      "comment" : "Troubleshoot sheet — step 3. Matches Safari's own prompt labels.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvis Safari spørger på en side, skal du vælge Tillad altid og derefter Tillad altid på alle websteder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If Safari asks on a page, choose Always Allow, then Always Allow on Every Website."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jos Safari kysyy sivulla, valitse Salli aina ja sitten Salli aina kaikilla sivustoilla."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvis Safari spør på en side, velg Tillat alltid og deretter Tillat alltid på alle nettsteder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om Safari frågar på en sida, välj Tillåt alltid och sedan Tillåt alltid på alla webbplatser."
+          }
+        }
+      }
+    },
+    "troubleshoot.title" : {
+      "comment" : "Troubleshoot sheet — title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fejlfinding"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troubleshoot"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vianmääritys"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feilsøking"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Felsökning"
           }
         }
       }
