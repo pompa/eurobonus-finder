@@ -20,7 +20,6 @@ struct ContentView: View {
                     MainView(state: extensionState)
                         .navigationDestination(for: Route.self, destination: screen)
                 }
-                .tint(.blue)
             }
         }
         // A Reset (from About or the extension) drops back to Setup; start the

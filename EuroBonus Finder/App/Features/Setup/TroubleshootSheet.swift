@@ -31,7 +31,6 @@ struct TroubleshootSheet: View {
                 }
             }
         }
-        .tint(.blue)
         .presentationDetents([.medium, .large])
     }
 
@@ -40,7 +39,7 @@ struct TroubleshootSheet: View {
             Text(text)
         } icon: {
             Image(systemName: "\(number).circle.fill")
-                .foregroundStyle(.blue)
+                .foregroundStyle(.tint)
         }
     }
 

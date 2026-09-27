@@ -46,7 +46,7 @@ struct SetupView: View {
             Spacer(minLength: 0)
             actions(for: screen)
                 .padding(.horizontal, 24)
-                .padding(.top, 14)
+                .padding(.top)
                 .padding(.bottom, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -61,7 +61,7 @@ struct SetupView: View {
                             .font(.body.weight(.semibold))
                     }
                     .buttonStyle(.glassProminent)
-                    .tint(Theme.Colors.primary)
+                    .tint(.brandAccent)
                     .accessibilityLabel(Text("setup.back"))
                 }
             }
@@ -121,10 +121,10 @@ struct SetupView: View {
             Text("setup.welcome.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 300)
-                .padding(.top, 16)
+                .padding(.top)
         }
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 26)
+        .padding(.horizontal)
     }
 
     private var chooseRegion: some View {
@@ -136,7 +136,7 @@ struct SetupView: View {
             Text("setup.region.detail")
                 .brandBody(BrandPalette.sub)
                 .frame(maxWidth: 320)
-                .padding(.top, 14)
+                .padding(.top)
 
             VStack(spacing: 8) {
                 ForEach(Market.allCases) { option in
@@ -164,7 +164,7 @@ struct SetupView: View {
             .padding(.top, 22)
         }
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 30)
+        .padding(.horizontal)
     }
 
     /// The last screen: `.completed`, or `.incomplete` when setup was skipped.
@@ -180,11 +180,11 @@ struct SetupView: View {
                 Text(detail)
                     .brandBody(BrandPalette.sub)
                     .frame(maxWidth: 300)
-                    .padding(.top, 14)
+                    .padding(.top)
             }
         }
         .multilineTextAlignment(.center)
-        .padding(.horizontal, 26)
+        .padding(.horizontal)
     }
 
     private func glyph(_ systemName: String) -> some View {

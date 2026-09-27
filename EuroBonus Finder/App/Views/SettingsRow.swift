@@ -32,7 +32,7 @@ struct SettingsRow: View {
             if warning {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.callout)
-                    .foregroundStyle(Theme.Colors.warning)
+                    .foregroundStyle(.orange)
                     .accessibilityLabel(Text("settings.extension.warning"))
             }
             trailingIcon

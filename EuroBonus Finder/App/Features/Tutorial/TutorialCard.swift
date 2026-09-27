@@ -20,7 +20,6 @@ struct TutorialCard: View {
             }
             .buttonStyle(.borderedProminent)
             .buttonBorderShape(.capsule)
-            .tint(Theme.Colors.primary)
             .disabled(disabled)
 
             Text(disabled ? "tutorial.disabledHint" : "tutorial.caption")
