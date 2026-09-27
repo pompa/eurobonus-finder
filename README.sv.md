@@ -61,6 +61,10 @@ EuroBonus eller någon av butikspartnerna. Fullständig text:
 Inga konton, ingen spårning, ingen reklam — vad appen gör och inte gör med dina
 uppgifter: [Integritetspolicy](PRIVACY.sv.md).
 
+## Skapat av
+
+Ronald Pompa — [GitHub](https://link.pompa.se/gh) · [X](https://link.pompa.se/x) · [LinkedIn](https://link.pompa.se/ln)
+
 ## Licens
 
 [MIT](LICENSE)

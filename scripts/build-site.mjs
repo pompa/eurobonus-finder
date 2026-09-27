@@ -7,6 +7,7 @@
 //   PRIVACY.sv.md  → _site/sv/privacy/index.html
 //   SETUP-EXTENSION.md    → _site/test-extension/index.html      (the Test page the app opens)
 //   SETUP-EXTENSION.sv.md → _site/sv/test-extension/index.html
+//   DISCLAIMER.md  → _site/disclaimer/index.html   (linked from the app's About)
 //
 // Markdown is rendered by GitHub's own API, so the site matches github.com. The
 // page shell (styles, meta tags, analytics) is docs/template.html; everything
@@ -32,6 +33,7 @@ const PAGES = [
   { doc: "privacy", lang: "sv", ogLocale: "sv_SE", readme: "PRIVACY.sv.md", path: "/sv/privacy/" },
   { doc: "setup", lang: "en", ogLocale: "en_US", readme: "SETUP-EXTENSION.md", path: "/test-extension/", script: "/test-extension.js" },
   { doc: "setup", lang: "sv", ogLocale: "sv_SE", readme: "SETUP-EXTENSION.sv.md", path: "/sv/test-extension/", script: "/test-extension.js" },
+  { doc: "disclaimer", lang: "en", ogLocale: "en_US", readme: "DISCLAIMER.md", path: "/disclaimer/" },
 ];
 const pathOf = Object.fromEntries(PAGES.map((p) => [p.readme, p.path]));
 
@@ -72,8 +74,10 @@ for (const page of PAGES) {
   let html = rewriteLinks(await renderMarkdown(await readFile(page.readme, "utf8")));
   // The "Website" badge links to this very site — drop it here.
   html = html.replace(/<a href="https:\/\/eurobonus\.pompa\.se\/?"[^>]*>.*?<\/a>\s*/s, "");
-  // Everything before the first section heading is the hero.
-  const split = html.indexOf("<h2");
+  // Everything before the first section heading is the hero (just the title
+  // on a page without sections).
+  const h2 = html.indexOf("<h2");
+  const split = h2 === -1 ? html.indexOf("</div>", html.indexOf("</h1>")) + "</div>".length : h2;
   html = `<header class="hero">${html.slice(0, split)}</header>\n${html.slice(split)}`;
 
   const title = text(html.match(/<h1[^>]*>(.*?)<\/h1>/s)[1]);
@@ -88,7 +92,8 @@ for (const page of PAGES) {
     description: attr(text(description)),
     url: SITE + page.path,
     alternates: siblings.map((p) => `<link rel="alternate" hreflang="${p.lang}" href="${SITE + p.path}" />`).join("\n    "),
-    langSwitch: siblings.map(
+    // No switch on a page with a single language.
+    langSwitch: siblings.length < 2 ? "" : siblings.map(
       (p) => `<a href="${p.path}" hreflang="${p.lang}"${p === page ? ' aria-current="page"' : ""}>${p.lang.toUpperCase()}</a>`,
     ).join(""),
     content: html,
