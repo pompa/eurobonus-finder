@@ -7,10 +7,11 @@
 <p align="center"><a href="SETUP-EXTENSION.md" title="English">🇬🇧</a> &nbsp; <a href="SETUP-EXTENSION.sv.md" title="Svenska">🇸🇪</a></p>
 
 Den här sidan kollar om Safari låter EuroBonus Finder köras på alla webbplatser.
-Öppna den i Safari på din iPhone eller iPad: om tillägget är tillåtet hälsar
-det högst upp på sidan.
 
-## Om inget händer
+## Felsökning
+
+<details>
+<summary>Händer inget?</summary>
 
 Safari bestämmer var tillägg får köras. Så här tillåter du EuroBonus Finder överallt:
 
@@ -23,12 +24,21 @@ Safari bestämmer var tillägg får köras. Så här tillåter du EuroBonus Find
 
 Ladda sedan om den här sidan.
 
-## Bara den här webbplatsen?
+</details>
+
+<details>
+<summary>Bara den här webbplatsen?</summary>
 
 Om sidan säger "Nästan framme" tillåter Safari tillägget här men inte på andra
-webbplatser. Ställ in **Andra webbplatser** på **Tillåt** som i steg 2 ovan.
+webbplatser. Öppna **Inställningar › Appar › Safari › Tillägg › EuroBonus Finder**
+och ställ in **Andra webbplatser** på **Tillåt**.
 
-## Fortfarande fast?
+</details>
+
+<details>
+<summary>Fortfarande fast?</summary>
 
 - Apples guide: [Hämta tillägg för att anpassa Safari på iPhone](https://support.apple.com/sv-se/102343)
 - Mejla [support@pompa.se](mailto:support+ebfinder@pompa.se) så löser vi det.
+
+</details>

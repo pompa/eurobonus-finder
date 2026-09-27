@@ -7,10 +7,11 @@
 <p align="center"><a href="SETUP-EXTENSION.md" title="English">🇬🇧</a> &nbsp; <a href="SETUP-EXTENSION.sv.md" title="Svenska">🇸🇪</a></p>
 
 This page checks whether Safari lets EuroBonus Finder run on every website.
-Open it in Safari on your iPhone or iPad: if the extension is allowed, it says
-hi at the top of the page.
 
-## If nothing happens
+## Troubleshooting
+
+<details>
+<summary>Nothing happens?</summary>
 
 Safari decides where extensions may run. To allow EuroBonus Finder everywhere:
 
@@ -23,12 +24,21 @@ Safari decides where extensions may run. To allow EuroBonus Finder everywhere:
 
 Then reload this page.
 
-## Only this website?
+</details>
+
+<details>
+<summary>Only this website?</summary>
 
 If the page says "Almost there", Safari allows the extension here but not on
-other sites. Set **Other Websites** to **Allow** as in step 2 above.
+other sites. Open **Settings › Apps › Safari › Extensions › EuroBonus Finder**
+and set **Other Websites** to **Allow**.
 
-## Still stuck?
+</details>
+
+<details>
+<summary>Still stuck?</summary>
 
 - Apple's guide: [Get extensions to customize Safari on iPhone](https://support.apple.com/en-us/102343)
 - Email [support@pompa.se](mailto:support+ebfinder@pompa.se) and we'll sort it out.
+
+</details>
