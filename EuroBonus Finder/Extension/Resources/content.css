@@ -1,7 +1,7 @@
 /* =============================================================================
    PAGE-INJECTED UI — top banner + Tutorial Coachmark, rendered inside a
-   Shadow DOM on host pages. Loaded after tokens.css. Deliberately lean: only
-   the CSS that content.js injects ships to every visited site.
+   Shadow DOM on host pages. Loaded after ui.css (tokens + shared primitives).
+   Deliberately lean: only the surfaces content.js injects ship to every site.
 
    Theming: components read the HIG semantic tokens only (--label,
    --secondary-label, --fill-tertiary, --primary, --primary-foreground). A
@@ -21,119 +21,6 @@
 :host {
   all: initial;
   color-scheme: light dark;
-}
-
-/* --- Buttons — HIG sizes: small 32 / medium 40. Variants: primary
-   (tint fill), secondary (gray fill), plain (tint text), icon (square). A
-   surface with the `glass` class swaps fills for the Liquid Glass material. */
-.btn {
-  box-sizing: border-box;
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 40px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: var(--radius-full);
-  font: var(--text-body);
-  font-weight: 600;
-  color: inherit;
-  background: none;
-  white-space: nowrap;
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  transition: all 150ms ease;
-}
-.btn:active {
-  transform: scale(0.97);
-}
-.btn-sm {
-  height: 32px;
-  padding: 0 14px;
-  font: var(--text-subheadline);
-  font-weight: 600;
-}
-/* Icon = square (glyph only), same heights. */
-.btn-icon {
-  width: 40px;
-  padding: 0;
-  font-size: 20px;
-  line-height: 1;
-}
-.btn-icon.btn-sm {
-  width: 32px;
-  font-size: 17px;
-}
-.btn-icon/* Unicode glyphs in the system font stand in for SF Symbols (xmark, checkmark,
-   arrow.forward); an SVG backup renders when the font lacks the glyph. */
-.glyph {
-  font-weight: 600;
-}
-.glyph svg {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-}
-.btn-primary {
-  background: var(--primary);
-  color: var(--primary-foreground);
-}
-.btn-primary:hover {
-  background: color-mix(in oklch, var(--primary) 85%, transparent);
-}
-.btn-secondary {
-  background: var(--fill-tertiary);
-}
-.btn-secondary:hover {
-  background: var(--fill-secondary);
-}
-.btn-plain {
-  padding: 0;
-  font-weight: 400;
-  color: var(--primary);
-}
-.btn-plain:hover {
-  opacity: 0.7;
-}
-/* Ghost = no fill, quiet ink (the banner close). */
-.btn-ghost {
-  color: var(--secondary-label);
-}
-.btn-ghost:hover {
-  color: var(--label);
-}
-/* Liquid Glass variant: translucent material with a specular rim. */
-.glass .btn-secondary,
-.glass .btn-primary {
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
-  box-shadow:
-    var(--glass-highlight),
-    0 8px 15px rgb(0 0 0 / 0.04);
-}
-.glass .btn-secondary {
-  background: var(--glass);
-}
-.glass .btn-primary {
-  background: color-mix(in srgb, var(--primary) 88%, transparent);
-}
-
-/* 40px minimum touch target on a smaller visual control, via a transparent
-   pseudo-element (HIG/WCAG target size) — no layout impact. */
-.tap {
-  position: relative;
-}
-.tap::before {
-  content: "";
-  position: absolute;
-  inset: 50%;
-  translate: -50% -50%;
-  width: max(100%, 40px);
-  height: max(100%, 40px);
 }
 
 /* --- Top banner — iOS Smart App Banner layout on the same grouped
@@ -163,16 +50,6 @@
   opacity: 1;
 }
 
-/* EB icon — the app-icon PNG. Square, sized by the <img> content.js emits. */
-.eb-glyph {
-  display: block;
-  flex-shrink: 0;
-  line-height: 0;
-}
-.eb-glyph img {
-  display: block;
-  border-radius: 22%;
-}
 .banner-body {
   flex: 1 1 auto;
   min-width: 0;

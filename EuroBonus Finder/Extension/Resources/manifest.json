@@ -42,7 +42,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "tokens.css",
+        "ui.css",
         "content.css",
         "images/icon-128.png"
       ],

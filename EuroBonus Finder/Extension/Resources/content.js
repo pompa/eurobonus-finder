@@ -168,10 +168,10 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
   // each surface, see content.css.
   const BUTTON_STYLE = "flat";
 
-  // Shadow-DOM surfaces (banner, coachmark) pull tokens + the page-injected
-  // component sheet — NOT the popup stylesheet — so host pages only download the
-  // CSS the injected UI actually uses.
-  const SHADOW_STYLESHEETS = ["tokens.css", "content.css"];
+  // Shadow-DOM surfaces (banner, coachmark) pull ui.css (tokens + primitives)
+  // and the page-injected surfaces — NOT the popup stylesheet — so host pages
+  // only download the CSS the injected UI actually uses.
+  const SHADOW_STYLESHEETS = ["ui.css", "content.css"];
   const attachShadowStyles = (shadow) => {
     for (const href of SHADOW_STYLESHEETS) {
       const link = document.createElement("link");
