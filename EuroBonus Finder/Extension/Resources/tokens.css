@@ -14,9 +14,10 @@
   /* secondarySystemGroupedBackground — cards / sheets over the page */
   --background-grouped-secondary: light-dark(#fff, #1c1c1e);
 
-  /* Brand tint: SAS royal blue, white in dark (SAS convention). */
-  --primary: light-dark(oklch(0.486 0.2721 263.825), #fff); /* #003DF5 */
-  --primary-foreground: light-dark(#fff, oklch(0.2703 0.1252 262.023));
+  /* Brand tint — like an iOS tint it stays blue in both schemes (a touch
+     lighter in dark for contrast); filled buttons always carry white ink. */
+  --primary: light-dark(#003df5, #295eff);
+  --primary-foreground: #fff;
   --destructive: #ff5752; /* campaign points */
 
   --shadow-banner: 0 2px 8px light-dark(oklch(0 0 0 / 0.15), oklch(0 0 0 / 0.45));
