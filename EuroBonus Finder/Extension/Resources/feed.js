@@ -111,5 +111,6 @@ globalThis.EBFeed = (() => {
     t,
     suffix,
     effectivePoints,
+    formatPoints,
   };
 })();

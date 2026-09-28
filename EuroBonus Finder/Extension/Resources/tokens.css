@@ -1,69 +1,57 @@
-/* =============================================================================
-   DESIGN TOKENS — shared by the popup (popup.css) and the page-injected
-   banner/coachmark (content.css). Loaded as the FIRST stylesheet on each
-   surface so every component resolves the same variables. Only tokens that a
-   shipped rule actually references live here (see popup.css / content.css).
-   ============================================================================= */
 :root,
 :host {
   color-scheme: light dark;
 
+  /* ---- Apple HIG semantic colors (iOS values, light-dark() per scheme) ----
+     Used by the page-injected UI (content.css). */
+  --label: light-dark(#000, #fff);
+  --secondary-label: light-dark(rgb(60 60 67 / 0.6), rgb(235 235 245 / 0.6));
+  --fill-secondary: light-dark(rgb(120 120 128 / 0.16), rgb(120 120 128 / 0.32));
+  --fill-tertiary: light-dark(rgb(118 118 128 / 0.12), rgb(118 118 128 / 0.24));
+  /* Liquid Glass material — translucent gray over a blurred backdrop. */
+  --glass: rgb(153 153 153 / 0.17);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 -1px 0 rgb(0 0 0 / 0.08);
+  /* secondarySystemGroupedBackground — cards / sheets over the page */
+  --background-grouped-secondary: light-dark(#fff, #1c1c1e);
+
+  /* Brand tint — like an iOS tint it stays blue in both schemes (a touch
+     lighter in dark for contrast); filled buttons always carry white ink. */
+  --primary: light-dark(#003df5, #295eff);
+  --primary-foreground: #fff;
+  --destructive: #ff5752; /* campaign points */
+
+  --shadow-banner: 0 2px 8px light-dark(oklch(0 0 0 / 0.15), oklch(0 0 0 / 0.45));
+  --shadow-popover: 0 12px 40px light-dark(oklch(0 0 0 / 0.18), oklch(0 0 0 / 0.5));
+
   --radius: 0.5rem; /* 8px base */
-  --radius-md: calc(var(--radius) * 0.8); /* ~6px — chips, media tiles */
-  --radius-2xl: calc(var(--radius) * 1.8); /* ~14px — cards, popover, popup containers */
+  --radius-2xl: calc(var(--radius) * 1.8); /* ~14px — cards, popup containers */
+  --radius-sheet: 24px; /* iOS sheet / popover corners */
   --radius-full: 9999px; /* pill / stadium — buttons */
 
-  --foreground: oklch(0.2178 0 0); /* near-black ink */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2178 0 0);
+  --font-sans: -apple-system, system-ui, sans-serif; /* SF Pro on Apple platforms */
 
-  --primary: oklch(0.486 0.2721 263.825); /* SAS royal blue — #003DF5 */
-  --primary-foreground: oklch(1 0 0);
+  /* ---- Apple HIG text styles (Large, default) — `font` shorthand:
+     weight size/line-height family. */
+  --text-title2: 700 22px/28px var(--font-sans); /* bold Title 2 — card titles */
+  --text-headline: 600 17px/22px var(--font-sans);
+  --text-body: 400 17px/22px var(--font-sans);
+  --text-subheadline: 400 15px/20px var(--font-sans);
 
-  --muted: oklch(0.967 0.0029 264.542); /* gray-100 fills */
-  --muted-foreground: oklch(0.551 0.0234 264.364); /* gray-500 labels */
-
+  /* ---- popup.css only (shadcn names) — migrate to the tokens above when the
+     popup is restyled. */
+  --foreground: light-dark(oklch(0.2178 0 0), oklch(1 0 0));
+  --card: light-dark(oklch(1 0 0), oklch(0.2703 0.1252 262.023));
+  --card-foreground: var(--foreground);
+  --muted: light-dark(oklch(0.967 0.0029 264.542), oklch(0.36 0.06 262));
+  --muted-foreground: light-dark(oklch(0.551 0.0234 264.364), oklch(0.82 0.03 262));
   --success: oklch(0.9793 0.0207 166.113); /* #ecfdf5 */
   --success-foreground: oklch(0.4318 0.0865 166.913); /* #065f46 */
-
-  --shadow-banner: 0 2px 8px oklch(0 0 0 / 0.15);
-  /* shadcn popover surface — Tailwind shadow-2xl */
-  --shadow-popover: 0 25px 50px -12px oklch(0 0 0 / 0.25);
-
-  --font-sans:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
-  --font-native: var(--font-sans);
-
-  --fw-medium: 500;
   --fw-bold: 700;
-
-  --fs-banner: 16px;
   --fs-cta: 14px;
-  --fs-short: 13px;
-  --fs-badge: 12px;
   --fs-disc: 11px;
-
   --lh-tight: 1.3;
   --lh-snug: 1.4;
-
   --space-2: 6px;
-  --space-3: 8px;
   --space-4: 12px;
   --space-5: 16px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root,
-  :host {
-    --foreground: oklch(1 0 0);
-    --card: oklch(0.2703 0.1252 262.023);
-    --card-foreground: oklch(1 0 0);
-    --primary: oklch(1 0 0);
-    --primary-foreground: oklch(0.2703 0.1252 262.023);
-    --muted: oklch(0.36 0.06 262);
-    --muted-foreground: oklch(0.82 0.03 262);
-    --shadow-banner: 0 2px 8px oklch(0 0 0 / 0.45);
-    --shadow-popover: 0 25px 50px -12px oklch(0 0 0 / 0.5);
-  }
 }

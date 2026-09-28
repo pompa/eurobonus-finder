@@ -71,11 +71,16 @@ const wipe = async (lastResetAt) => {
   await api.storage.local.set({ lastResetAt });
 };
 
+// The app stamps `lastTutorialResetAt` the same way when the Tutorial card
+// starts a search: only the progress is cleared, the rest of our storage stays.
 const syncReset = async () => {
   try {
-    const { lastResetAt } = await sendNative({ type: "get-last-reset-at" });
-    const local = await api.storage.local.get("lastResetAt");
+    const { lastResetAt, lastTutorialResetAt } = await sendNative({ type: "get-last-reset-at" });
+    const local = await api.storage.local.get(["lastResetAt", "lastTutorialResetAt"]);
     if (lastResetAt && lastResetAt !== local.lastResetAt) await wipe(lastResetAt);
+    if (lastTutorialResetAt && lastTutorialResetAt !== local.lastTutorialResetAt) {
+      await api.storage.local.set({ tutorialProgress: {}, lastTutorialResetAt });
+    }
   } catch (e) {}
 };
 

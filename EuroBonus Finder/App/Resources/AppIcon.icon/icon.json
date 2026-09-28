@@ -1,8 +1,8 @@
 {
   "fill" : {
     "linear-gradient" : [
-      "display-p3:0.04433,0.04296,1.00000,1.00000",
-      "display-p3:0.00007,0.00000,0.57520,1.00000"
+      "display-p3:0.21569,0.36471,0.96471,1.00000",
+      "display-p3:0.06275,0.18431,0.73333,1.00000"
     ]
   },
   "groups" : [
@@ -11,24 +11,36 @@
         {
           "fill-specializations" : [
             {
+              "value" : {
+                "solid" : "extended-gray:1.00000,1.00000"
+              }
+            },
+            {
               "appearance" : "dark",
-              "value" : "none"
+              "value" : "automatic"
             }
           ],
-          "glass" : true,
+          "glass" : false,
           "hidden" : false,
-          "image-name" : "EB.svg",
-          "name" : "EB",
+          "image-name" : "eb-icon.svg",
+          "name" : "eb-icon",
           "position" : {
-            "scale" : 1.1,
+            "scale" : 3.11,
             "translation-in-points" : [
-              21,
-              0.41250000000002274
+              0,
+              0.6000000000000085
             ]
           }
         }
       ],
       "name" : "Group",
+      "position" : {
+        "scale" : 10,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5

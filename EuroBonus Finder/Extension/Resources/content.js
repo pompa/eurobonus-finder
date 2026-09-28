@@ -164,6 +164,10 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     return true;
   };
 
+  // Button material: "flat" (HIG fills) or "glass" (Liquid Glass) — a class on
+  // each surface, see content.css.
+  const BUTTON_STYLE = "flat";
+
   // Shadow-DOM surfaces (banner, coachmark) pull tokens + the page-injected
   // component sheet — NOT the popup stylesheet — so host pages only download the
   // CSS the injected UI actually uses.
@@ -188,37 +192,27 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     attachShadowStyles(shadow);
 
     const container = document.createElement("div");
-    container.className = "fixed-banner-container";
+    container.className = `banner ${BUTTON_STYLE}`;
 
-    const name = data.name || "";
-    const pointsSpan = `<span class="points-highlight">${t("points", { count: EBFeed.effectivePoints(data) })}</span>`;
-    const titleFull = t("bannerTitle", { name });
-    const titleShort = t("bannerTitleShort", { name });
+    // Campaign: strike the regular points, then the campaign points in red.
+    const campaign = !!(data.campaign && data.campaignPoints);
+    const oldPoints = campaign
+      ? `<s class="points-old">${EBFeed.formatPoints(data.points)}</s> `
+      : "";
+    const pointsSpan = `${oldPoints}<span class="points-highlight${campaign ? " is-campaign" : ""}">${t("points", { count: EBFeed.effectivePoints(data) })}</span>`;
     const desc = t("earn", {
       points: pointsSpan,
       suffix: EBFeed.suffix(data, market),
     });
 
     container.innerHTML = `
-      <div class="banner-wrapper">
-        <div class="banner-alert">
-          <span class="alert-icon">${EB_GLYPH_SVG}</span>
-          <div class="alert-body">
-            <div class="alert-title">
-              <span class="title-full">${titleFull}</span>
-              <span class="title-short">${titleShort}</span>
-            </div>
-            <div class="alert-desc">${desc}</div>
-          </div>
-        </div>
-        <div class="actions">
-          <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="cta-btn">
-            <span class="cta-full">${t("cta")}</span>
-            <span class="cta-short">${t("ctaShort")}</span>
-          </a>
-          <button class="close-btn" aria-label="${t("close")}">✕</button>
-        </div>
-      </div>`;
+      <button class="btn btn-icon btn-sm btn-ghost tap banner-close" type="button" aria-label="${t("close")}">${XMARK}</button>
+      <span class="eb-glyph">${ebIcon(40)}</span>
+      <div class="banner-body">
+        <div class="banner-title">${data.name || ""}</div>
+        <div class="banner-desc">${desc}</div>
+      </div>
+      <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm tap cta-btn">${t("activate")}</a>`;
     shadow.appendChild(container);
 
     const ctaLink = shadow.querySelector(".cta-btn");
@@ -229,7 +223,7 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       });
     }
 
-    const closeBtn = shadow.querySelector(".close-btn");
+    const closeBtn = shadow.querySelector(".banner-close");
     if (closeBtn) {
       closeBtn.addEventListener("click", () => {
         // Fade out, then tear down once the transition finishes.
@@ -262,7 +256,7 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     if (!banner) return;
     document.documentElement.prepend(banner);
 
-    const bannerEl = banner.shadowRoot.querySelector(".fixed-banner-container");
+    const bannerEl = banner.shadowRoot.querySelector(".banner");
     if (!bannerEl) return;
 
     document.querySelectorAll("*").forEach((el) => {
@@ -299,31 +293,56 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     });
   };
 
-  // Mirrors --primary from tokens.css. Inline !important styles fight third-party
-  // CSS on host pages, so `var(--*)` can't reach here — the value stays literal.
-  const TOKENS = {
-    primary: "#003df5" /* --primary (SAS blue) — same EB icon color as the banner */,
+  // Button glyphs — the standard Unicode characters (xmark / checkmark /
+  // arrow.forward) in the system font, with our own SVG as backup when the
+  // font has no glyph for them (detected against the .notdef width once).
+  const GLYPH_FONT = "17px -apple-system, system-ui, sans-serif";
+  const hasGlyph = (char) => {
+    try {
+      const ctx = document.createElement("canvas").getContext("2d");
+      ctx.font = GLYPH_FONT;
+      return ctx.measureText(char).width !== ctx.measureText("\ue000").width;
+    } catch (e) {
+      return false;
+    }
   };
+  const glyph = (char, svg) =>
+    hasGlyph(char)
+      ? `<span class="glyph" aria-hidden="true">${char}</span>`
+      : `<span class="glyph" aria-hidden="true">${svg}</span>`;
+  const XMARK = glyph(
+    "\u00d7",
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg>',
+  );
+  const CHECKMARK = glyph(
+    "\u2713",
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg>',
+  );
+  const ARROW_FORWARD = glyph(
+    "\u2192",
+    '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>',
+  );
 
-  // EB icon glyph — the framed "EB" monogram (currentColor).
-  const EB_GLYPH_SVG =
-    '<svg width="17" height="17" fill="none" viewBox="0 0 24 24" aria-hidden="true" style="display:block">' +
-    '<path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path>' +
-    '<path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path>' +
-    '<path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg>';
+  // EB icon — the extension's own app icon PNG (flat artwork, reads well
+  // small). One 128px asset serves the badge, banner and coachmark; the
+  // manifest lists images/ as web-accessible so host pages may load it.
+  const EB_ICON_URL = api.runtime.getURL("images/icon-128.png");
+  const ebIcon = (size) =>
+    `<img src="${EB_ICON_URL}" alt="" width="${size}" height="${size}" draggable="false" style="display:block;width:${size}px;height:${size}px">`;
 
-  // The badge renders the SAME framed EB monogram as the banner (EB_GLYPH_SVG),
-  // colored in --primary; inline !important keeps host-page CSS from disturbing
-  // its box. No separate background — the monogram already carries its own frame.
+  // The badge lives in Google's DOM (no shadow root): inline !important keeps
+  // host-page CSS from disturbing its box. The span keeps an 18px layout box
+  // so Google's rows don't reflow; the 20px icon is absolutely centred on it
+  // and simply overflows.
   const BADGE_STYLE = [
-    "display:inline-flex !important",
-    "align-items:center !important",
-    "justify-content:center !important",
+    "display:inline-block !important",
+    "width:18px !important",
+    "height:18px !important",
+    "overflow:visible !important",
     "vertical-align:middle !important",
-    `color:${TOKENS.primary} !important`,
     "background:transparent !important",
     "margin:0 0 0 6px !important",
-    "padding:2px !important",
+    "padding:0 !important",
     "border:0 !important",
     "line-height:0 !important",
     "cursor:pointer !important",
@@ -332,6 +351,9 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     "z-index:2147483646 !important",
     "opacity:1 !important",
   ].join(";");
+  const BADGE_IMG_STYLE =
+    "position:absolute !important;top:50% !important;left:50% !important;translate:-50% -50% !important;" +
+    "display:block !important;width:20px !important;height:20px !important;max-width:none !important;border-radius:4px !important";
 
   const injectBadge = (target, matchedKey, shopList) => {
     const entry = shopList[matchedKey];
@@ -343,7 +365,8 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const badge = document.createElement("span");
     badge.className = BADGE_CLASS;
     badge.dataset.ebHost = EBFeed.hostOfKey(matchedKey);
-    badge.innerHTML = EB_GLYPH_SVG;
+    badge.innerHTML = ebIcon(20);
+    badge.firstChild.style.cssText = BADGE_IMG_STYLE;
     badge.title = t("badgeTitle", {
       name: entry.name,
       points: t("points", { count: EBFeed.effectivePoints(entry) }),
@@ -474,11 +497,24 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     return first ? cleanHost(first) : null;
   };
 
-  // Coachmark: an anchored popover for the Tutorial. Own Shadow DOM overlay (like the
-  // banner) so host-page CSS can't reach it; position tracks a live getRect().
+  // Skip tour: completes every step so no page coaches again.
+  const skipTutorial = () =>
+    api.runtime
+      .sendMessage({
+        type: "set-tutorial-progress",
+        tutorialProgress: { seenBadge: true, visitedPartner: true, sasShoppingReturn: true },
+      })
+      .catch(() => {});
+
+  const TUTORIAL_STEP_COUNT = 3;
+
+  // Coachmark: an anchored popover for the Tutorial on a blurred overlay with a
+  // rounded spotlight cut around the anchor. Own Shadow DOM (like the banner) so
+  // host-page CSS can't reach it; position + spotlight track a live getRect().
   // Self-guards on COACH_ROOT_ID so the Google MutationObserver can't duplicate it.
   const createCoachmark = ({
     getRect,
+    step,
     title,
     body,
     ctaLabel,
@@ -493,18 +529,27 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const shadow = root.attachShadow({ mode: "open" });
     attachShadowStyles(shadow);
 
+    const overlay = document.createElement("div");
+    overlay.className = "coach-overlay";
+    shadow.appendChild(overlay);
+
     const card = document.createElement("div");
-    card.className = "coach-card";
-    const glyph = showGlyph
-      ? `<span class="coach-eb">${EB_GLYPH_SVG}</span>`
-      : "";
+    card.className = `coach-card ${BUTTON_STYLE}`;
+    const glyph = showGlyph ? `<span class="eb-glyph coach-glyph">${ebIcon(56)}</span>` : "";
+    const dots = Array.from({ length: TUTORIAL_STEP_COUNT }, (_, i) => {
+      const cls = i + 1 === step ? "is-active" : i + 1 < step ? "is-done" : "";
+      return `<i class="${cls}"></i>`;
+    }).join("");
     card.innerHTML = `
       <span class="coach-arrow"></span>
-      <button class="coach-close" type="button" aria-label="${t("close")}">✕</button>
-      <p class="coach-title">${glyph}<span>${title}</span></p>
+      <button class="btn btn-icon btn-sm btn-secondary tap coach-close" type="button" aria-label="${t("close")}">${XMARK}</button>
+      ${glyph}
+      <p class="coach-title">${title}</p>
       <p class="coach-body">${body}</p>
-      <div class="coach-actions">
-        <button class="btn btn-default btn-sm coach-cta" type="button">${ctaLabel}</button>
+      <div class="coach-footer">
+        <span class="coach-dots" aria-hidden="true">${dots}</span>
+        <button class="btn btn-plain coach-skip" type="button">${t("coachSkip")}</button>
+        <button class="btn btn-primary coach-cta" type="button">${ctaLabel}</button>
       </div>`;
     shadow.appendChild(card);
 
@@ -513,27 +558,48 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const reposition = () => {
       const rect = getRect();
       if (!rect) return;
-      const m = 12;
-      const cr = card.getBoundingClientRect();
-      const cw = cr.width || 300;
-      const ch = cr.height || 120;
+      const m = 12; // matches --gutter in content.css
+      // Layout size (offset*), not getBoundingClientRect(): the hidden card is
+      // scaled 0.95, which would skew centring by a few px.
+      const cw = card.offsetWidth || 300;
+      const ch = card.offsetHeight || 120;
       const vw = window.innerWidth;
       const vh = window.innerHeight;
 
+      // Spotlight = anchor + padding; the card sits off the spotlight's edge
+      // with room for the arrow tip (a rotated 14px square protrudes ~10px)
+      // plus a visible gap, so nothing touches.
+      const pad = rect.width ? 6 : 0;
+      const gap = pad + 10 + 8;
+
       // Prefer below the anchor; flip above only if it would overflow the bottom.
       let placement = "bottom";
-      let top = rect.bottom + 10;
-      if (top + ch > vh - m && rect.top - 10 - ch > m) {
+      let top = rect.bottom + gap;
+      if (top + ch > vh - m && rect.top - gap - ch > m) {
         placement = "top";
-        top = rect.top - 10 - ch;
+        top = rect.top - gap - ch;
       }
-      // Center on the anchor, clamped to the viewport; arrow tracks the anchor.
+      // Center on the anchor, clamped to the viewport. The arrow's centre
+      // tracks the anchor's centre (CSS translates it by -50%), kept clear of
+      // the card's 24px rounded corners.
       const cx = rect.left + rect.width / 2;
       const left = Math.max(m, Math.min(cx - cw / 2, vw - cw - m));
       card.dataset.placement = placement;
       card.style.left = `${Math.round(left)}px`;
       card.style.top = `${Math.round(top)}px`;
-      arrow.style.left = `${Math.round(Math.max(14, Math.min(cx - left, cw - 14)) - 6)}px`;
+      const inset = 34; // corner radius + arrow half-diagonal
+      arrow.style.left = `${Math.round(Math.max(inset, Math.min(cx - left, cw - inset)))}px`;
+
+      // Spotlight: an evenodd path punches a rounded, padded hole around the
+      // anchor (a zero-size rect = no hole, the whole page blurs).
+      const x1 = rect.left - pad, y1 = rect.top - pad;
+      const x2 = rect.right + pad, y2 = rect.bottom + pad;
+      const r = Math.min(10, (x2 - x1) / 2, (y2 - y1) / 2);
+      const arc = `A${r} ${r} 0 0 1`;
+      overlay.style.clipPath =
+        `path(evenodd, "M0 0H${vw}V${vh}H0Z` +
+        `M${x1 + r} ${y1}H${x2 - r}${arc} ${x2} ${y1 + r}V${y2 - r}${arc} ${x2 - r} ${y2}` +
+        `H${x1 + r}${arc} ${x1} ${y2 - r}V${y1 + r}${arc} ${x1 + r} ${y1}Z")`;
     };
 
     let raf = 0;
@@ -550,7 +616,17 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       window.removeEventListener("resize", schedule);
       if (ro) ro.disconnect();
       cancelAnimationFrame(raf);
-      root.remove();
+      // Fade out, then tear down once the transition finishes.
+      overlay.classList.remove("is-visible");
+      card.classList.remove("is-visible");
+      let done = false;
+      const cleanup = () => {
+        if (done) return;
+        done = true;
+        root.remove();
+      };
+      overlay.addEventListener("transitionend", cleanup, { once: true });
+      setTimeout(cleanup, 400);
     };
 
     card.querySelector(".coach-cta").addEventListener("click", async () => {
@@ -564,6 +640,10 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       remove();
       if (onClose) onClose();
     });
+    card.querySelector(".coach-skip").addEventListener("click", () => {
+      remove();
+      skipTutorial();
+    });
 
     window.addEventListener("scroll", schedule, true);
     window.addEventListener("resize", schedule);
@@ -575,7 +655,10 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     // Measure once laid out (rect is valid even at opacity:0), then fade in.
     requestAnimationFrame(() => {
       reposition();
-      requestAnimationFrame(() => card.classList.add("is-visible"));
+      requestAnimationFrame(() => {
+        overlay.classList.add("is-visible");
+        card.classList.add("is-visible");
+      });
     });
 
     return { remove };
@@ -591,11 +674,13 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const badge = document.querySelector("." + BADGE_CLASS);
     if (!badge) return;
     const host = badge.dataset.ebHost || partnerHostFromShops(shopList);
+    const icon = badge.firstElementChild || badge;
     createCoachmark({
-      getRect: () => badge.getBoundingClientRect(),
+      getRect: () => icon.getBoundingClientRect(),
+      step: 1,
       title: t("coachSearchTitle"),
       body: t("coachSearchBody"),
-      ctaLabel: t("coachSearchCta"),
+      ctaLabel: t("coachSearchCta") + ARROW_FORWARD,
       showGlyph: true,
       onCta: async () => {
         await completeTutorialStep("seenBadge");
@@ -603,7 +688,8 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       },
       onClose: () => completeTutorialStep("seenBadge"),
     });
-    badge.scrollIntoView({ block: "center", behavior: "smooth" });
+    // inline: "center" also centers it inside Google's horizontal product carousel.
+    badge.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
   };
 
   // No Badge showed up on the Tutorial card's search: point at a known partner
@@ -619,9 +705,10 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
         width: 0,
         height: 0,
       }),
+      step: 1,
       title: t("coachEmptyTitle"),
       body: t("coachEmptyBody"),
-      ctaLabel: t("coachSearchCta"),
+      ctaLabel: t("coachSearchCta") + ARROW_FORWARD,
       showGlyph: true,
       onCta: () => visitPartner(host),
     });
@@ -630,16 +717,17 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
   const showBannerCoachmark = () => {
     if (document.getElementById(COACH_ROOT_ID)) return;
     const bannerRoot = document.getElementById(ROOT_ID);
-    const cta =
+    const banner =
       bannerRoot &&
       bannerRoot.shadowRoot &&
-      bannerRoot.shadowRoot.querySelector(".cta-btn");
-    if (!cta) return;
+      bannerRoot.shadowRoot.querySelector(".banner");
+    if (!banner) return;
     createCoachmark({
-      getRect: () => cta.getBoundingClientRect(),
+      getRect: () => banner.getBoundingClientRect(),
+      step: 2,
       title: t("coachBannerTitle"),
       body: t("coachBannerBody"),
-      ctaLabel: t("coachBannerCta"),
+      ctaLabel: CHECKMARK + t("coachBannerCta"),
       onCta: () => completeTutorialStep("visitedPartner"),
       onClose: () => completeTutorialStep("visitedPartner"),
     });
