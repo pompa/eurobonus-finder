@@ -30,16 +30,11 @@
     }
   };
 
-  // EB icon glyph — the framed "EB" monogram (currentColor).
-  const ebGlyph = (size) =>
-    `<svg width="${size}" height="${size}" fill="none" viewBox="0 0 24 24" aria-hidden="true">` +
-    `<path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path>` +
-    `<path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path>` +
-    `<path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg>`;
+  // EB icon — the app icon PNG, as in the banner and coachmark.
+  const ebIcon = (size) =>
+    `<img class="eb-glyph" src="images/icon-128.png" alt="" width="${size}" height="${size}" style="display:block;width:${size}px;height:${size}px;border-radius:22%">`;
 
-  const CHEVRON_ICON =
-    `<svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true">` +
-    `<path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+  const CHEVRON = `<span class="glyph" aria-hidden="true">\u203a</span>`;
 
   const INFO_ICON =
     `<svg width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">` +
@@ -50,7 +45,7 @@
   // "empty" = no card; centered in the content area.
   const setStatus = (html, klass) => {
     statusEl.className = `status ${klass || ""}`.trim();
-    const icon = klass === "match" ? ebGlyph(18) : INFO_ICON;
+    const icon = klass === "match" ? ebIcon(40) : INFO_ICON;
     statusEl.innerHTML = `<span class="status-icon">${icon}</span><div class="status-body">${html}</div>`;
   };
 
@@ -63,7 +58,7 @@
             <div class="item-title">${entry.name}</div>
             <div class="item-desc">${t("pointsShort", { count: EBFeed.effectivePoints(entry) })} ${EBFeed.suffix(entry, market, true)}</div>
           </span>
-          ${entry.url ? `<span class="item-actions">${CHEVRON_ICON}</span>` : ""}
+          ${entry.url ? `<span class="item-actions">${CHEVRON}</span>` : ""}
         </div>
       </a>
     `;
@@ -96,7 +91,7 @@
       const noticeEl = document.getElementById("setup-notice");
       noticeEl.href = EBFeed.appURL("extension");
       noticeEl.innerHTML = `<span class="status-icon">${INFO_ICON}</span><div class="status-body"><strong>${t("popupSetupTitle")}</strong>${t("popupSetupDesc")}</div>`;
-      noticeEl.style.display = "grid";
+      noticeEl.style.display = "flex";
     })
     .catch(() => {});
 

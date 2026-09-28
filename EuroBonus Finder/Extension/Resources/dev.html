@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="ui.css" />
     <link rel="stylesheet" href="popup.css" />
     <style>
-      .dev label { display: flex; gap: 10px; align-items: center; padding: 8px 0; font-size: 15px; }
-      .dev button { margin-top: var(--space-4); }
-      .dev .meta { color: var(--muted-foreground); font-size: 13px; }
+      .dev label { display: flex; gap: 10px; align-items: center; padding: 8px 0; font: var(--text-subheadline); }
+      .dev button { margin-top: 12px; }
+      .dev .meta { color: var(--secondary-label); font: var(--text-footnote); }
     </style>
   </head>
   <!-- Dev-only page, opened from the popup's "Dev" link: Tutorial progress
@@ -20,7 +20,7 @@
       <label><input type="checkbox" data-step="seenBadge" /> seenBadge</label>
       <label><input type="checkbox" data-step="visitedPartner" /> visitedPartner</label>
       <label><input type="checkbox" data-step="sasShoppingReturn" /> sasShoppingReturn</label>
-      <button id="reset" class="cta" type="button">Reset (app + extension)</button>
+      <button id="reset" class="btn btn-primary btn-block" type="button">Reset (app + extension)</button>
       <p class="meta">Last reset: <span id="last-reset">never</span></p>
     </main>
     <script src="dev.js"></script>

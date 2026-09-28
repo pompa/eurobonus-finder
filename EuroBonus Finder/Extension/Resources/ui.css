@@ -1,0 +1,172 @@
+:root,
+:host {
+  color-scheme: light dark;
+
+  /* ---- Apple HIG semantic colors (iOS values, light-dark() per scheme) ---- */
+  --label: light-dark(#000, #fff);
+  --secondary-label: light-dark(rgb(60 60 67 / 0.6), rgb(235 235 245 / 0.6));
+  --tertiary-label: light-dark(rgb(60 60 67 / 0.3), rgb(235 235 245 / 0.3));
+  --fill-secondary: light-dark(rgb(120 120 128 / 0.16), rgb(120 120 128 / 0.32));
+  --fill-tertiary: light-dark(rgb(118 118 128 / 0.12), rgb(118 118 128 / 0.24));
+  --fill-quaternary: light-dark(rgb(116 116 128 / 0.08), rgb(118 118 128 / 0.18));
+  /* secondarySystemGroupedBackground — cards / sheets over the page */
+  --background-grouped-secondary: light-dark(#fff, #1c1c1e);
+  --system-green: light-dark(#34c759, #30d158);
+  /* Liquid Glass material — translucent gray over a blurred backdrop. */
+  --glass: rgb(153 153 153 / 0.17);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 -1px 0 rgb(0 0 0 / 0.08);
+
+  /* ---- Brand ---- */
+  /* Brand tint — like an iOS tint it stays blue in both schemes (a touch
+     lighter in dark for contrast); filled buttons always carry white ink. */
+  --primary: light-dark(#003df5, #295eff);
+  --primary-foreground: #fff;
+  --destructive: #ff5752; /* campaign points */
+
+  --shadow-banner: 0 2px 8px light-dark(oklch(0 0 0 / 0.15), oklch(0 0 0 / 0.45));
+  --shadow-popover: 0 12px 40px light-dark(oklch(0 0 0 / 0.18), oklch(0 0 0 / 0.5));
+
+  --radius-card: 16px; /* inset-grouped cells */
+  --radius-sheet: 24px; /* iOS sheet / popover corners */
+  --radius-full: 9999px; /* pill / stadium — buttons */
+
+  --font-sans: -apple-system, system-ui, sans-serif; /* SF Pro on Apple platforms */
+
+  /* ---- Apple HIG text styles (Large, default) — `font` shorthand:
+     weight size/line-height family. */
+  --text-title2: 700 22px/28px var(--font-sans); /* bold Title 2 — card titles */
+  --text-headline: 600 17px/22px var(--font-sans);
+  --text-body: 400 17px/22px var(--font-sans);
+  --text-subheadline: 400 15px/20px var(--font-sans);
+  --text-footnote: 400 13px/18px var(--font-sans);
+}
+
+/* --- Buttons — HIG sizes: small 32 / medium 40. Variants: primary
+   (tint fill), secondary (gray fill), plain (tint text), icon (square). A
+   surface with the `glass` class swaps fills for the Liquid Glass material. */
+.btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-full);
+  font: var(--text-body);
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: all 150ms ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-sm {
+  height: 32px;
+  padding: 0 14px;
+  font: var(--text-subheadline);
+  font-weight: 600;
+}
+/* Icon = square (glyph only), same heights. */
+.btn-icon {
+  width: 40px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+}
+.btn-icon.btn-sm {
+  width: 32px;
+  font-size: 17px;
+}
+.btn-icon/* Unicode glyphs in the system font stand in for SF Symbols (xmark, checkmark,
+   arrow.forward); an SVG backup renders when the font lacks the glyph. */
+.glyph {
+  font-weight: 600;
+}
+.glyph svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.btn-primary:hover {
+  background: color-mix(in oklch, var(--primary) 85%, transparent);
+}
+.btn-secondary {
+  background: var(--fill-tertiary);
+}
+.btn-secondary:hover {
+  background: var(--fill-secondary);
+}
+.btn-plain {
+  padding: 0;
+  font-weight: 400;
+  color: var(--primary);
+}
+.btn-plain:hover {
+  opacity: 0.7;
+}
+/* Ghost = no fill, quiet ink (the banner close). */
+.btn-ghost {
+  color: var(--secondary-label);
+}
+.btn-ghost:hover {
+  color: var(--label);
+}
+/* Liquid Glass variant: translucent material with a specular rim. */
+.glass .btn-secondary,
+.glass .btn-primary {
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  box-shadow:
+    var(--glass-highlight),
+    0 8px 15px rgb(0 0 0 / 0.04);
+}
+.glass .btn-secondary {
+  background: var(--glass);
+}
+.glass .btn-primary {
+  background: color-mix(in srgb, var(--primary) 88%, transparent);
+}
+
+/* 40px minimum touch target on a smaller visual control, via a transparent
+   pseudo-element (HIG/WCAG target size) — no layout impact. */
+.tap {
+  position: relative;
+}
+.tap::before {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  translate: -50% -50%;
+  width: max(100%, 40px);
+  height: max(100%, 40px);
+}
+
+/* Full-width button (popup CTA). */
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* EB icon — the app-icon PNG. Square, sized by the <img> content.js emits. */
+.eb-glyph {
+  display: block;
+  flex-shrink: 0;
+  line-height: 0;
+}
+.eb-glyph img {
+  display: block;
+  border-radius: 22%;
+}
