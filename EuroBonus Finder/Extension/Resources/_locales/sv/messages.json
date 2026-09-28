@@ -11,10 +11,6 @@
     "message": "{name} är en EuroBonus-partner",
     "description": "Banner/popup title. {name} = shop name."
   },
-  "bannerTitleShort": {
-    "message": "{name} är en EB-partner",
-    "description": "Narrow-screen banner title. {name} = shop name."
-  },
   "earn": {
     "message": "Tjäna {points} {suffix}",
     "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
@@ -43,9 +39,9 @@
     "message": "Logga in & tjäna",
     "description": "Banner/popup button."
   },
-  "ctaShort": {
-    "message": "Tjäna",
-    "description": "Narrow banner button."
+  "activate": {
+    "message": "Aktivera",
+    "description": "Banner button: shop via SAS."
   },
   "close": {
     "message": "Stäng",
@@ -60,11 +56,11 @@
     "description": "Search-result badge accessibility label."
   },
   "coachSearchTitle": {
-    "message": "Det här är EB-märket",
+    "message": "EB-märket",
     "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
-    "message": "Vi hittade en EuroBonus-partner i resultaten. Leta efter den här ikonen bredvid en butik — den visar att du kan tjäna poäng där.",
+    "message": "Håll utkik efter det bredvid en butik – där tjänar du poäng.",
     "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
@@ -80,16 +76,20 @@
     "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
-    "message": "Så ser det ut hos en partner",
+    "message": "Bannern",
     "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
-    "message": "När du besöker en EuroBonus-partner visar vi den här listen högst upp. Logga in och handla via SAS för att tjäna poäng på köpet.",
+    "message": "Den dyker upp när du besöker en aktiv partner. Tryck på Aktivera för att tjäna poäng på köpet.",
     "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Okej",
     "description": "Tutorial Coachmark."
+  },
+  "coachSkip": {
+    "message": "Hoppa över",
+    "description": "Tutorial Coachmark: ends the Tutorial."
   },
   "popupSearching": {
     "message": "Söker partner…",

@@ -21,6 +21,13 @@ extension UserDefaults {
         shared.set(lastResetAt, forKey: SharedDefaultsKey.lastResetAt)
         return lastResetAt
     }
+
+    /// Tutorial-only Reset, same mechanism: clears the mirrored progress and stamps
+    /// `lastTutorialResetAt` (epoch ms), so the extension clears its own copy next run.
+    static func resetTutorial() {
+        TutorialStep.allCases.forEach { shared.removeObject(forKey: SharedDefaultsKey.tutorialProgress($0)) }
+        shared.set(Int(Date().timeIntervalSince1970 * 1000), forKey: SharedDefaultsKey.lastTutorialResetAt)
+    }
 }
 
 enum SharedDefaultsKey {
@@ -29,6 +36,8 @@ enum SharedDefaultsKey {
     /// Epoch ms of the last Reset. The extension keeps its own copy and wipes
     /// itself when the two differ — the app only writes it, the extension only reads it.
     static let lastResetAt = "lastResetAt"
+    /// Epoch ms of the last Tutorial Reset (the Tutorial card starting a search); read like `lastResetAt`.
+    static let lastTutorialResetAt = "lastTutorialResetAt"
     static let permissionPingTimestamp = "permission.lastPingTimestamp"
     static let permissionHasAllUrls = "permission.hasAllUrls"
     static let permissionLastOrigin = "permission.lastOrigin"

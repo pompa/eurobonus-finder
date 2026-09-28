@@ -34,7 +34,9 @@ struct TutorialCard: View {
     /// country — market codes double as Google's ccTLDs — `hl` is the app's UI
     /// language; the query matches the hint under the button). The `#ebfTutorial` fragment tells the
     /// content script this search came from here, so it can coach even when no Badge shows.
+    /// Starts the Tutorial over: any earlier progress is cleared first (app and extension).
     private func start() {
+        UserDefaults.resetTutorial()
         var components = URLComponents(string: "https://www.google.\(market.rawValue)/search")!
         components.queryItems = [
             URLQueryItem(name: "q", value: "Apple Display XDR"),

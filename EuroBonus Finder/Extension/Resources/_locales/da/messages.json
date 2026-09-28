@@ -11,10 +11,6 @@
     "message": "{name} er en EuroBonus-partner",
     "description": "Banner/popup title. {name} = shop name."
   },
-  "bannerTitleShort": {
-    "message": "{name} er en EB-partner",
-    "description": "Narrow-screen banner title. {name} = shop name."
-  },
   "earn": {
     "message": "Optjen {points} {suffix}",
     "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
@@ -43,9 +39,9 @@
     "message": "Log ind & optjen",
     "description": "Banner/popup button."
   },
-  "ctaShort": {
-    "message": "Optjen",
-    "description": "Narrow banner button."
+  "activate": {
+    "message": "Aktivér",
+    "description": "Banner button: shop via SAS."
   },
   "close": {
     "message": "Luk",
@@ -60,11 +56,11 @@
     "description": "Search-result badge accessibility label."
   },
   "coachSearchTitle": {
-    "message": "Dette er EB-mærket",
+    "message": "EB-mærket",
     "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
-    "message": "Vi fandt en EuroBonus-partner i resultaterne. Kig efter dette ikon ved siden af en butik — det viser, at du kan optjene point der.",
+    "message": "Kig efter det ved siden af en butik – der optjener du point.",
     "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
@@ -80,16 +76,20 @@
     "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
-    "message": "Sådan ser det ud hos en partner",
+    "message": "Banneret",
     "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
-    "message": "Når du besøger en EuroBonus-partner, viser vi denne bjælke øverst. Log ind og handl via SAS for at optjene point på købet.",
+    "message": "Det dukker op, når du besøger en aktiv partner. Tryk på Aktivér for at optjene point på købet.",
     "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Forstået",
     "description": "Tutorial Coachmark."
+  },
+  "coachSkip": {
+    "message": "Spring over",
+    "description": "Tutorial Coachmark: ends the Tutorial."
   },
   "popupSearching": {
     "message": "Søger efter partnere…",

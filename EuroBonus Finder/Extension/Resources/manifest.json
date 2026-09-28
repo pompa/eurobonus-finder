@@ -2,25 +2,24 @@
   "manifest_version": 3,
   "version": "0.0.0",
   "default_locale": "en",
-
   "name": "__MSG_extension_name__",
   "description": "__MSG_extension_description__",
   "author": "Ronald Pompa",
   "homepage_url": "https://eurobonus.pompa.se",
-
   "icons": {
     "48": "images/icon-48.png",
     "96": "images/icon-96.png",
     "512": "images/icon-512.png",
     "1024": "images/icon-1024.png"
   },
-
-  "permissions": ["storage", "activeTab", "nativeMessaging"],
-
+  "permissions": [
+    "storage",
+    "activeTab",
+    "nativeMessaging"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -28,18 +27,28 @@
       "32": "images/icon-32.png"
     }
   },
-
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["feed.js", "content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "feed.js",
+        "content.js"
+      ],
       "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["tokens.css", "content.css"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "tokens.css",
+        "content.css",
+        "images/icon-128.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

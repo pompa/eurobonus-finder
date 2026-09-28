@@ -11,10 +11,6 @@
     "message": "{name} on EuroBonus-kumppani",
     "description": "Banner/popup title. {name} = shop name."
   },
-  "bannerTitleShort": {
-    "message": "{name} on EB-kumppani",
-    "description": "Narrow-screen banner title. {name} = shop name."
-  },
   "earn": {
     "message": "Ansaitse {points} {suffix}",
     "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
@@ -43,9 +39,9 @@
     "message": "Kirjaudu & ansaitse",
     "description": "Banner/popup button."
   },
-  "ctaShort": {
-    "message": "Ansaitse",
-    "description": "Narrow banner button."
+  "activate": {
+    "message": "Aktivoi",
+    "description": "Banner button: shop via SAS."
   },
   "close": {
     "message": "Sulje",
@@ -60,11 +56,11 @@
     "description": "Search-result badge accessibility label."
   },
   "coachSearchTitle": {
-    "message": "Tämä on EB-merkki",
+    "message": "EB-merkki",
     "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
-    "message": "Löysimme tuloksista EuroBonus-kumppanin. Etsi tämä kuvake kaupan vierestä — se kertoo, että voit ansaita siellä pisteitä.",
+    "message": "Etsi sitä kaupan vierestä – siellä keräät pisteitä.",
     "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
@@ -80,16 +76,20 @@
     "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
-    "message": "Tältä se näyttää kumppanin sivustolla",
+    "message": "Banneri",
     "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
-    "message": "Kun vierailet EuroBonus-kumppanin sivustolla, näytämme tämän palkin ylälaidassa. Kirjaudu ja osta SAS:n kautta, niin ansaitset ostoksesta pisteitä.",
+    "message": "Se ilmestyy, kun vierailet aktiivisen kumppanin sivulla. Napauta Aktivoi ja kerää pisteitä ostoksesta.",
     "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Selvä",
     "description": "Tutorial Coachmark."
+  },
+  "coachSkip": {
+    "message": "Ohita opastus",
+    "description": "Tutorial Coachmark: ends the Tutorial."
   },
   "popupSearching": {
     "message": "Etsitään kumppaneita…",

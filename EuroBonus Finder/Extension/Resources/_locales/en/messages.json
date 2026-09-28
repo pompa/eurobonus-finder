@@ -11,10 +11,6 @@
     "message": "{name} is a EuroBonus partner",
     "description": "Banner/popup title. {name} = shop name."
   },
-  "bannerTitleShort": {
-    "message": "{name} is an EB partner",
-    "description": "Narrow-screen banner title. {name} = shop name."
-  },
   "earn": {
     "message": "Earn {points} {suffix}",
     "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
@@ -43,9 +39,9 @@
     "message": "Log in & earn",
     "description": "Banner/popup button."
   },
-  "ctaShort": {
-    "message": "Earn",
-    "description": "Narrow banner button."
+  "activate": {
+    "message": "Activate",
+    "description": "Banner button: shop via SAS."
   },
   "close": {
     "message": "Close",
@@ -60,11 +56,11 @@
     "description": "Search-result badge accessibility label."
   },
   "coachSearchTitle": {
-    "message": "This is the EB badge",
+    "message": "The EB badge",
     "description": "Tutorial Coachmark."
   },
   "coachSearchBody": {
-    "message": "We found a EuroBonus partner in the results. Look for this icon next to a shop — it means you can earn points there.",
+    "message": "Look for it next to a shop — that's where you earn points.",
     "description": "Tutorial Coachmark."
   },
   "coachSearchCta": {
@@ -80,16 +76,20 @@
     "description": "Tutorial Coachmark."
   },
   "coachBannerTitle": {
-    "message": "This is how it looks at a partner",
+    "message": "The banner",
     "description": "Tutorial Coachmark."
   },
   "coachBannerBody": {
-    "message": "When you visit a EuroBonus partner, we show this bar at the top. Log in and shop via SAS to earn points on your purchase.",
+    "message": "It shows up when you visit an active partner. Tap Activate to earn points on your purchase.",
     "description": "Tutorial Coachmark."
   },
   "coachBannerCta": {
     "message": "Got it",
     "description": "Tutorial Coachmark."
+  },
+  "coachSkip": {
+    "message": "Skip tour",
+    "description": "Tutorial Coachmark: ends the Tutorial."
   },
   "popupSearching": {
     "message": "Looking for partners…",

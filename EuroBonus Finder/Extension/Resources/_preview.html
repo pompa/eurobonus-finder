@@ -15,11 +15,22 @@
       body.eb-preview {
         margin: 0;
         padding: 0;
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        background: #f3f4f6;
-        color: #1f2937;
+        font-family: -apple-system, system-ui, sans-serif;
+        background: light-dark(#f2f2f7, #000);
+        color: light-dark(#1f2937, #e5e7eb);
+      }
+      /* Scheme toggle — sets color-scheme on <html>, which light-dark() follows. */
+      .scheme-toggle {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 10;
+        font: 500 13px/1 -apple-system, system-ui, sans-serif;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid light-dark(#d1d5db, #3a3a3c);
+        background: light-dark(#fff, #1c1c1e);
+        color: inherit;
       }
       .preview-section {
         padding: 24px;
@@ -55,10 +66,23 @@
         font-size: 12px;
         margin-top: 8px;
       }
-      /* Render the fixed banner inline so several sizes stack on one page. */
+      /* Render the fixed banner/overlay inline so several sizes stack on one page. */
       .static-fixed {
         position: static !important;
         opacity: 1 !important;
+      }
+      .spot-demo {
+        position: relative;
+        overflow: hidden;
+        min-height: 380px;
+        padding: 24px;
+        background: #fff;
+        color: #1a1a1a;
+        font-family: arial, sans-serif;
+      }
+      .spot-demo .coach-overlay,
+      .spot-demo .coach-card {
+        position: absolute;
       }
       .preview-google-mock {
         padding: 16px;
@@ -88,14 +112,20 @@
       /* EB badge — static mock of what content.js injects (the filled brand
          monogram SVG; styled inline in the host DOM, live). */
       .preview-eb-chip {
-        display: inline-flex;
-        align-items: center;
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
         vertical-align: middle;
-        color: #003df5;
         margin-left: 6px;
-        padding: 2px;
         line-height: 0;
         cursor: pointer;
+      }
+      .preview-eb-chip img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
       }
       .preview-eb-chip:hover {
         opacity: 0.85;
@@ -103,96 +133,59 @@
     </style>
   </head>
   <body class="eb-preview">
+    <select class="scheme-toggle" aria-label="Color scheme"
+      onchange="document.documentElement.style.colorScheme = this.value">
+      <option value="">Auto</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+    <select class="scheme-toggle" style="right: 96px" aria-label="Button material"
+      onchange="document.querySelectorAll('.banner, .coach-card').forEach(e => e.classList.toggle('glass', this.value === 'glass'))">
+      <option value="flat">Flat</option>
+      <option value="glass">Glass</option>
+    </select>
     <div class="preview-section">
-      <h2>Wide (1100px) — Alert: icon + full title + description + full CTA</h2>
+      <h2>Wide (1100px) — Smart-banner layout: [✕] [icon] [name / points] [Aktivera]</h2>
       <div class="resize-box wide">
-        <div class="fixed-banner-container static-fixed">
-          <div class="banner-wrapper">
-            <div class="banner-alert">
-              <span class="alert-icon"
-                ><svg width="17" height="17" fill="none" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path><path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path><path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg
-              ></span>
-              <div class="alert-body">
-                <div class="alert-title">
-                  <span class="title-full">Proshop är en EuroBonus-partner</span>
-                  <span class="title-short">Proshop är en EB-partner</span>
-                </div>
-                <div class="alert-desc">
-                  Tjäna <span class="points-highlight">10 poäng</span> per 100 kr
-                </div>
-              </div>
-            </div>
-            <div class="actions">
-              <a href="#" class="cta-btn">
-                <span class="cta-full">Logga in &amp; tjäna</span>
-                <span class="cta-short">Tjäna</span>
-              </a>
-              <button class="close-btn" aria-label="Close">✕</button>
-            </div>
+        <div class="banner static-fixed">
+          <button class="btn btn-icon btn-sm btn-ghost tap banner-close" type="button" aria-label="Stäng"><span class="glyph" aria-hidden="true">×</span></button>
+          <span class="eb-glyph"><img src="images/icon-128.png" alt="" width="40" height="40" style="display:block;width:40px;height:40px"></span>
+          <div class="banner-body">
+            <div class="banner-title">Proshop</div>
+            <div class="banner-desc">Tjäna <span class="points-highlight">10 poäng</span> per 100 kr</div>
           </div>
+          <a href="#" class="btn btn-primary btn-sm tap cta-btn">Aktivera</a>
         </div>
       </div>
       <p class="note">Drag the bottom-right corner of any preview to resize.</p>
     </div>
 
     <div class="preview-section">
-      <h2>Narrow (400px) — short title, description hidden, short CTA</h2>
+      <h2>Narrow (400px) — campaign: regular points struck through, campaign points after</h2>
       <div class="resize-box narrow">
-        <div class="fixed-banner-container static-fixed">
-          <div class="banner-wrapper">
-            <div class="banner-alert">
-              <span class="alert-icon"
-                ><svg width="17" height="17" fill="none" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path><path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path><path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg
-              ></span>
-              <div class="alert-body">
-                <div class="alert-title">
-                  <span class="title-full">Proshop är en EuroBonus-partner</span>
-                  <span class="title-short">Proshop är en EB-partner</span>
-                </div>
-                <div class="alert-desc">
-                  Tjäna <span class="points-highlight">10 poäng</span> per 100 kr
-                </div>
-              </div>
-            </div>
-            <div class="actions">
-              <a href="#" class="cta-btn">
-                <span class="cta-full">Logga in &amp; tjäna</span>
-                <span class="cta-short">Tjäna</span>
-              </a>
-              <button class="close-btn" aria-label="Close">✕</button>
-            </div>
+        <div class="banner static-fixed">
+          <button class="btn btn-icon btn-sm btn-ghost tap banner-close" type="button" aria-label="Stäng"><span class="glyph" aria-hidden="true">×</span></button>
+          <span class="eb-glyph"><img src="images/icon-128.png" alt="" width="40" height="40" style="display:block;width:40px;height:40px"></span>
+          <div class="banner-body">
+            <div class="banner-title">Webhallen</div>
+            <div class="banner-desc">Tjäna <s class="points-old">5</s> <span class="points-highlight is-campaign">15 poäng</span> per 100 kr</div>
           </div>
+          <a href="#" class="btn btn-primary btn-sm tap cta-btn">Aktivera</a>
         </div>
       </div>
     </div>
 
     <div class="preview-section">
-      <h2>Tiny (320px) — iPhone SE-ish width, tightest padding</h2>
+      <h2>Tiny (320px) — iPhone SE-ish width, long name truncates</h2>
       <div class="resize-box tiny">
-        <div class="fixed-banner-container static-fixed">
-          <div class="banner-wrapper">
-            <div class="banner-alert">
-              <span class="alert-icon"
-                ><svg width="17" height="17" fill="none" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path><path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path><path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg
-              ></span>
-              <div class="alert-body">
-                <div class="alert-title">
-                  <span class="title-full">Proshop är en EuroBonus-partner</span>
-                  <span class="title-short">Proshop är en EB-partner</span>
-                </div>
-                <div class="alert-desc">
-                  Tjäna <span class="points-highlight">10 poäng</span> per 100 kr
-                </div>
-              </div>
-            </div>
-            <div class="actions">
-              <a href="#" class="cta-btn">
-                <span class="cta-full">Logga in &amp; tjäna</span>
-                <span class="cta-short">Tjäna</span>
-              </a>
-              <button class="close-btn" aria-label="Close">✕</button>
-            </div>
+        <div class="banner static-fixed">
+          <button class="btn btn-icon btn-sm btn-ghost tap banner-close" type="button" aria-label="Stäng"><span class="glyph" aria-hidden="true">×</span></button>
+          <span class="eb-glyph"><img src="images/icon-128.png" alt="" width="40" height="40" style="display:block;width:40px;height:40px"></span>
+          <div class="banner-body">
+            <div class="banner-title">Komplett Business Store</div>
+            <div class="banner-desc">Tjäna <span class="points-highlight">500 poäng</span> som ny kund</div>
           </div>
+          <a href="#" class="btn btn-primary btn-sm tap cta-btn">Aktivera</a>
         </div>
       </div>
     </div>
@@ -207,9 +200,7 @@
         <div class="preview-google-mock-price">35&nbsp;872,00&nbsp;kr</div>
         <div class="preview-google-mock-vendor-row">
           <div aria-label="From Proshop.se">Proshop.se</div>
-          <span class="preview-eb-chip"
-            ><svg width="17" height="17" fill="none" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path fill="currentColor" fill-rule="evenodd" d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z" clip-rule="evenodd"></path><path fill="currentColor" d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"></path><path fill="currentColor" fill-rule="evenodd" d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z" clip-rule="evenodd"></path></svg
-          ></span>
+          <span class="preview-eb-chip"><img src="images/icon-128.png" alt="" style="display:block;width:20px;height:20px;border-radius:4px"></span>
         </div>
         <p class="note">
           The solid brand <strong>EB</strong> badge is injected next to Google's vendor
@@ -220,76 +211,62 @@
     </div>
 
     <div class="preview-section">
-      <h2>Tutorial Coachmarks — anchored popovers</h2>
-      <div class="resize-box wide" style="padding: 40px; background: #f3f4f6">
-        <!-- Search step: anchored to the first EB badge (arrow on top edge). -->
-        <div
-          class="coach-card is-visible"
-          data-placement="bottom"
-          style="position: relative; margin: 0 0 28px"
-        >
-          <span class="coach-arrow" style="left: 26px"></span>
-          <button class="coach-close" type="button" aria-label="Stäng">✕</button>
-          <p class="coach-title">
-            <span class="coach-eb"
-              ><svg
-                width="17"
-                height="17"
-                fill="none"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                style="display: block"
-              >
-                <path
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                  d="M12.31 15.5v-7h2.663q.754 0 1.253.24.503.235.75.645.253.411.252.93 0 .428-.163.731-.164.3-.438.49a1.9 1.9 0 0 1-.615.27v.068q.37.02.71.228.344.205.56.582.218.375.218.909 0 .543-.262.977-.261.43-.788.68-.526.25-1.324.25zm1.26-1.06h1.355q.687 0 .989-.263a.87.87 0 0 0 .306-.683 1.05 1.05 0 0 0-.588-.957 1.44 1.44 0 0 0-.673-.147H13.57zm0-2.963h1.247q.326 0 .587-.12a.928.928 0 0 0 .564-.878.87.87 0 0 0-.285-.67q-.282-.263-.84-.263H13.57z"
-                  clip-rule="evenodd"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M6.5 8.5v7h4.552v-1.063H7.76v-1.91h3.03v-1.064H7.76v-1.9h3.264V8.5z"
-                ></path>
-                <path
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                  d="M4.2 4h15.6A2.2 2.2 0 0 1 22 6.2v11.6a2.2 2.2 0 0 1-2.2 2.2H4.2A2.2 2.2 0 0 1 2 17.8V6.2A2.2 2.2 0 0 1 4.2 4m0 1.5a.7.7 0 0 0-.7.7v11.6a.7.7 0 0 0 .7.7h15.6a.7.7 0 0 0 .7-.7V6.2a.7.7 0 0 0-.7-.7z"
-                  clip-rule="evenodd"
-                ></path></svg
-            ></span>
-            <span>Det här är EB-märket</span>
-          </p>
-          <p class="coach-body">
-            Vi hittade en EuroBonus-partner i resultaten. Leta efter den här ikonen
-            bredvid en butik — den visar att du kan tjäna poäng där.
-          </p>
-          <div class="coach-actions">
-            <button class="btn btn-default btn-sm" type="button">Besök sajten</button>
-          </div>
+      <h2>Tutorial Coachmark — search step on the blurred overlay with a spotlight</h2>
+      <div class="resize-box wide spot-demo" id="spot-demo">
+        <div class="preview-google-mock-url">https://www.proshop.se</div>
+        <div class="preview-google-mock-title">27" Apple Studio Display XDR</div>
+        <div class="preview-google-mock-price">35&nbsp;872,00&nbsp;kr</div>
+        <div class="preview-google-mock-vendor-row">
+          <div aria-label="From Proshop.se">Proshop.se</div>
+          <span class="preview-eb-chip" id="spot-anchor"><img src="images/icon-128.png" alt="" style="display:block;width:20px;height:20px;border-radius:4px"></span>
         </div>
-
-        <!-- Partner step: anchored to the banner CTA (arrow on bottom edge). -->
-        <div
-          class="coach-card is-visible"
-          data-placement="top"
-          style="position: relative"
-        >
-          <span class="coach-arrow" style="left: 130px"></span>
-          <button class="coach-close" type="button" aria-label="Stäng">✕</button>
-          <p class="coach-title"><span>Så ser det ut hos en partner</span></p>
-          <p class="coach-body">
-            När du besöker en EuroBonus-partner visar vi den här listen högst upp.
-            Logga in och handla via SAS för att tjäna poäng på köpet.
-          </p>
-          <div class="coach-actions">
-            <button class="btn btn-default btn-sm" type="button">Okej</button>
+        <div class="coach-overlay is-visible" id="spot-overlay"></div>
+        <div class="coach-card is-visible" data-placement="bottom" style="left: 24px; top: 120px">
+          <span class="coach-arrow" style="left: 91px"></span>
+          <button class="btn btn-icon btn-sm btn-secondary tap coach-close" type="button" aria-label="Stäng"><span class="glyph" aria-hidden="true">×</span></button>
+          <span class="eb-glyph coach-glyph"><img src="images/icon-128.png" alt="" width="56" height="56" style="display:block;width:56px;height:56px"></span><p class="coach-title">EB-märket</p><p class="coach-body">Håll utkik efter det bredvid en butik – där tjänar du poäng.</p>
+          <div class="coach-footer">
+            <span class="coach-dots" aria-hidden="true"><i class="is-active"></i><i class=""></i><i class=""></i></span>
+            <button class="btn btn-plain coach-skip" type="button">Hoppa över</button>
+            <button class="btn btn-primary" type="button">Besök sajten<span class="glyph" aria-hidden="true">→</span></button>
           </div>
         </div>
       </div>
       <p class="note">
-        Live, the card is <code>position: fixed</code> and anchored to the first EB
-        badge (search step) or the banner's CTA (partner step); shown statically here.
+        Live, the overlay and card are <code>position: fixed</code>; the spotlight is an
+        evenodd <code>clip-path: path()</code> that JS recomputes from the anchor's rect.
       </p>
+      <script>
+        // Same rounded evenodd path content.js builds, from the demo anchor's box.
+        const box = document.getElementById("spot-demo").getBoundingClientRect();
+        const a = document.getElementById("spot-anchor").getBoundingClientRect();
+        const x1 = a.left - box.left - 6, y1 = a.top - box.top - 6;
+        const x2 = a.right - box.left + 6, y2 = a.bottom - box.top + 6;
+        const r = Math.min(10, (x2 - x1) / 2, (y2 - y1) / 2);
+        const arc = `A${r} ${r} 0 0 1`;
+        document.getElementById("spot-overlay").style.clipPath =
+          `path(evenodd, "M0 0H${box.width}V${box.height}H0Z` +
+          `M${x1 + r} ${y1}H${x2 - r}${arc} ${x2} ${y1 + r}V${y2 - r}${arc} ${x2 - r} ${y2}` +
+          `H${x1 + r}${arc} ${x1} ${y2 - r}V${y1 + r}${arc} ${x1 + r} ${y1}Z")`;
+      </script>
+    </div>
+
+    <div class="preview-section">
+      <h2>Tutorial Coachmark — partner step (arrow on the bottom edge)</h2>
+      <div class="resize-box wide" style="padding: 40px; background: #f3f4f6">
+        <div class="coach-card is-visible" data-placement="top" style="position: relative">
+          <span class="coach-arrow" style="left: 137px"></span>
+          <button class="btn btn-icon btn-sm btn-secondary tap coach-close" type="button" aria-label="Stäng"><span class="glyph" aria-hidden="true">×</span></button>
+          <p class="coach-title">Bannern</p><p class="coach-body">
+            Den dyker upp när du besöker en aktiv partner. Tryck på Aktivera för att tjäna poäng på köpet.
+          </p>
+          <div class="coach-footer">
+            <span class="coach-dots" aria-hidden="true"><i class="is-done"></i><i class="is-active"></i><i class=""></i></span>
+            <button class="btn btn-plain coach-skip" type="button">Hoppa över</button>
+            <button class="btn btn-primary coach-cta" type="button"><span class="glyph" aria-hidden="true">✓</span>Okej</button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
