@@ -165,13 +165,13 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
   };
 
   // Button material: "flat" (HIG fills) or "glass" (Liquid Glass) — a class on
-  // each surface, see content.css.
+  // each surface, see styles.css.
   const BUTTON_STYLE = "flat";
 
-  // Shadow-DOM surfaces (banner, coachmark) pull ui.css (tokens + primitives)
-  // and the page-injected surfaces — NOT the popup stylesheet — so host pages
+  // Shadow-DOM surfaces (banner, coachmark) pull styles.css (tokens, primitives,
+  // banner + coachmark) — NOT the popup stylesheet — so host pages
   // only download the CSS the injected UI actually uses.
-  const SHADOW_STYLESHEETS = ["ui.css", "content.css"];
+  const SHADOW_STYLESHEETS = ["styles.css"];
   const attachShadowStyles = (shadow) => {
     for (const href of SHADOW_STYLESHEETS) {
       const link = document.createElement("link");
@@ -548,7 +548,7 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       <p class="coach-body">${body}</p>
       <div class="coach-footer">
         <span class="coach-dots" aria-hidden="true">${dots}</span>
-        <button class="btn btn-plain coach-skip" type="button">${t("coachSkip")}</button>
+        <button class="btn btn-ghost coach-skip" type="button">${t("coachSkip")}</button>
         <button class="btn btn-primary coach-cta" type="button">${ctaLabel}</button>
       </div>`;
     shadow.appendChild(card);
@@ -558,7 +558,7 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const reposition = () => {
       const rect = getRect();
       if (!rect) return;
-      const m = 12; // matches --gutter in content.css
+      const m = 12; // matches --gutter in styles.css
       // Layout size (offset*), not getBoundingClientRect(): the hidden card is
       // scaled 0.95, which would skew centring by a few px.
       const cw = card.offsetWidth || 300;
