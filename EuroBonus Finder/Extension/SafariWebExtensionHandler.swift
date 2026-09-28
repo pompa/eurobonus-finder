@@ -36,8 +36,8 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             }
 
         case "get-last-reset-at":
-            let stamps = defaults.decode(ResetStamps.self, forKey: SharedDefaultsKey.reset) ?? ResetStamps()
-            return ["lastResetAt": stamps.at ?? 0, "lastTutorialResetAt": stamps.tutorialAt ?? 0]
+            let setup = defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()
+            return ["lastResetAt": setup.resetAt ?? 0, "lastTutorialResetAt": setup.tutorialResetAt ?? 0]
 
         case "reset":
             // The extension's dev page asked for a Reset: wipe the App Group (the app

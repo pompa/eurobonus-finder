@@ -12,16 +12,16 @@ struct DebugView: View {
 
     // Writable copies of the App Group values that drive the app's screens.
     @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
-    @SharedJSON(SharedDefaultsKey.permissions, default: Permissions(pingedAt: 0)) private var permissions
+    @SharedJSON(SharedDefaultsKey.permissions, default: Permissions()) private var permissions
 
     var body: some View {
         List {
             // The extension overwrites these on its next page load; enough to try each screen.
             Section {
-                Picker(selection: $setup.state) {
-                    ForEach(SetupState.allCases, id: \.self) { Text(verbatim: $0.rawValue) }
+                Button {
+                    setup.finishedAt = nil
                 } label: {
-                    Text(verbatim: "setup.state")
+                    Text(verbatim: "Run Setup again (clear setup.finishedAt)")
                 }
                 Button {
                     UserDefaults.resetTutorial()

@@ -1,7 +1,7 @@
 import Foundation
 
 /// The user's EuroBonus market — picks which partner feed the extension loads.
-/// Independent of UI language. Stored in the App Group as `Setup.market`;
+/// Independent of UI language. Stored in the App Group as `setup.market`;
 /// absent means `.se` (pre-market users were Swedish).
 enum Market: String, CaseIterable, Identifiable, Codable {
     case se, no, dk, fi

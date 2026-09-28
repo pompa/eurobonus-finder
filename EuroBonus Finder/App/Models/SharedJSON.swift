@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// A Codable value kept as one JSON object in the App Group (see
-/// `SharedDefaultsKey`). Backed by `@AppStorage`, so views update when the
-/// app or the extension writes it; `$value.field` gives bindings into it.
+/// One of the App Group's JSON objects (see `SharedDefaultsKey`) as a value in
+/// a view. Backed by `@AppStorage`, so the view updates when the app or the
+/// extension writes it; `$value.field` gives bindings into it.
 @propertyWrapper
 struct SharedJSON<Value: Codable>: DynamicProperty {
     @AppStorage private var json: String
@@ -14,17 +14,8 @@ struct SharedJSON<Value: Codable>: DynamicProperty {
     }
 
     var wrappedValue: Value {
-        get {
-            guard let data = json.data(using: .utf8),
-                  let value = try? JSONDecoder().decode(Value.self, from: data)
-            else { return fallback }
-            return value
-        }
-        nonmutating set {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .sortedKeys
-            json = (try? encoder.encode(newValue)).map { String(decoding: $0, as: UTF8.self) } ?? ""
-        }
+        get { JSONText.decode(Value.self, from: json) ?? fallback }
+        nonmutating set { json = JSONText.encode(newValue) }
     }
 
     var projectedValue: Binding<Value> {

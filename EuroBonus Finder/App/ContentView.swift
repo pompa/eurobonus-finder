@@ -1,33 +1,36 @@
 import SwiftUI
 
-/// App root: Setup until it's finished, then the main navigation stack.
+/// App root: the main navigation stack, with Setup as a full-screen cover on
+/// top of it. Setup shows while `setup.finishedAt` is nil — first launch, after
+/// a Reset, or after "Set up again" — and whenever a `setup/<screen>` deep link
+/// asks for it. Nothing else decides; the extension's real state is read live.
 /// Routes are mapped to screens here, in one place.
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var extensionState = ExtensionState()
     @State private var path: [Route] = []
     @State private var setupLink: SetupLink?
+    @State private var showSetup: Bool
     @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
+    init() {
+        // Decided before the first frame, so Main never flashes behind Setup.
+        _showSetup = State(initialValue: UserDefaults.shared.decode(Setup.self, forKey: SharedDefaultsKey.setup)?.finishedAt == nil)
+    }
+
     var body: some View {
-        Group {
-            if setup.state == .active {
-                SetupView(state: extensionState, link: setupLink) { result in
-                    withAnimation(.snappy) { setup.state = result }
-                }
-            } else {
-                NavigationStack(path: $path) {
-                    MainView(state: extensionState)
-                        .navigationDestination(for: Route.self, destination: screen)
-                }
+        NavigationStack(path: $path) {
+            MainView(state: extensionState)
+                .navigationDestination(for: Route.self, destination: screen)
+        }
+        .fullScreenCover(isPresented: $showSetup) {
+            SetupView(state: extensionState, link: setupLink) {
+                setup.finishedAt = epochMs()
             }
         }
-        // Leaving Setup forgets its last deep link, so a later Reset (from
-        // Settings or the extension) starts Setup at welcome rather than on the
-        // Test page's return screen; coming back out starts the main stack fresh.
-        .onChange(of: setup.state) {
-            if setup.state == .active { path = [] } else { setupLink = nil }
-        }
+        .onChange(of: setup.finishedAt) { showSetup = setup.finishedAt == nil }
+        // A dismissed Setup forgets its deep link, so the next run starts at welcome.
+        .onChange(of: showSetup) { if !showSetup { setupLink = nil } else { path = [] } }
         .onOpenURL(perform: open)
         .task(id: scenePhase) {
             if scenePhase == .active { await extensionState.refresh() }
@@ -46,23 +49,17 @@ struct ContentView: View {
         }
     }
 
-    /// Setup links jump within Setup, or land on extension settings once it's
-    /// over. Other deep links open on the main stack; one arriving mid-Setup
-    /// skips the rest of it (the user can finish setting up from extension settings).
+    /// Setup links (the Test page's "Back to the app") open Setup on that
+    /// screen. Other deep links open on the main stack, over a running Setup.
     private func open(_ url: URL) {
         if let screen = Route.setupScreen(for: url) {
-            if setup.state == .active {
-                setupLink = SetupLink(screen: screen, seq: (setupLink?.seq ?? 0) + 1)
-            } else {
-                path = [.extensionSettings]
-            }
+            setupLink = SetupLink(screen: screen, seq: (setupLink?.seq ?? 0) + 1)
+            showSetup = true
             return
         }
         guard let route = Route.path(for: url) else { return }
-        if setup.state == .active {
-            Market.preselectDeviceDefault()
-            setup.state = .incomplete
-        }
+        Market.preselectDeviceDefault()
+        showSetup = false
         path = route
     }
 }

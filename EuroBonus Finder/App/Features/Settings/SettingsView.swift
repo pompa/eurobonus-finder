@@ -53,7 +53,7 @@ struct SettingsView: View {
             #endif
 
             Section {
-                // Setup takes over once `setup` is cleared (see ContentView).
+                // Setup shows again once `setup.finishedAt` is gone (see ContentView).
                 Button("about.reset", role: .destructive) { withAnimation(.snappy) { Reset.perform() } }
             } footer: {
                 Text("about.reset.hint")

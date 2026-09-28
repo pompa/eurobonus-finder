@@ -23,7 +23,7 @@ _Avoid_: SAS return, affiliate return, pending return
 ### Getting started
 
 **Setup**:
-The app's first-run flow: choosing a region, turning on the extension, granting it website access, and confirming that on the Test page.
+The app's first-run flow: choosing a region, turning on the extension, granting it website access, and confirming that on the Test page. Shown until finished; a Reset or "Set up again" shows it again.
 _Avoid_: Onboarding, intro
 
 **Test page**:

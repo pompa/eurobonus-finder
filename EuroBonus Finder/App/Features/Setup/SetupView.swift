@@ -16,8 +16,8 @@ struct SetupView: View {
     let state: ExtensionState
     /// The last Setup deep link, if any; each new one opens its screen.
     var link: SetupLink?
-    /// Called with `.completed` or `.incomplete` when the user leaves setup.
-    let onFinish: (SetupState) -> Void
+    /// Called when the user leaves Setup, from either ending screen.
+    let onFinish: () -> Void
 
     /// Screens pushed over welcome.
     @State private var path: [Screen] = []
@@ -226,10 +226,8 @@ struct SetupView: View {
             push(state.status == .enabled ? .verify : .incomplete)
         case .verify:
             push(verify.status(state) == .working ? .completed : .incomplete)
-        case .completed:
-            onFinish(.completed)
-        case .incomplete:
-            onFinish(.incomplete)
+        case .completed, .incomplete:
+            onFinish()
         }
     }
 
