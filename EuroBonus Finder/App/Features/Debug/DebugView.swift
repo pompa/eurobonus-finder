@@ -11,17 +11,17 @@ struct DebugView: View {
     @State private var standard: [(key: String, value: String)] = []
 
     // Writable copies of the App Group values that drive the app's screens.
-    @AppStorage(SharedDefaultsKey.setupState, store: .shared) private var setupState = SetupState.active
-    @AppStorage(SharedDefaultsKey.permissionHasAllUrls, store: .shared) private var hasAllUrls = false
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
+    @SharedJSON(SharedDefaultsKey.permissions, default: Permissions(pingedAt: 0)) private var permissions
 
     var body: some View {
         List {
             // The extension overwrites these on its next page load; enough to try each screen.
             Section {
-                Picker(selection: $setupState) {
+                Picker(selection: $setup.state) {
                     ForEach(SetupState.allCases, id: \.self) { Text(verbatim: $0.rawValue) }
                 } label: {
-                    Text(verbatim: "setupState")
+                    Text(verbatim: "setup.state")
                 }
                 Button {
                     UserDefaults.resetTutorial()
@@ -29,21 +29,21 @@ struct DebugView: View {
                 } label: {
                     Text(verbatim: "Reset tutorial")
                 }
-                Toggle(isOn: $hasAllUrls) { Text(verbatim: "permission.hasAllUrls") }
-                    .onChange(of: hasAllUrls) { state.readPermissionPing(); load() }
+                Toggle(isOn: $permissions.hasAllUrls) { Text(verbatim: "permissions.hasAllUrls") }
+                    .onChange(of: permissions.hasAllUrls) { state.readPermissionPing(); load() }
                 Button {
-                    UserDefaults.shared.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
+                    permissions.pingedAt = Date().timeIntervalSince1970
                     state.readPermissionPing()
                     load()
                 } label: {
                     Text(verbatim: "Stamp permission ping now")
                 }
                 Button {
-                    UserDefaults.shared.removeObject(forKey: SharedDefaultsKey.permissionPingTimestamp)
+                    UserDefaults.shared.removeObject(forKey: SharedDefaultsKey.permissions)
                     state.readPermissionPing()
                     load()
                 } label: {
-                    Text(verbatim: "Clear permission ping")
+                    Text(verbatim: "Clear permissions")
                 }
             } header: {
                 Text(verbatim: "Controls")

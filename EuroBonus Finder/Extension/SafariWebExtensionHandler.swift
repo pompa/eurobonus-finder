@@ -20,12 +20,13 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
         switch type {
         case "get-market":
             // Absent until the user picks a region; pre-region users were Swedish.
-            return ["market": defaults.string(forKey: SharedDefaultsKey.market) ?? "se"]
+            return ["market": (defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()).chosenMarket.rawValue]
 
         case "host-permission-ping":
-            defaults.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
-            defaults.set(dict["hasAllUrls"] as? Bool ?? false, forKey: SharedDefaultsKey.permissionHasAllUrls)
-            defaults.set(dict["origin"] as? String ?? "", forKey: SharedDefaultsKey.permissionLastOrigin)
+            defaults.encode(Permissions(hasAllUrls: dict["hasAllUrls"] as? Bool ?? false,
+                                        origin: dict["origin"] as? String ?? "",
+                                        pingedAt: Date().timeIntervalSince1970),
+                            forKey: SharedDefaultsKey.permissions)
 
         case "tutorial":
             // Mirror of the extension's `tutorial` object, stored as JSON for the app.
@@ -35,10 +36,8 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             }
 
         case "get-last-reset-at":
-            return [
-                "lastResetAt": defaults.integer(forKey: SharedDefaultsKey.lastResetAt),
-                "lastTutorialResetAt": defaults.integer(forKey: SharedDefaultsKey.lastTutorialResetAt),
-            ]
+            let stamps = defaults.decode(ResetStamps.self, forKey: SharedDefaultsKey.reset) ?? ResetStamps()
+            return ["lastResetAt": stamps.at ?? 0, "lastTutorialResetAt": stamps.tutorialAt ?? 0]
 
         case "reset":
             // The extension's dev page asked for a Reset: wipe the App Group (the app

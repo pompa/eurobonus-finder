@@ -7,13 +7,13 @@ struct ContentView: View {
     @State private var extensionState = ExtensionState()
     @State private var path: [Route] = []
     @State private var setupLink: SetupLink?
-    @AppStorage(SharedDefaultsKey.setupState, store: .shared) private var setupState = SetupState.active
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
     var body: some View {
         Group {
-            if setupState == .active {
+            if setup.state == .active {
                 SetupView(state: extensionState, link: setupLink) { result in
-                    withAnimation(.snappy) { setupState = result }
+                    withAnimation(.snappy) { setup.state = result }
                 }
             } else {
                 NavigationStack(path: $path) {
@@ -22,9 +22,12 @@ struct ContentView: View {
                 }
             }
         }
-        // A Reset (from Settings or the extension) drops back to Setup; start the
-        // main stack fresh when the user comes out of it.
-        .onChange(of: setupState) { if setupState == .active { path = [] } }
+        // Leaving Setup forgets its last deep link, so a later Reset (from
+        // Settings or the extension) starts Setup at welcome rather than on the
+        // Test page's return screen; coming back out starts the main stack fresh.
+        .onChange(of: setup.state) {
+            if setup.state == .active { path = [] } else { setupLink = nil }
+        }
         .onOpenURL(perform: open)
         .task(id: scenePhase) {
             if scenePhase == .active { await extensionState.refresh() }
@@ -48,7 +51,7 @@ struct ContentView: View {
     /// skips the rest of it (the user can finish setting up from extension settings).
     private func open(_ url: URL) {
         if let screen = Route.setupScreen(for: url) {
-            if setupState == .active {
+            if setup.state == .active {
                 setupLink = SetupLink(screen: screen, seq: (setupLink?.seq ?? 0) + 1)
             } else {
                 path = [.extensionSettings]
@@ -56,9 +59,9 @@ struct ContentView: View {
             return
         }
         guard let route = Route.path(for: url) else { return }
-        if setupState == .active {
+        if setup.state == .active {
             Market.preselectDeviceDefault()
-            setupState = .incomplete
+            setup.state = .incomplete
         }
         path = route
     }

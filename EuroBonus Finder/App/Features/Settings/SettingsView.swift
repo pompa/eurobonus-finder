@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Settings — region and language, Debug (Debug builds only), and Reset settings.
 struct SettingsView: View {
-    @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
     /// The app's active UI language, named in itself ("Svenska").
     private var languageName: String {
@@ -17,14 +17,14 @@ struct SettingsView: View {
                 HStack {
                     SettingsRow(symbol: "globe", title: "settings.region")
                     Menu {
-                        Picker(selection: $market) {
+                        Picker(selection: $setup.chosenMarket) {
                             ForEach(Market.allCases) { Text(verbatim: $0.name).tag($0) }
                         } label: {
                             EmptyView()
                         }
                     } label: {
                         HStack(spacing: 6) {
-                            Text(verbatim: market.name)
+                            Text(verbatim: setup.chosenMarket.name)
                                 .foregroundStyle(.secondary)
                             Image(systemName: "chevron.up.chevron.down")
                                 .font(.footnote.weight(.semibold))
@@ -53,7 +53,7 @@ struct SettingsView: View {
             #endif
 
             Section {
-                // Setup takes over once `setupState` is cleared (see ContentView).
+                // Setup takes over once `setup` is cleared (see ContentView).
                 Button("about.reset", role: .destructive) { withAnimation(.snappy) { Reset.perform() } }
             } footer: {
                 Text("about.reset.hint")
