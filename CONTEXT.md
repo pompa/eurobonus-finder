@@ -23,7 +23,7 @@ _Avoid_: SAS return, affiliate return, pending return
 ### Getting started
 
 **Setup**:
-The app's first-run flow: choosing a region, turning on the extension, granting it website access, and confirming that on the Test page.
+The app's first-run flow: choosing a region, turning on the extension, granting it website access, and confirming that on the Test page. Shown until finished; a Reset or "Set up again" shows it again.
 _Avoid_: Onboarding, intro
 
 **Test page**:
@@ -35,14 +35,18 @@ The coaching the extension does in Safari to show the user how Badges, the Banne
 _Avoid_: Guided test, tour, try-out, extension onboarding
 
 **Tutorial step**:
-A single thing the Tutorial teaches. Steps can be completed in any order: seeing a Badge, visiting a Partner, and completing a SAS Shopping return.
+A single thing the Tutorial teaches, in order: tapping a Badge, tapping the Banner's Activate, the SAS Shopping return, and closing the done dialog. A step is completed by the real tap, never by closing its Coachmark.
 
 **Tutorial progress**:
-The set of Tutorial steps the user has completed. The app and the extension share one copy. The Tutorial is finished when every step is in it.
+One object of timestamps, one per completed Tutorial step, plus `dismissed` for Skip tour. The app and the extension share one copy. The Tutorial is over when it is finished or dismissed.
 
 **Coachmark**:
-A popover in the Tutorial, anchored to the thing it explains. Closing a Coachmark completes its Tutorial step.
+A popover in the Tutorial, anchored to the thing it explains, on a blurred overlay. Closing a Coachmark shows the Hint for its step.
 _Avoid_: Popover, tooltip, tip
+
+**Hint**:
+A one-line bubble in the Tutorial pointing at the thing to tap next, with no overlay. It goes away when that thing is tapped.
+_Avoid_: Tooltip, nudge, callout
 
 **Reset**:
 Wiping everything the app and the extension have stored, so the user starts again from Setup. Shown to users as "Reset settings".

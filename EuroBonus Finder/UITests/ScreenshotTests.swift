@@ -34,7 +34,7 @@ final class ScreenshotTests: XCTestCase {
         // @AppStorage reads UserDefaults, and `-key value` launch arguments set
         // it — so we can start either before Setup or after it without a
         // test-only code path in the app.
-        app.launchArguments += ["-setupState", setupCompleted ? "completed" : "active"]
+        app.launchArguments += ["-setup", setupCompleted ? #"{"finishedAt":1}"# : "{}"]
         setupSnapshot(app)
         app.launch()
         return app

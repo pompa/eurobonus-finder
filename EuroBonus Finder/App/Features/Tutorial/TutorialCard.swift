@@ -6,7 +6,7 @@ import SwiftUI
 struct TutorialCard: View {
     let disabled: Bool
     @Environment(\.openURL) private var openURL
-    @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
     var body: some View {
         VStack(spacing: 14) {
@@ -37,6 +37,7 @@ struct TutorialCard: View {
     /// Starts the Tutorial over: any earlier progress is cleared first (app and extension).
     private func start() {
         UserDefaults.resetTutorial()
+        let market = setup.chosenMarket
         var components = URLComponents(string: "https://www.google.\(market.rawValue)/search")!
         components.queryItems = [
             URLQueryItem(name: "q", value: "Apple Display XDR"),

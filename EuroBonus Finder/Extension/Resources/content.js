@@ -34,6 +34,7 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
   const PENDING_KEY_PREFIX = "pendingSasShoppingReturn.";
   const PENDING_TTL_MS = 60 * 60 * 1000;
   const COACH_ROOT_ID = "ebfinder-coach-root";
+  const HINT_ROOT_ID = "ebfinder-hint-root";
 
   const detectedMatches = new Set();
 
@@ -147,10 +148,12 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     const currentUrl = window.location.href;
     if (!looksLikePostSasLanding(currentUrl)) return false;
 
+    // Landed on the origin itself: nothing to replace, but it is a return.
     if (normalizeUrl(currentUrl) === normalizeUrl(pending.originalUrl)) {
       try {
         await api.storage.local.remove([key]);
       } catch (e) {}
+      await stampTutorial("returned");
       return false;
     }
 
@@ -158,8 +161,8 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     try {
       await api.storage.local.remove([key]);
     } catch (e) {}
-    // No Coachmark for this step yet — the console line stands in for one.
-    await completeTutorialStep("sasShoppingReturn");
+    // The done dialog shows on the page we replace to (see showDoneDialog).
+    await stampTutorial("returned");
     location.replace(returnUrl);
     return true;
   };
@@ -212,20 +215,28 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
         <div class="banner-title">${data.name || ""}</div>
         <div class="banner-desc">${desc}</div>
       </div>
-      <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm tap cta-btn">${t("activate")}</a>`;
+      <a href="${data.url}" class="btn btn-primary btn-sm tap cta-btn">${t("activate")}</a>`;
     shadow.appendChild(container);
 
+    // Same tab, so the SAS Shopping return lands back here. Persist first: a
+    // storage write racing the unload could be lost.
     const ctaLink = shadow.querySelector(".cta-btn");
     if (ctaLink) {
-      ctaLink.addEventListener("click", () => {
-        // Fire-and-forget so the browser's default new-tab navigation keeps the user-gesture.
-        storePendingReturn(window.location.href, key);
+      ctaLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        removeHint();
+        await Promise.all([
+          storePendingReturn(window.location.href, key),
+          stampTutorial("activateTapped"),
+        ]);
+        window.location.href = data.url;
       });
     }
 
     const closeBtn = shadow.querySelector(".banner-close");
     if (closeBtn) {
       closeBtn.addEventListener("click", () => {
+        removeHint();
         // Fade out, then tear down once the transition finishes.
         container.classList.remove("is-visible");
         let done = false;
@@ -377,12 +388,15 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     badge.setAttribute("tabindex", "0");
     badge.style.cssText = BADGE_STYLE;
 
-    const activate = (e) => {
+    // To the partner site (same tab), where the Banner takes over.
+    const activate = async (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (typeof e.stopImmediatePropagation === "function")
         e.stopImmediatePropagation();
-      if (entry.url) window.open(entry.url, "_blank", "noopener,noreferrer");
+      removeHint();
+      await stampTutorial("badgeTapped");
+      visitPartner(badge.dataset.ebHost);
     };
 
     const swallow = (e) => {
@@ -457,32 +471,54 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
   };
 
   // ===========================================================================
-  // TUTORIAL — Coachmarks for the Tutorial steps the user hasn't completed yet
-  // (in any order). Progress lives in storage.local; the background script owns
-  // writes and mirrors them to the app. Closing a Coachmark completes its step.
+  // TUTORIAL — coaches, in order: the Badge (Google), the Banner (partner
+  // site), the Shop button (SAS Online Shopping), then a done dialog back on
+  // the partner site. Progress is one `tutorial` object of stamps (see
+  // background.js); a step is stamped by the real tap, never by closing a
+  // Coachmark — closing swaps it for a Hint pointing at the thing to tap.
+  // Tutorial mode is on until `finished` or `dismissed`.
   // ===========================================================================
 
   // Applies a pending Reset from the app first (capped: native messaging can be
   // slow), so a fresh start isn't coached from stale progress.
-  const getTutorialProgress = async () => {
+  const getTutorial = async () => {
     try {
       await Promise.race([
         api.runtime.sendMessage({ type: "sync-reset" }),
         new Promise((resolve) => setTimeout(resolve, 1000)),
       ]);
-      const r = await api.storage.local.get(["tutorialProgress"]);
-      return r.tutorialProgress || {};
+      const r = await api.storage.local.get(["tutorial"]);
+      return r.tutorial || {};
     } catch (e) {
       return {};
     }
   };
+  const tutorialActive = (tutorial) => !(tutorial.finished || tutorial.dismissed);
 
-  const completeTutorialStep = async (step) => {
+  const stampTutorial = async (step) => {
     // ponytail: always logs; gate on a dev build once the extension has a build step (Vite).
-    console.info(`[EuroBonus Finder] tutorial step completed: ${step}`);
+    console.info(`[EuroBonus Finder] tutorial: ${step}`);
     try {
-      await api.runtime.sendMessage({ type: "complete-tutorial-step", step });
+      await api.runtime.sendMessage({ type: "stamp-tutorial", step });
     } catch (e) {}
+  };
+
+  // Calls onFound once `find()` returns something: now, or on the first DOM
+  // mutation where it does (Google and SAS both hydrate async). No polling; one
+  // observer, gone when found or after limitMs.
+  const waitFor = (find, onFound, limitMs = 10000) => {
+    const found = find();
+    if (found) return onFound(found);
+    let timer;
+    const observer = new MutationObserver(() => {
+      const el = find();
+      if (!el) return;
+      observer.disconnect();
+      clearTimeout(timer);
+      onFound(el);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
+    timer = setTimeout(() => observer.disconnect(), limitMs);
   };
 
   // A known EuroBonus-partner origin to fall back to when results show no badge.
@@ -497,58 +533,68 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     return first ? cleanHost(first) : null;
   };
 
-  // Skip tour: completes every step so no page coaches again.
-  const skipTutorial = () =>
-    api.runtime
-      .sendMessage({
-        type: "set-tutorial-progress",
-        tutorialProgress: { seenBadge: true, visitedPartner: true, sasShoppingReturn: true },
-      })
-      .catch(() => {});
+  const TUTORIAL_STEP_COUNT = 4;
 
-  const TUTORIAL_STEP_COUNT = 3;
+  // Anchor for the unanchored Coachmarks (no-Badge, done): whole page blurred.
+  const centerRect = () => ({
+    left: window.innerWidth / 2,
+    top: 72,
+    right: window.innerWidth / 2,
+    bottom: 72,
+    width: 0,
+    height: 0,
+  });
 
   // Coachmark: an anchored popover for the Tutorial on a blurred overlay with a
   // rounded spotlight cut around the anchor. Own Shadow DOM (like the banner) so
   // host-page CSS can't reach it; position + spotlight track a live getRect().
   // Self-guards on COACH_ROOT_ID so the Google MutationObserver can't duplicate it.
+  // `hint`: the same card stripped to one line — no overlay, glyph, title,
+  // close or footer — that points at the thing the user should tap next.
   const createCoachmark = ({
     getRect,
     step,
     title,
     body,
+    caption,
     ctaLabel,
     onCta,
     onClose,
     showGlyph,
+    hideSkip,
+    hint,
   }) => {
-    if (document.getElementById(COACH_ROOT_ID)) return null;
+    const rootId = hint ? HINT_ROOT_ID : COACH_ROOT_ID;
+    if (document.getElementById(rootId)) return null;
 
     const root = document.createElement("div");
-    root.id = COACH_ROOT_ID;
+    root.id = rootId;
     const shadow = root.attachShadow({ mode: "open" });
     attachShadowStyles(shadow);
 
     const overlay = document.createElement("div");
     overlay.className = "coach-overlay";
-    shadow.appendChild(overlay);
+    if (!hint) shadow.appendChild(overlay);
 
     const card = document.createElement("div");
-    card.className = `coach-card ${BUTTON_STYLE}`;
+    card.className = `coach-card ${BUTTON_STYLE}${hint ? " coach-hint" : ""}`;
     const glyph = showGlyph ? `<span class="eb-glyph coach-glyph">${ebIcon(56)}</span>` : "";
     const dots = Array.from({ length: TUTORIAL_STEP_COUNT }, (_, i) => {
       const cls = i + 1 === step ? "is-active" : i + 1 < step ? "is-done" : "";
       return `<i class="${cls}"></i>`;
     }).join("");
-    card.innerHTML = `
+    card.innerHTML = hint
+      ? `<span class="coach-arrow"></span><p class="coach-body">${body}</p>`
+      : `
       <span class="coach-arrow"></span>
       <button class="btn btn-icon btn-sm btn-secondary tap coach-close" type="button" aria-label="${t("close")}">${XMARK}</button>
       ${glyph}
       <p class="coach-title">${title}</p>
       <p class="coach-body">${body}</p>
+      ${caption ? `<p class="coach-caption">${caption}</p>` : ""}
       <div class="coach-footer">
         <span class="coach-dots" aria-hidden="true">${dots}</span>
-        <button class="btn btn-ghost coach-skip" type="button">${t("coachSkip")}</button>
+        ${hideSkip ? "" : `<button class="btn btn-ghost coach-skip" type="button">${t("coachSkip")}</button>`}
         <button class="btn btn-primary coach-cta" type="button">${ctaLabel}</button>
       </div>`;
     shadow.appendChild(card);
@@ -587,8 +633,9 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
       card.dataset.placement = placement;
       card.style.left = `${Math.round(left)}px`;
       card.style.top = `${Math.round(top)}px`;
-      const inset = 34; // corner radius + arrow half-diagonal
+      const inset = hint ? 20 : 34; // corner radius + arrow half-diagonal
       arrow.style.left = `${Math.round(Math.max(inset, Math.min(cx - left, cw - inset)))}px`;
+      if (hint) return;
 
       // Spotlight: an evenodd path punches a rounded, padded hole around the
       // anchor (a zero-size rect = no hole, the whole page blurs).
@@ -625,25 +672,29 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
         done = true;
         root.remove();
       };
-      overlay.addEventListener("transitionend", cleanup, { once: true });
+      card.addEventListener("transitionend", cleanup, { once: true });
       setTimeout(cleanup, 400);
     };
 
-    card.querySelector(".coach-cta").addEventListener("click", async () => {
-      try {
-        if (onCta) await onCta();
-      } finally {
+    if (!hint) {
+      card.querySelector(".coach-cta").addEventListener("click", async () => {
+        try {
+          if (onCta) await onCta();
+        } finally {
+          remove();
+        }
+      });
+      card.querySelector(".coach-close").addEventListener("click", () => {
         remove();
-      }
-    });
-    card.querySelector(".coach-close").addEventListener("click", () => {
-      remove();
-      if (onClose) onClose();
-    });
-    card.querySelector(".coach-skip").addEventListener("click", () => {
-      remove();
-      skipTutorial();
-    });
+        if (onClose) onClose();
+      });
+      const skip = card.querySelector(".coach-skip");
+      if (skip)
+        skip.addEventListener("click", () => {
+          remove();
+          stampTutorial("dismissed");
+        });
+    }
 
     window.addEventListener("scroll", schedule, true);
     window.addEventListener("resize", schedule);
@@ -664,47 +715,48 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     return { remove };
   };
 
+  // One Hint at a time; the tap it asks for (or the banner closing) removes it.
+  let currentHint = null;
+  const showHint = (getRect, text) => {
+    removeHint();
+    currentHint = createCoachmark({ hint: true, getRect, body: text });
+  };
+  const removeHint = () => {
+    if (currentHint) currentHint.remove();
+    currentHint = null;
+  };
+
   // Visit the partner in the same tab so the Banner (and its Coachmark) appear
   // on the page we land on.
   const visitPartner = (host) => {
     if (host) window.location.href = "https://" + cleanHost(host);
   };
 
-  const showBadgeCoachmark = (shopList) => {
-    const badge = document.querySelector("." + BADGE_CLASS);
-    if (!badge) return;
-    const host = badge.dataset.ebHost || partnerHostFromShops(shopList);
+  // Step 1: the Badge. Closing points a Hint at it; tapping it stamps `badgeTapped`.
+  const showBadgeCoachmark = (badge) => {
     const icon = badge.firstElementChild || badge;
+    const getRect = () => icon.getBoundingClientRect();
+    const hint = () => showHint(getRect, t("hintBadge"));
     createCoachmark({
-      getRect: () => icon.getBoundingClientRect(),
+      getRect,
       step: 1,
       title: t("coachSearchTitle"),
       body: t("coachSearchBody"),
-      ctaLabel: t("coachSearchCta") + ARROW_FORWARD,
+      ctaLabel: t("coachGotIt"),
       showGlyph: true,
-      onCta: async () => {
-        await completeTutorialStep("seenBadge");
-        visitPartner(host);
-      },
-      onClose: () => completeTutorialStep("seenBadge"),
+      onCta: hint,
+      onClose: hint,
     });
     // inline: "center" also centers it inside Google's horizontal product carousel.
     badge.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
   };
 
   // No Badge showed up on the Tutorial card's search: point at a known partner
-  // instead. Completes nothing — the user still hasn't seen a Badge.
+  // instead. Stamps nothing — the user still hasn't tapped a Badge.
   const showNoBadgeCoachmark = (shopList) => {
     const host = partnerHostFromShops(shopList);
     createCoachmark({
-      getRect: () => ({
-        left: window.innerWidth / 2,
-        top: 72,
-        right: window.innerWidth / 2,
-        bottom: 72,
-        width: 0,
-        height: 0,
-      }),
+      getRect: centerRect,
       step: 1,
       title: t("coachEmptyTitle"),
       body: t("coachEmptyBody"),
@@ -714,47 +766,114 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     });
   };
 
+  // Step 2: the Banner. Closing points a Hint at Activate; tapping it stamps `activateTapped`.
   const showBannerCoachmark = () => {
-    if (document.getElementById(COACH_ROOT_ID)) return;
     const bannerRoot = document.getElementById(ROOT_ID);
-    const banner =
-      bannerRoot &&
-      bannerRoot.shadowRoot &&
-      bannerRoot.shadowRoot.querySelector(".banner");
-    if (!banner) return;
+    const shadow = bannerRoot && bannerRoot.shadowRoot;
+    const banner = shadow && shadow.querySelector(".banner");
+    const cta = shadow && shadow.querySelector(".cta-btn");
+    if (!banner || !cta) return;
+    const hint = () => showHint(() => cta.getBoundingClientRect(), t("hintActivate"));
     createCoachmark({
       getRect: () => banner.getBoundingClientRect(),
       step: 2,
       title: t("coachBannerTitle"),
       body: t("coachBannerBody"),
-      ctaLabel: CHECKMARK + t("coachBannerCta"),
-      onCta: () => completeTutorialStep("visitedPartner"),
-      onClose: () => completeTutorialStep("visitedPartner"),
+      caption: t("coachCookieCaption"),
+      ctaLabel: t("coachGotIt"),
+      onCta: hint,
+      onClose: hint,
     });
   };
 
-  // On a Google results page, coach the first Badge while `seenBadge` is open —
-  // polling briefly since Google hydrates cards async. With no Badge, only the
-  // Tutorial card's own search falls back to the no-Badge Coachmark.
-  const maybeShowSearchCoachmark = async (shopList) => {
-    const progress = await getTutorialProgress();
-    if (progress.seenBadge) return;
+  // Step 4: back on the partner site after the SAS Shopping return.
+  const showDoneDialog = () => {
+    createCoachmark({
+      getRect: centerRect,
+      step: 4,
+      title: t("coachDoneTitle"),
+      body: t("coachDoneBody"),
+      ctaLabel: CHECKMARK + t("coachDoneCta"),
+      showGlyph: true,
+      hideSkip: true,
+      onCta: () => stampTutorial("finished"),
+      onClose: () => stampTutorial("finished"),
+    });
+  };
 
-    let elapsed = 0;
-    const STEP_MS = 400;
-    const LIMIT_MS = 4000;
-    const tick = () => {
-      if (document.getElementById(COACH_ROOT_ID)) return;
-      if (document.querySelector("." + BADGE_CLASS)) {
-        showBadgeCoachmark(shopList);
-      } else if (elapsed >= LIMIT_MS) {
-        if (fromTutorialCard) showNoBadgeCoachmark(shopList);
-      } else {
-        elapsed += STEP_MS;
-        setTimeout(tick, STEP_MS);
-      }
-    };
-    tick();
+  // On a Google results page, coach the first Badge while `badgeTapped` is open.
+  // With no Badge, only the Tutorial card's own search falls back to the no-Badge Coachmark.
+  const maybeShowSearchCoachmark = async (shopList) => {
+    const tutorial = await getTutorial();
+    if (!tutorialActive(tutorial) || tutorial.badgeTapped) return;
+    let found = false;
+    waitFor(
+      () => document.querySelector("." + BADGE_CLASS),
+      (badge) => {
+        found = true;
+        showBadgeCoachmark(badge);
+      },
+      4000,
+    );
+    if (fromTutorialCard)
+      setTimeout(() => {
+        if (!found) showNoBadgeCoachmark(shopList);
+      }, 4000);
+  };
+
+  // Step 3: SAS Online Shopping's shop page, reached from the Banner (a fresh
+  // pending return for this shop's uuid, which ends the URL). Logged out (no
+  // TOKEN cookie): Coachmark, then a Hint that Shop now logs in; the site sends
+  // them back here afterwards. Logged in: just the Hint. Waits for the shop
+  // button to hydrate and CookieScript's consent banner to close.
+  const SAS_HOST = "onlineshopping.flysas.com";
+  const SAS_SHOP_BUTTON = "section.info-section div.info-wrapper button.button";
+  const maybeCoachSasShopPage = async (shopList) => {
+    const uuid = location.pathname.split("/").filter(Boolean).pop();
+    const key = Object.keys(shopList).find((k) => (shopList[k].url || "").endsWith("/" + uuid));
+    if (!key) return;
+    const stored = await api.storage.local.get([`${PENDING_KEY_PREFIX}${key}`]);
+    const pending = stored[`${PENDING_KEY_PREFIX}${key}`];
+    if (!pending || Date.now() - pending.timestamp > PENDING_TTL_MS) return;
+    const tutorial = await getTutorial();
+    if (!tutorialActive(tutorial) || tutorial.returned) return;
+
+    const loggedIn = /(?:^|;\s*)TOKEN=/.test(document.cookie);
+    const consentOpen = () => !!document.getElementById("cookiescript_injected");
+    waitFor(
+      () => !consentOpen() && document.querySelector(SAS_SHOP_BUTTON),
+      (button) => {
+        const getRect = () => (document.querySelector(SAS_SHOP_BUTTON) || button).getBoundingClientRect();
+        const hint = () => showHint(getRect, t(loggedIn ? "hintShop" : "hintShopLogin"));
+        if (loggedIn) return hint();
+        createCoachmark({
+          getRect,
+          step: 3,
+          title: t("coachSasTitle"),
+          body: t("coachSasBody"),
+          caption: t("coachCookieCaption"),
+          ctaLabel: t("coachGotIt"),
+          onCta: hint,
+          onClose: hint,
+        });
+      },
+      60000,
+    );
+    // Consent answered but no button after 10s (markup changed): coach
+    // unanchored so the text still lands. Consent still open: the observer
+    // above keeps waiting, so nothing covers the consent banner.
+    setTimeout(() => {
+      if (consentOpen() || document.getElementById(COACH_ROOT_ID) || document.getElementById(HINT_ROOT_ID)) return;
+      createCoachmark({
+        getRect: centerRect,
+        step: 3,
+        title: t("coachSasTitle"),
+        body: t("coachSasBody"),
+        caption: t("coachCookieCaption"),
+        ctaLabel: t("coachGotIt"),
+        showGlyph: true,
+      });
+    }, 10000);
   };
 
   const shops = await EBFeed.loadFeed(market);
@@ -774,14 +893,22 @@ const TEST_PAGE_HOST = "eurobonus.pompa.se";
     return;
   }
 
+  if (window.location.hostname === SAS_HOST) {
+    await maybeCoachSasShopPage(shops);
+    return;
+  }
+
   const matchedId = EBFeed.matchKey(window.location.href, shops);
   if (!matchedId) return;
 
   if (await handlePendingReturn(matchedId)) return;
 
-  // While `visitedPartner` is open, show the Banner even if closed earlier this
+  const tutorial = await getTutorial();
+  const active = tutorialActive(tutorial);
+  if (active && tutorial.returned && !tutorial.finished) showDoneDialog();
+  // While `activateTapped` is open, show the Banner even if closed earlier this
   // session, and coach it.
-  const coachBanner = !(await getTutorialProgress()).visitedPartner;
+  const coachBanner = active && !tutorial.activateTapped;
   if (!coachBanner) {
     try {
       if (sessionStorage.getItem(SESSION_KEY) === "true") return;

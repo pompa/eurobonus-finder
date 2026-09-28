@@ -11,15 +11,22 @@
       .dev .meta { color: var(--secondary-label); font: var(--text-footnote); }
     </style>
   </head>
-  <!-- Dev-only page, opened from the popup's "Dev" link: Tutorial progress
-       toggles and Reset. Not localized. -->
+  <!-- Dev-only page, opened from the popup's "Dev" link: Tutorial step
+       stamps, Tutorial reset and full Reset. Not localized. -->
   <body class="eb-popup">
     <main class="content dev">
       <p><a href="popup.html">‹ Back</a></p>
       <h3>Tutorial progress</h3>
-      <label><input type="checkbox" data-step="seenBadge" /> seenBadge</label>
-      <label><input type="checkbox" data-step="visitedPartner" /> visitedPartner</label>
-      <label><input type="checkbox" data-step="sasShoppingReturn" /> sasShoppingReturn</label>
+      <p class="meta">Stamp a step now (each sets once, in order):</p>
+      <p>
+        <button data-step="badgeTapped" class="btn btn-secondary btn-sm" type="button">badgeTapped</button>
+        <button data-step="activateTapped" class="btn btn-secondary btn-sm" type="button">activateTapped</button>
+        <button data-step="returned" class="btn btn-secondary btn-sm" type="button">returned</button>
+        <button data-step="finished" class="btn btn-secondary btn-sm" type="button">finished</button>
+        <button data-step="dismissed" class="btn btn-secondary btn-sm" type="button">dismissed</button>
+      </p>
+      <pre id="tutorial" class="meta"></pre>
+      <button id="reset-tutorial" class="btn btn-secondary btn-block" type="button">Reset tutorial</button>
       <button id="reset" class="btn btn-primary btn-block" type="button">Reset (app + extension)</button>
       <p class="meta">Last reset: <span id="last-reset">never</span></p>
     </main>

@@ -83,9 +83,49 @@
     "message": "It shows up when you visit an active partner. Tap Activate to earn points on your purchase.",
     "description": "Tutorial Coachmark."
   },
-  "coachBannerCta": {
+  "coachGotIt": {
     "message": "Got it",
-    "description": "Tutorial Coachmark."
+    "description": "Tutorial Coachmark: closes it, a Hint takes over."
+  },
+  "hintBadge": {
+    "message": "Tap the badge",
+    "description": "Tutorial Hint on the Badge."
+  },
+  "hintActivate": {
+    "message": "Tap Activate",
+    "description": "Tutorial Hint on the Banner's Activate."
+  },
+  "hintShop": {
+    "message": "Tap Shop now",
+    "description": "Tutorial Hint on SAS Online Shopping's shop button (match the site's label)."
+  },
+  "hintShopLogin": {
+    "message": "Tap Shop now to log in",
+    "description": "Tutorial Hint on the shop button when logged out (match the site's label)."
+  },
+  "coachCookieCaption": {
+    "message": "Accept cookies on this site so your purchase is tracked.",
+    "description": "Tutorial Coachmark caption (Banner + SAS)."
+  },
+  "coachSasTitle": {
+    "message": "Activate the points",
+    "description": "Tutorial Coachmark on SAS Online Shopping."
+  },
+  "coachSasBody": {
+    "message": "Tap Shop now. If you're logged out, SAS asks you to log in and sends you back here — then tap Shop now again.",
+    "description": "Tutorial Coachmark on SAS Online Shopping (match the site's button label)."
+  },
+  "coachDoneTitle": {
+    "message": "You're set",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneBody": {
+    "message": "Finish your purchase in this session and the points follow.",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneCta": {
+    "message": "Done",
+    "description": "Tutorial done dialog."
   },
   "coachSkip": {
     "message": "Skip tour",
