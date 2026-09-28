@@ -7,9 +7,8 @@
     <!-- Dev-only sandbox (excluded from the .appex). Loads the SAME production
          sheets the popup + injected UI use, so the banner/coachmark/buttons
          below are faithful. The preview-only chrome is inlined with literal
-         values so it never ships and never bloats ui.css. -->
-    <link rel="stylesheet" href="ui.css" />
-    <link rel="stylesheet" href="content.css" />
+         values so it never ships and never bloats styles.css. -->
+    <link rel="stylesheet" href="styles.css" />
     <style>
       body.eb-preview {
         margin: 0;
@@ -226,7 +225,7 @@
           <span class="eb-glyph coach-glyph"><img src="images/icon-128.png" alt="" width="56" height="56" style="display:block;width:56px;height:56px"></span><p class="coach-title">EB-märket</p><p class="coach-body">Håll utkik efter det bredvid en butik – där tjänar du poäng.</p>
           <div class="coach-footer">
             <span class="coach-dots" aria-hidden="true"><i class="is-active"></i><i class=""></i><i class=""></i></span>
-            <button class="btn btn-plain coach-skip" type="button">Hoppa över</button>
+            <button class="btn btn-ghost coach-skip" type="button">Hoppa över</button>
             <button class="btn btn-primary" type="button">Besök sajten<span class="glyph" aria-hidden="true">→</span></button>
           </div>
         </div>
@@ -261,7 +260,7 @@
           </p>
           <div class="coach-footer">
             <span class="coach-dots" aria-hidden="true"><i class="is-done"></i><i class="is-active"></i><i class=""></i></span>
-            <button class="btn btn-plain coach-skip" type="button">Hoppa över</button>
+            <button class="btn btn-ghost coach-skip" type="button">Hoppa över</button>
             <button class="btn btn-primary coach-cta" type="button"><span class="glyph" aria-hidden="true">✓</span>Okej</button>
           </div>
         </div>

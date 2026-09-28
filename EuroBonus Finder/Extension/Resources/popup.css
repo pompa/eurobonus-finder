@@ -1,7 +1,7 @@
 /* =============================================================================
-   POPUP — the toolbar popover (popup.html). Loaded after ui.css.
+   POPUP — the toolbar popover (popup.html). Loaded after styles.css.
    Surfaces: status card, primary CTA, match list, footer. The page has no
-   background of its own — `color-scheme` (ui.css) drives the canvas so
+   background of its own — `color-scheme` (styles.css) drives the canvas so
    light/dark follow the system appearance.
    ============================================================================= */
 body.eb-popup {

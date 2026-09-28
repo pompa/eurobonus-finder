@@ -42,8 +42,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "ui.css",
-        "content.css",
+        "styles.css",
         "images/icon-128.png"
       ],
       "matches": [
