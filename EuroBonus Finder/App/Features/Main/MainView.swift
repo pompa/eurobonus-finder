@@ -8,10 +8,8 @@ import SwiftUI
 
 struct MainView: View {
     let state: ExtensionState
-    // Tutorial progress, mirrored from the extension (one key per `TutorialStep`).
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.seenBadge), store: .shared) private var seenBadge = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.visitedPartner), store: .shared) private var visitedPartner = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.sasShoppingReturn), store: .shared) private var sasShoppingReturn = false
+    // Tutorial progress, mirrored from the extension as JSON.
+    @AppStorage(SharedDefaultsKey.tutorial, store: .shared) private var tutorial = ""
 
     var body: some View {
         List {
@@ -41,8 +39,8 @@ struct MainView: View {
                 Text("settings.support")
             }
 
-            // Gone once every Tutorial step is done; a Reset brings it back.
-            if !(seenBadge && visitedPartner && sasShoppingReturn) {
+            // Gone once the Tutorial is finished or skipped; a Reset brings it back.
+            if !Tutorial.isOver(tutorial) {
                 Section {
                     // Standalone button: no inset-grouped card behind it.
                     TutorialCard(disabled: state.needsAttention)

@@ -25,7 +25,7 @@ extension UserDefaults {
     /// Tutorial-only Reset, same mechanism: clears the mirrored progress and stamps
     /// `lastTutorialResetAt` (epoch ms), so the extension clears its own copy next run.
     static func resetTutorial() {
-        TutorialStep.allCases.forEach { shared.removeObject(forKey: SharedDefaultsKey.tutorialProgress($0)) }
+        shared.removeObject(forKey: SharedDefaultsKey.tutorial)
         shared.set(Int(Date().timeIntervalSince1970 * 1000), forKey: SharedDefaultsKey.lastTutorialResetAt)
     }
 }
@@ -42,13 +42,17 @@ enum SharedDefaultsKey {
     static let permissionHasAllUrls = "permission.hasAllUrls"
     static let permissionLastOrigin = "permission.lastOrigin"
 
-    /// One Bool per step, mirrored from the extension's `tutorialProgress`.
-    static func tutorialProgress(_ step: TutorialStep) -> String {
-        "tutorialProgress.\(step.rawValue)"
-    }
+    /// The extension's `tutorial` object as JSON: an epoch-ms stamp per step
+    /// (badgeTapped, activateTapped, returned, finished, dismissed).
+    static let tutorial = "tutorial"
 }
 
-/// The things the Tutorial teaches, completed in any order.
-enum TutorialStep: String, CaseIterable {
-    case seenBadge, visitedPartner, sasShoppingReturn
+enum Tutorial {
+    /// Whether the mirrored `tutorial` JSON says the Tutorial is over: finished, or dismissed with Skip tour.
+    static func isOver(_ json: String) -> Bool {
+        guard let data = json.data(using: .utf8),
+              let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else { return false }
+        return dict["finished"] != nil || dict["dismissed"] != nil
+    }
 }

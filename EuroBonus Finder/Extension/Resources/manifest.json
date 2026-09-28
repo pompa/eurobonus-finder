@@ -15,6 +15,7 @@
   "permissions": [
     "storage",
     "activeTab",
+    "cookies",
     "nativeMessaging"
   ],
   "background": {

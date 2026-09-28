@@ -12,9 +12,6 @@ struct DebugView: View {
 
     // Writable copies of the App Group values that drive the app's screens.
     @AppStorage(SharedDefaultsKey.setupState, store: .shared) private var setupState = SetupState.active
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.seenBadge), store: .shared) private var seenBadge = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.visitedPartner), store: .shared) private var visitedPartner = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.sasShoppingReturn), store: .shared) private var sasShoppingReturn = false
     @AppStorage(SharedDefaultsKey.permissionHasAllUrls, store: .shared) private var hasAllUrls = false
 
     var body: some View {
@@ -26,9 +23,12 @@ struct DebugView: View {
                 } label: {
                     Text(verbatim: "setupState")
                 }
-                Toggle(isOn: $seenBadge) { Text(verbatim: "tutorialProgress.seenBadge") }
-                Toggle(isOn: $visitedPartner) { Text(verbatim: "tutorialProgress.visitedPartner") }
-                Toggle(isOn: $sasShoppingReturn) { Text(verbatim: "tutorialProgress.sasShoppingReturn") }
+                Button {
+                    UserDefaults.resetTutorial()
+                    load()
+                } label: {
+                    Text(verbatim: "Reset tutorial")
+                }
                 Toggle(isOn: $hasAllUrls) { Text(verbatim: "permission.hasAllUrls") }
                     .onChange(of: hasAllUrls) { state.readPermissionPing(); load() }
                 Button {

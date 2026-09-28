@@ -27,12 +27,11 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             defaults.set(dict["hasAllUrls"] as? Bool ?? false, forKey: SharedDefaultsKey.permissionHasAllUrls)
             defaults.set(dict["origin"] as? String ?? "", forKey: SharedDefaultsKey.permissionLastOrigin)
 
-        case "tutorial-progress":
-            // Mirror of the extension's `tutorialProgress`, one Bool per step for the app.
-            let progress = dict["tutorialProgress"] as? [String: Any] ?? [:]
-            for step in TutorialStep.allCases {
-                defaults.set(progress[step.rawValue] as? Bool ?? false,
-                             forKey: SharedDefaultsKey.tutorialProgress(step))
+        case "tutorial":
+            // Mirror of the extension's `tutorial` object, stored as JSON for the app.
+            let tutorial = dict["tutorial"] as? [String: Any] ?? [:]
+            if let data = try? JSONSerialization.data(withJSONObject: tutorial, options: [.sortedKeys]) {
+                defaults.set(String(decoding: data, as: UTF8.self), forKey: SharedDefaultsKey.tutorial)
             }
 
         case "get-last-reset-at":
