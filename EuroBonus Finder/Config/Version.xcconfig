@@ -1,5 +1,5 @@
-// MARKETING_VERSION         the next release; scripts/cut-release.sh bumps it after tagging.
-//                           Production builds use the tag (ci_scripts/ci_post_clone.sh).
+// MARKETING_VERSION         fallback for local and CI builds; Production builds use the
+//                           release tag (ci_scripts/ci_post_clone.sh).
 // CURRENT_PROJECT_VERSION   $CI_BUILD_NUMBER on every Xcode Cloud build.
 
 MARKETING_VERSION = 2026.10.1
