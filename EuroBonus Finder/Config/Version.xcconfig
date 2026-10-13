@@ -1,6 +1,6 @@
-// Local-build fallback. Xcode Cloud overwrites both (ci_scripts/ci_post_clone.sh):
-//   MARKETING_VERSION         release version, YYYY.M.PATCH
-//   CURRENT_PROJECT_VERSION   $CI_BUILD_NUMBER
+// Stamped by ci_scripts/ci_post_clone.sh:
+//   MARKETING_VERSION         the release tag, YYYY.M.PATCH — Production only
+//   CURRENT_PROJECT_VERSION   $CI_BUILD_NUMBER — every Xcode Cloud build
 
 MARKETING_VERSION = 2026.10.0
 CURRENT_PROJECT_VERSION = 1

@@ -32,8 +32,12 @@ command -v gh >/dev/null 2>&1 || {
   exit 1
 }
 
+# Default: YYYY.M.PATCH, PATCH = this month's highest tag + 1, or 0.
 if [ -z "$version" ]; then
-  version="$(git ls-remote --tags "https://github.com/$REPO.git" | "$(dirname "$0")/next-version.sh")"
+  month="$(date -u +%Y).$((10#$(date -u +%m)))"
+  last="$(git ls-remote --tags "https://github.com/$REPO.git" | sed 's|.*refs/tags/||' \
+    | grep -E "^${month//./\\.}\.[0-9]+$" | cut -d. -f3 | sort -n | tail -1 || true)"
+  version="$month.$((${last:--1} + 1))"
 fi
 tag="$version"
 

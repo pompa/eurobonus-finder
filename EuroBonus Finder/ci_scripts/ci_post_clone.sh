@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Xcode Cloud post-clone: generate the Xcode project and stamp the version.
+# Xcode Cloud post-clone: generate the Xcode project and stamp version + build number.
 # Must sit next to the .xcodeproj; a repo-root ci_scripts is ignored.
 #
 # Workflow env vars (all optional except FEED_HOST):
@@ -24,18 +24,12 @@ XCODEGEN="$(find "$WORK/xcodegen-dist" -type f -name xcodegen | head -1)"
 chmod +x "$XCODEGEN"
 "$XCODEGEN" --version
 
-echo "==> Stamping marketing version + build number"
-# Tag builds use the tag; untagged builds use the next release's version.
+# Only tag builds (Production) get a version; others keep the committed one.
 if [[ -n "${CI_TAG:-}" ]]; then
-  VERSION="$CI_TAG"
-  echo "    from tag $CI_TAG"
-else
-  VERSION="$(git ls-remote --tags https://github.com/pompa/eurobonus-finder.git | scripts/next-version.sh)"
-  echo "    no CI_TAG — the next release's version"
+  echo "==> Stamping MARKETING_VERSION = $CI_TAG"
+  sed -i.bak -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $CI_TAG/" "$VERSION_XCCONFIG"
+  rm -f "$VERSION_XCCONFIG.bak"
 fi
-echo "    MARKETING_VERSION = $VERSION"
-sed -i.bak -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $VERSION/" "$VERSION_XCCONFIG"
-rm -f "$VERSION_XCCONFIG.bak"
 
 echo "==> Stamping CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER"
 sed -i.bak -E "s/^CURRENT_PROJECT_VERSION = .*/CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER/" "$VERSION_XCCONFIG"
