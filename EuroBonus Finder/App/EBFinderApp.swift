@@ -23,8 +23,7 @@ struct SunsetView: View {
             EBAppIcon(size: 96, float: true)
             VStack(spacing: 12) {
                 Text("sunset.title").brandTitle(BrandPalette.ink)
-                Text("sunset.launched").brandBody(BrandPalette.sub)
-                Text("sunset.testflight").brandBody(BrandPalette.sub)
+                Text("sunset.body").brandBody(BrandPalette.sub)
             }
             .multilineTextAlignment(.center)
             Spacer()

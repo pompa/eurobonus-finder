@@ -35,70 +35,36 @@
         }
       }
     },
-    "sunset.launched": {
+    "sunset.body": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thanks for testing! This beta is being retired and will stop working soon. EuroBonus Finder is now available on the App Store."
+            "value": "This beta is ending. The app is now on the App Store, and new TestFlight testers are welcome."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tack för att du testat! Den här betan avvecklas och slutar snart fungera. EuroBonus Finder finns nu på App Store."
+            "value": "Den här betan avslutas. Appen finns nu på App Store, och nya TestFlight-testare är välkomna."
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tak fordi du testede! Denne beta udfases og holder snart op med at virke. EuroBonus Finder er nu tilgængelig i App Store."
+            "value": "Denne beta lukker. Appen er nu i App Store, og nye TestFlight-testere er velkomne."
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Takk for at du testet! Denne betaen fases ut og slutter snart å virke. EuroBonus Finder er nå tilgjengelig i App Store."
+            "value": "Denne betaen avsluttes. Appen er nå i App Store, og nye TestFlight-testere er velkomne."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kiitos testaamisesta! Tämä beta poistuu käytöstä ja lakkaa pian toimimasta. EuroBonus Finder on nyt saatavilla App Storesta."
-          }
-        }
-      }
-    },
-    "sunset.testflight": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Want to keep testing new features? New TestFlight testers are welcome. You'll find the link on eurobonus.pompa.se."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vill du fortsätta testa nya funktioner? Nya TestFlight-testare är välkomna. Länken finns på eurobonus.pompa.se."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vil du blive ved med at teste nye funktioner? Nye TestFlight-testere er velkomne. Du finder linket på eurobonus.pompa.se."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vil du fortsette å teste nye funksjoner? Nye TestFlight-testere er velkomne. Du finner lenken på eurobonus.pompa.se."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Haluatko jatkaa uusien ominaisuuksien testaamista? Uudet TestFlight-testaajat ovat tervetulleita. Linkki löytyy osoitteesta eurobonus.pompa.se."
+            "value": "Tämä beta päättyy. Sovellus on nyt App Storessa, ja uudet TestFlight-testaajat ovat tervetulleita."
           }
         }
       }
@@ -108,31 +74,31 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Go to eurobonus.pompa.se"
+            "value": "Go to website"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gå till eurobonus.pompa.se"
+            "value": "Gå till webbplatsen"
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gå til eurobonus.pompa.se"
+            "value": "Gå til hjemmesiden"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gå til eurobonus.pompa.se"
+            "value": "Gå til nettstedet"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Siirry osoitteeseen eurobonus.pompa.se"
+            "value": "Siirry verkkosivustolle"
           }
         }
       }
@@ -142,31 +108,31 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You can delete this app once you've installed the new one."
+            "value": "You can then delete this beta."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du kan radera den här appen när du har installerat den nya."
+            "value": "Sedan kan du radera den här betan."
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du kan slette denne app, når du har installeret den nye."
+            "value": "Derefter kan du slette denne beta."
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du kan slette denne appen når du har installert den nye."
+            "value": "Deretter kan du slette denne betaen."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Voit poistaa tämän sovelluksen, kun olet asentanut uuden."
+            "value": "Sen jälkeen voit poistaa tämän betan."
           }
         }
       }
