@@ -66,8 +66,9 @@ Where a new file goes:
 
 ## Release
 
-1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's
-   CalVer date (`2026.9.18`, no `v` prefix).
+1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with the next
+   CalVer version, `YYYY.MM.PATCH`: `2026.10.0` for the month's first release,
+   then `2026.10.1`, … (no `v` prefix, no zero-padded month).
 2. The tag triggers the Xcode Cloud Production workflow: it archives, uploads,
    and hands the build to the public TestFlight group. The build is linked at
    the top of the GitHub release and recorded under the repo's **TestFlight**

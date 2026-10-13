@@ -47,11 +47,10 @@ again.
 ## Versions
 
 Xcode Cloud builds on a release tag, and the tag is the version everywhere:
-`cut-release.sh` tags `2026.9.18` and `ci_post_clone.sh` stamps it into
+`cut-release.sh` tags `2026.10.0` and `ci_post_clone.sh` stamps it into
 `MARKETING_VERSION` and the extension's `manifest.json`. Set
 `APP_STORE_VERSION` to that same tag when uploading the listing and it lands on
-the matching version instead of whichever is editable. A same-day
-`2026.9.18-2` tag drops the suffix.
+the matching version instead of whichever is editable.
 
 "What's New" is generated from the GitHub release by
 `scripts/release-notes.sh`; the committed `release_notes.txt` files are a

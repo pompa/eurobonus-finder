@@ -15,8 +15,8 @@
 # What we do here:
 #   1. Install a pinned XcodeGen and generate "EuroBonus Finder.xcodeproj" from
 #      project.yml — the project file is generated, never committed.
-#   2. Stamp MARKETING_VERSION with the UTC build date (YYYY.M.D). Versions are
-#      calendar-based and fully automatic — no tags or bumps. (The extension's
+#   2. Stamp MARKETING_VERSION with the CalVer version, YYYY.MM.PATCH: the
+#      release tag, or the next release for an untagged build. (The extension's
 #      manifest.json derives its version from MARKETING_VERSION via a build phase
 #      in project.yml, so it's stamped automatically too, local builds included.)
 #   3. Stamp CURRENT_PROJECT_VERSION (CFBundleVersion) with Xcode Cloud's own
@@ -69,23 +69,21 @@ chmod +x "$XCODEGEN"
 "$XCODEGEN" --version
 
 echo "==> Stamping marketing version + build number"
-# The release TAG is the version. scripts/cut-release.sh tags the CalVer date
-# (2026.9.17, or 2026.9.17-2 for a second release that day), Xcode Cloud hands
-# it to us as $CI_TAG, and the shipped app, the extension manifest and the App
-# Store listing all take their version from that one string — no drift between
-# what was released and what the store says.
+# The release TAG is the version. scripts/cut-release.sh tags the next CalVer
+# YYYY.MM.PATCH (2026.10.0, then 2026.10.1, ...), Xcode Cloud hands it to us as
+# $CI_TAG, and the shipped app, the extension manifest and the App Store listing
+# all take their version from that one string.
 #
-# Falling back to today's UTC date keeps non-tag builds (a manual run, a branch
-# build) working. A "-2" suffix is stripped: CFBundleShortVersionString must be
-# 1-3 integers, and the build number already disambiguates same-day builds.
-# 10# forces base-10 so a leading-zero month/day (08, 09) doesn't trip bash's
-# octal parser.
+# An untagged build (CI on main, a manual run) gets the version the next
+# release will have, so internal builds share the train that release ships on
+# and never fall below a version already approved. Tags come from the public
+# repo over HTTPS, the same way cut-release.sh reads them.
 if [[ -n "${CI_TAG:-}" ]]; then
-  VERSION="${CI_TAG%%-*}"
+  VERSION="$CI_TAG"
   echo "    from tag $CI_TAG"
 else
-  VERSION="$(date -u +%Y).$((10#$(date -u +%m))).$((10#$(date -u +%d)))"
-  echo "    no CI_TAG — falling back to today's UTC date"
+  VERSION="$(git ls-remote --tags https://github.com/pompa/eurobonus-finder.git | scripts/next-version.sh)"
+  echo "    no CI_TAG — the next release's version"
 fi
 echo "    MARKETING_VERSION = $VERSION"
 sed -i.bak -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $VERSION/" "$VERSION_XCCONFIG"
