@@ -7,172 +7,20 @@
     "message": "Hittar EuroBonus-partners på sidorna du besöker.",
     "description": "Short description shown in the browser's extension manager."
   },
-  "bannerTitle": {
-    "message": "{name} är en EuroBonus-partner",
-    "description": "Banner/popup title. {name} = shop name."
+  "sunsetTitle": {
+    "message": "EuroBonus Finder har lanserats",
+    "description": "Banner title."
   },
-  "earn": {
-    "message": "Tjäna {points} {suffix}",
-    "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
+  "sunsetDesc": {
+    "message": "Den här betan avslutas. Hämta den nya appen.",
+    "description": "Banner description."
   },
-  "points": {
-    "message": "{count} poäng",
-    "description": "{count} = number of points."
-  },
-  "pointsShort": {
-    "message": "{count} p",
-    "description": "Compact points in the popup list."
-  },
-  "suffixFixed": {
-    "message": "som ny kund",
-    "description": "Fixed-points shops."
-  },
-  "suffixVariable": {
-    "message": "per 100 {unit}",
-    "description": "Per-spend shops. {unit} = currency (kr, €)."
-  },
-  "suffixVariableShort": {
-    "message": "/ 100 {unit}",
-    "description": "Compact per-spend suffix in the popup list. {unit} = currency (kr, €)."
-  },
-  "cta": {
-    "message": "Logga in & tjäna",
-    "description": "Banner/popup button."
-  },
-  "activate": {
-    "message": "Aktivera",
-    "description": "Banner button: shop via SAS."
+  "sunsetCta": {
+    "message": "Visa",
+    "description": "Banner button, opens eurobonus.pompa.se."
   },
   "close": {
     "message": "Stäng",
     "description": "Close button label."
-  },
-  "badgeTitle": {
-    "message": "{name} – {points} {suffix}. Klicka för att handla via SAS.",
-    "description": "Search-result badge tooltip."
-  },
-  "badgeAria": {
-    "message": "EuroBonus-partner — handla via SAS",
-    "description": "Search-result badge accessibility label."
-  },
-  "coachSearchTitle": {
-    "message": "EB-märket",
-    "description": "Tutorial Coachmark."
-  },
-  "coachSearchBody": {
-    "message": "Håll utkik efter det bredvid en butik – där tjänar du poäng.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachSearchCta": {
-    "message": "Besök sajten",
-    "description": "Tutorial Coachmark."
-  },
-  "coachEmptyTitle": {
-    "message": "Leta efter EB-märket",
-    "description": "Tutorial Coachmark."
-  },
-  "coachEmptyBody": {
-    "message": "EB-märket dyker upp bredvid butiker som är EuroBonus-partner. Besök en partner så visar vi hur det ser ut.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachBannerTitle": {
-    "message": "Bannern",
-    "description": "Tutorial Coachmark."
-  },
-  "coachBannerBody": {
-    "message": "Den dyker upp när du besöker en aktiv partner. Tryck på Aktivera för att tjäna poäng på köpet.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachGotIt": {
-    "message": "Okej",
-    "description": "Tutorial Coachmark: closes it, a Hint takes over."
-  },
-  "hintBadge": {
-    "message": "Tryck på märket",
-    "description": "Tutorial Hint on the Badge."
-  },
-  "hintActivate": {
-    "message": "Tryck på Aktivera",
-    "description": "Tutorial Hint on the Banner's Activate."
-  },
-  "hintShop": {
-    "message": "Tryck på Shoppa nu",
-    "description": "Tutorial Hint on SAS Online Shopping's shop button (match the site's label)."
-  },
-  "hintShopLogin": {
-    "message": "Tryck på Shoppa nu för att logga in",
-    "description": "Tutorial Hint on the shop button when logged out (match the site's label)."
-  },
-  "coachCookieCaption": {
-    "message": "Acceptera cookies på den här sajten så att köpet registreras.",
-    "description": "Tutorial Coachmark caption (Banner + SAS)."
-  },
-  "coachSasTitle": {
-    "message": "Aktivera poängen",
-    "description": "Tutorial Coachmark on SAS Online Shopping."
-  },
-  "coachSasBody": {
-    "message": "Tryck på Shoppa nu. Är du utloggad ber SAS dig logga in och skickar dig tillbaka hit – tryck då på Shoppa nu igen.",
-    "description": "Tutorial Coachmark on SAS Online Shopping (match the site's button label)."
-  },
-  "coachDoneTitle": {
-    "message": "Klart",
-    "description": "Tutorial done dialog."
-  },
-  "coachDoneBody": {
-    "message": "Slutför köpet i den här sessionen så kommer poängen.",
-    "description": "Tutorial done dialog."
-  },
-  "coachDoneCta": {
-    "message": "Klar",
-    "description": "Tutorial done dialog."
-  },
-  "coachSkip": {
-    "message": "Hoppa över",
-    "description": "Tutorial Coachmark: ends the Tutorial."
-  },
-  "popupSearching": {
-    "message": "Söker partner…",
-    "description": "Popup loading state."
-  },
-  "popupNoTab": {
-    "message": "Ingen aktiv flik hittades.",
-    "description": "Popup."
-  },
-  "popupFeedError": {
-    "message": "Kunde inte hämta butikslistan. Försök igen senare.",
-    "description": "Popup."
-  },
-  "popupGoogleTitle": {
-    "message": "Google-sökning",
-    "description": "Popup on Google."
-  },
-  "popupGoogleNone": {
-    "message": "Inga EuroBonus-partner hittade på sidan ännu. Scrolla eller ladda om om sidan precis öppnades.",
-    "description": "Popup on Google."
-  },
-  "popupNotPartnerTitle": {
-    "message": "Inte en EuroBonus-partner",
-    "description": "Popup."
-  },
-  "popupNotPartnerDesc": {
-    "message": "Den här sidan ger inga EuroBonus-poäng.",
-    "description": "Popup."
-  },
-  "popupCredit": {
-    "message": "Skapat av",
-    "description": "Popup footer, followed by the author's name."
-  },
-  "popupRegion": {
-    "message": "Region: {region}",
-    "description": "Popup footer: the user's EuroBonus market. {region} = country name."
-  },
-  "popupSetupTitle": {
-    "message": "Slutför konfigurationen",
-    "description": "Popup notice when the extension lacks access to all websites."
-  },
-  "popupSetupDesc": {
-    "message": "EuroBonus Finder behöver åtkomst till alla webbplatser för att hitta partners. Tryck för att öppna appen.",
-    "description": "Popup notice body; tapping it opens the host app."
   }
 }

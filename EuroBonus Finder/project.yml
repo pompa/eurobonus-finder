@@ -87,19 +87,14 @@ targets:
       - path: App
         excludes:
           - Info.plist            # referenced via INFOPLIST_FILE, not bundled
-          - EBFinder.entitlements # referenced via CODE_SIGN_ENTITLEMENTS
           - "**/.DS_Store"
-      - Shared
       - path: App/Info.plist
-        buildPhase: none
-      - path: App/EBFinder.entitlements
         buildPhase: none
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID)
         PRODUCT_NAME: EuroBonus Finder
         INFOPLIST_FILE: App/Info.plist
-        CODE_SIGN_ENTITLEMENTS: App/EBFinder.entitlements
         # Override XcodeGen's "iPhone Developer" preset to match the project.
         CODE_SIGN_IDENTITY: Apple Development
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -126,10 +121,7 @@ targets:
     platform: iOS
     sources:
       - Extension/SafariWebExtensionHandler.swift
-      - Shared
       - path: Extension/Info.plist
-        buildPhase: none
-      - path: Extension/Extension.entitlements
         buildPhase: none
       # Flat web files are recursed (new ones picked up automatically). images
       # and _locales are folder references so their subdirectories survive in
@@ -139,10 +131,8 @@ targets:
       - path: Extension/Resources
         excludes:
           - manifest.json   # produced by the "Stamp manifest" phase below
-          - feed.js         # ditto
           - images
           - _locales
-          - _preview.html
           - "**/.DS_Store"
       - path: Extension/Resources/images
         type: folder
@@ -153,14 +143,11 @@ targets:
       # double-produce the files in the .appex).
       - path: Extension/Resources/manifest.json
         buildPhase: none
-      - path: Extension/Resources/feed.js
-        buildPhase: none
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).extension
         PRODUCT_NAME: EuroBonus Finder Extension
         INFOPLIST_FILE: Extension/Info.plist
-        CODE_SIGN_ENTITLEMENTS: Extension/Extension.entitlements
         CODE_SIGN_IDENTITY: Apple Development
         SKIP_INSTALL: YES
         # The "Stamp manifest" phase below writes manifest.json into the
@@ -172,22 +159,13 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
     # The manifest's "version" is derived from $MARKETING_VERSION (one source of
     # truth for both the app and the extension), so it's never hard-coded in the
-    # committed JSON. The feed host and the app's URL scheme are likewise build
-    # settings: feed.js carries __FEED_HOST__ / __APP_URL_SCHEME__ placeholders
-    # filled from $(FEED_HOST) / $(APP_URL_SCHEME) (Config/Build.xcconfig). Both files are excluded from the resource copy
-    # above; this phase generates the bundled copies. Declared
-    # input/output keep incremental builds correct; sandboxing is disabled for this
-    # target (above) because the sandbox blocks writing into the .appex on signed
-    # Xcode Cloud archives.
+    # committed JSON. manifest.json is excluded from the resource copy above; this
+    # phase generates the bundled copy.
     postBuildScripts:
       - name: Stamp manifest
         basedOnDependencyAnalysis: false
         script: |
           set -euo pipefail
-          if [ -z "${FEED_HOST:-}" ]; then
-            echo "error: FEED_HOST is not set. Add 'FEED_HOST = feed.example.com' to Config/Build.local.xcconfig (see workers/eb-feed/README.md)."
-            exit 1
-          fi
           # A stray byte after the closing brace makes Safari drop the whole
           # locale table and show raw keys; fail the build instead.
           for f in "$SRCROOT"/Extension/Resources/_locales/*/messages.json; do
@@ -196,33 +174,10 @@ targets:
           mkdir -p "$(dirname "$SCRIPT_OUTPUT_FILE_0")"
           sed -E -e 's/("version"[[:space:]]*:[[:space:]]*")[^"]+(")/\1'"${MARKETING_VERSION}"'\2/' \
             "$SCRIPT_INPUT_FILE_0" > "$SCRIPT_OUTPUT_FILE_0"
-          sed -e "s/__FEED_HOST__/${FEED_HOST}/g" -e "s/__APP_URL_SCHEME__/${APP_URL_SCHEME}/g" \
-            "$SCRIPT_INPUT_FILE_1" > "$SCRIPT_OUTPUT_FILE_1"
         inputFiles:
           - $(SRCROOT)/Extension/Resources/manifest.json
-          - $(SRCROOT)/Extension/Resources/feed.js
         outputFiles:
           - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/manifest.json
-          - $(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/feed.js
-
-  # UI tests that exist only to capture App Store screenshots
-  # (`fastlane screenshots`). SnapshotHelper.swift is vendored from fastlane;
-  # ScreenshotTests.swift drives the app. Not part of the shipped product.
-  EuroBonus Finder UITests:
-    type: bundle.ui-testing
-    platform: iOS
-    sources:
-      - UITests
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).uitests
-        TEST_TARGET_NAME: EuroBonus Finder
-        CODE_SIGN_IDENTITY: Apple Development
-        # SnapshotHelper.swift is fastlane's, kept byte-identical so it can be
-        # replaced wholesale on upgrade — it is not Swift 6 concurrency clean.
-        SWIFT_VERSION: "5.0"
-    dependencies:
-      - target: EuroBonus Finder
 
 # ---------------------------------------------------------------------------
 # Schemes (replaces the hand-maintained EuroBonus Finder.xcscheme)
@@ -234,11 +189,6 @@ schemes:
         EuroBonus Finder: all
     run:
       config: Debug
-    test:
-      config: Debug
-      gatherCoverageData: false
-      targets:
-        - EuroBonus Finder UITests
     profile:
       config: Release
     analyze:

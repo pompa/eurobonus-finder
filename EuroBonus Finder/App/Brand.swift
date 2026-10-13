@@ -1,8 +1,7 @@
 import SwiftUI
 
-// Setup's brand surface: a fixed deep-blue atmosphere with light ink, its marks
-// and its capsule buttons. Setup is the one branded screen; everything after it
-// is native lists on the system tint.
+// The brand surface: a fixed deep-blue atmosphere with light ink, its marks
+// and its capsule buttons.
 
 // MARK: - Palette (brand-derived, light/dark)
 
@@ -86,32 +85,6 @@ struct EBAppIcon: View {
                 withAnimation(.easeOut(duration: 0.6)) { shown = true }
                 guard float && !reduceMotion else { return }
                 withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true).delay(0.6)) { lifted = true }
-            }
-    }
-}
-
-/// Completion check — an iOS system-green disc with a white checkmark. Green is
-/// the native "done" affordance (the design system's `--ok`), deliberately
-/// distinct from the brand mint `success` (the "is a partner" card).
-struct CompletionCheck: View {
-    var size: CGFloat = 96
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var shown = false
-
-    var body: some View {
-        Circle()
-            .fill(Color.green)
-            .frame(width: size, height: size)
-            .overlay {
-                Image(systemName: "checkmark")
-                    .font(.system(size: size * 0.46, weight: .bold))
-                    .foregroundStyle(.white)
-            }
-            .shadow(color: .green.opacity(0.33), radius: 12, x: 0, y: 4)
-            // One-shot pop on appear (not a loop), so plain state + withAnimation.
-            .scaleEffect(shown || reduceMotion ? 1 : 0.72)
-            .onAppear {
-                withAnimation(.spring(response: 0.45, dampingFraction: 0.55)) { shown = true }
             }
     }
 }

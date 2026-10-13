@@ -1,52 +1,8 @@
 import SafariServices
 
+// Required principal class; the sunset extension sends no native messages.
 final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     func beginRequest(with context: NSExtensionContext) {
-        let request = context.inputItems.first as? NSExtensionItem
-        let message = request?.userInfo?[SFExtensionMessageKey]
-
-        let response = NSExtensionItem()
-        response.userInfo = [SFExtensionMessageKey: handle(message: message)]
-        context.completeRequest(returningItems: [response], completionHandler: nil)
-    }
-
-    private func handle(message: Any?) -> [String: Any] {
-        guard
-            let dict = message as? [String: Any],
-            let type = dict["type"] as? String
-        else { return ["ok": true] }
-        let defaults = UserDefaults.shared
-
-        switch type {
-        case "get-market":
-            // Absent until the user picks a region; pre-region users were Swedish.
-            return ["market": (defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()).chosenMarket.rawValue]
-
-        case "host-permission-ping":
-            defaults.encode(Permissions(hasAllUrls: dict["hasAllUrls"] as? Bool ?? false,
-                                        origin: dict["origin"] as? String ?? "",
-                                        pingedAt: Date().timeIntervalSince1970),
-                            forKey: SharedDefaultsKey.permissions)
-
-        case "tutorial":
-            // Mirror of the extension's `tutorial` object, stored as JSON for the app.
-            let tutorial = dict["tutorial"] as? [String: Any] ?? [:]
-            if let data = try? JSONSerialization.data(withJSONObject: tutorial, options: [.sortedKeys]) {
-                defaults.set(String(decoding: data, as: UTF8.self), forKey: SharedDefaultsKey.tutorial)
-            }
-
-        case "get-last-reset-at":
-            let setup = defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()
-            return ["lastResetAt": setup.resetAt ?? 0, "lastTutorialResetAt": setup.tutorialResetAt ?? 0]
-
-        case "reset":
-            // The extension's dev page asked for a Reset: wipe the App Group (the app
-            // lands in Setup) and stamp it; the extension wipes its own storage.
-            return ["lastResetAt": UserDefaults.resetShared()]
-
-        default:
-            break
-        }
-        return ["ok": true]
+        context.completeRequest(returningItems: nil, completionHandler: nil)
     }
 }

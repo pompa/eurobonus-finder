@@ -166,18 +166,8 @@
 }
 
 /* =============================================================================
-   PAGE-INJECTED UI — top banner + Tutorial Coachmark and Hint, rendered inside a
-   Shadow DOM on host pages. Lives in styles.css so host pages fetch one sheet.
-   Deliberately lean: only the surfaces content.js injects ship to every site.
-
-   Theming: components read the HIG semantic tokens only (--label,
-   --secondary-label, --fill-tertiary, --primary, --primary-foreground). A
-   surface (banner, coachmark) re-maps them locally, so one button/text rule
-   serves every surface and theme.
-
-   The Google result badge is NOT styled here — it lives in the host DOM (no
-   shadow root), so content.js styles it inline with !important to survive the
-   page's own CSS.
+   PAGE-INJECTED UI — the top banner, rendered inside a Shadow DOM on host
+   pages. It re-maps the HIG semantic tokens locally (see .banner).
    ============================================================================= */
 
 /* Clean slate for the shadow host so host-page CSS can't bleed in. Custom
@@ -190,8 +180,8 @@
   color-scheme: light dark;
 }
 
-/* --- Top banner — iOS Smart App Banner layout on the same grouped
-   surface as the coachmark: [✕] [EB glyph] [title / description] … [Activate].
+/* --- Top banner — iOS Smart App Banner layout:
+   [✕] [EB glyph] [title / description] … [View].
    Always light: color-scheme pins every light-dark() token inside to its
    light value, whatever the page or system theme. */
 .banner {
@@ -232,165 +222,4 @@
 }
 .banner-desc {
   color: var(--secondary-label);
-}
-.points-highlight {
-  font-weight: 600;
-  color: var(--label);
-}
-/* Campaign: the regular points struck through (faded), then the campaign
-   points in the destructive red. */
-.points-old {
-  text-decoration: line-through;
-  opacity: 0.6;
-  margin-right: 2px;
-}
-.points-highlight.is-campaign {
-  color: var(--destructive);
-}
-
-/* --- Tutorial Coachmark ------------------------------------------------------
-   Anatomy: optional EB glyph → title → description → footer
-   [progress dots | Skip tour | CTA]. Styled like an iOS sheet on the
-   grouped-background surface; sits on a blurred overlay with a rounded spotlight cut
-   around the anchor (clip-path evenodd path(), set by JS). */
-.coach-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483646;
-  background: oklch(0 0 0 / 0.28);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  pointer-events: auto; /* swallows taps + scrolls outside the card */
-  touch-action: none;
-  opacity: 0;
-  transition:
-    opacity 320ms ease,
-    clip-path 320ms ease;
-}
-.coach-overlay.is-visible {
-  opacity: 1;
-}
-
-.coach-card {
-  --gutter: 12px;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2147483647;
-  box-sizing: border-box;
-  /* px, not rem: host pages set their own root font-size (Amazon: 62.5%). */
-  width: min(352px, 100vw - 2 * var(--gutter));
-  min-width: 280px;
-  padding: 20px;
-  font: var(--text-subheadline);
-  background: var(--background-grouped-secondary);
-  color: var(--label);
-  border-radius: var(--radius-sheet);
-  box-shadow: var(--shadow-popover);
-  opacity: 0;
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-/* Hidden state grows from the edge that touches the anchor + an 8px slide in. */
-.coach-card[data-placement="bottom"] {
-  transform-origin: top center;
-  transform: translateY(-8px) scale(0.95);
-}
-.coach-card[data-placement="top"] {
-  transform-origin: bottom center;
-  transform: translateY(8px) scale(0.95);
-}
-.coach-card.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-.coach-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-}
-/* Icon → title gap as on the iOS Settings "General" card. */
-.coach-glyph {
-  margin-bottom: 24px;
-}
-.coach-title {
-  margin: 0 40px 6px 0;
-  font: var(--text-title2);
-}
-.coach-body {
-  margin: 0;
-  font: var(--text-body);
-  color: var(--secondary-label);
-}
-.coach-footer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 20px;
-}
-.coach-dots {
-  display: flex;
-  gap: 6px;
-  margin-right: auto;
-}
-/* Progress: primary-tinted; done 75%, upcoming 25%, current full + wide. */
-.coach-dots i {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: var(--primary);
-  opacity: 0.25;
-  transition: all 200ms ease;
-}
-.coach-dots i.is-done {
-  opacity: 0.75;
-}
-.coach-dots i.is-active {
-  width: 20px;
-  opacity: 1;
-}
-
-.coach-caption {
-  margin: 10px 0 0;
-  font: var(--text-footnote);
-  color: var(--secondary-label);
-}
-
-/* Hint — the card cut down to one line, no overlay: "tap this next". */
-.coach-hint {
-  width: auto;
-  min-width: 0;
-  max-width: min(280px, 100vw - 2 * var(--gutter));
-  padding: 10px 14px;
-}
-.coach-hint .coach-body {
-  font: var(--text-subheadline);
-  color: var(--label);
-  white-space: nowrap;
-}
-
-/* Arrow — rotated square straddling the card edge. JS sets `left` to the
-   anchor's centre; the -50% translate centres the diamond on it. */
-.coach-arrow {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  background: var(--background-grouped-secondary);
-  transform: translateX(-50%) rotate(45deg);
-}
-.coach-card[data-placement="bottom"] .coach-arrow {
-  top: -7px;
-}
-.coach-card[data-placement="top"] .coach-arrow {
-  bottom: -7px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .coach-overlay,
-  .coach-card,
-  .coach-dots i {
-    transition: none;
-  }
 }

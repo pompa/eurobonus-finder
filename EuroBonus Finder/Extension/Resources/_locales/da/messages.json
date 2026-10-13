@@ -7,172 +7,20 @@
     "message": "Finder EuroBonus-partnere på de websteder, du besøger.",
     "description": "Short description shown in the browser's extension manager."
   },
-  "bannerTitle": {
-    "message": "{name} er en EuroBonus-partner",
-    "description": "Banner/popup title. {name} = shop name."
+  "sunsetTitle": {
+    "message": "EuroBonus Finder er lanceret",
+    "description": "Banner title."
   },
-  "earn": {
-    "message": "Optjen {points} {suffix}",
-    "description": "{points} = formatted points, {suffix} = suffixFixed/suffixVariable."
+  "sunsetDesc": {
+    "message": "Denne beta lukker. Hent den nye app.",
+    "description": "Banner description."
   },
-  "points": {
-    "message": "{count} point",
-    "description": "{count} = number of points."
-  },
-  "pointsShort": {
-    "message": "{count} p",
-    "description": "Compact points in the popup list."
-  },
-  "suffixFixed": {
-    "message": "som ny kunde",
-    "description": "Fixed-points shops."
-  },
-  "suffixVariable": {
-    "message": "pr. 100 {unit}",
-    "description": "Per-spend shops. {unit} = currency (kr, €)."
-  },
-  "suffixVariableShort": {
-    "message": "/ 100 {unit}",
-    "description": "Compact per-spend suffix in the popup list. {unit} = currency (kr, €)."
-  },
-  "cta": {
-    "message": "Log ind & optjen",
-    "description": "Banner/popup button."
-  },
-  "activate": {
-    "message": "Aktivér",
-    "description": "Banner button: shop via SAS."
+  "sunsetCta": {
+    "message": "Vis",
+    "description": "Banner button, opens eurobonus.pompa.se."
   },
   "close": {
     "message": "Luk",
     "description": "Close button label."
-  },
-  "badgeTitle": {
-    "message": "{name} – {points} {suffix}. Tryk for at handle via SAS.",
-    "description": "Search-result badge tooltip."
-  },
-  "badgeAria": {
-    "message": "EuroBonus-partner — handl via SAS",
-    "description": "Search-result badge accessibility label."
-  },
-  "coachSearchTitle": {
-    "message": "EB-mærket",
-    "description": "Tutorial Coachmark."
-  },
-  "coachSearchBody": {
-    "message": "Kig efter det ved siden af en butik – der optjener du point.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachSearchCta": {
-    "message": "Besøg webstedet",
-    "description": "Tutorial Coachmark."
-  },
-  "coachEmptyTitle": {
-    "message": "Kig efter EB-mærket",
-    "description": "Tutorial Coachmark."
-  },
-  "coachEmptyBody": {
-    "message": "EB-mærket vises ved siden af butikker, der er EuroBonus-partnere. Besøg en partner, så viser vi, hvordan det ser ud.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachBannerTitle": {
-    "message": "Banneret",
-    "description": "Tutorial Coachmark."
-  },
-  "coachBannerBody": {
-    "message": "Det dukker op, når du besøger en aktiv partner. Tryk på Aktivér for at optjene point på købet.",
-    "description": "Tutorial Coachmark."
-  },
-  "coachGotIt": {
-    "message": "Forstået",
-    "description": "Tutorial Coachmark: closes it, a Hint takes over."
-  },
-  "hintBadge": {
-    "message": "Tryk på mærket",
-    "description": "Tutorial Hint on the Badge."
-  },
-  "hintActivate": {
-    "message": "Tryk på Aktivér",
-    "description": "Tutorial Hint on the Banner's Activate."
-  },
-  "hintShop": {
-    "message": "Tryk på Shop nu",
-    "description": "Tutorial Hint on SAS Online Shopping's shop button (match the site's label)."
-  },
-  "hintShopLogin": {
-    "message": "Tryk på Shop nu for at logge ind",
-    "description": "Tutorial Hint on the shop button when logged out (match the site's label)."
-  },
-  "coachCookieCaption": {
-    "message": "Acceptér cookies på dette websted, så købet bliver registreret.",
-    "description": "Tutorial Coachmark caption (Banner + SAS)."
-  },
-  "coachSasTitle": {
-    "message": "Aktivér pointene",
-    "description": "Tutorial Coachmark on SAS Online Shopping."
-  },
-  "coachSasBody": {
-    "message": "Tryk på Shop nu. Er du logget ud, beder SAS dig logge ind og sender dig tilbage hertil – tryk så på Shop nu igen.",
-    "description": "Tutorial Coachmark on SAS Online Shopping (match the site's button label)."
-  },
-  "coachDoneTitle": {
-    "message": "Så er du klar",
-    "description": "Tutorial done dialog."
-  },
-  "coachDoneBody": {
-    "message": "Gennemfør købet i denne session, så følger pointene.",
-    "description": "Tutorial done dialog."
-  },
-  "coachDoneCta": {
-    "message": "Færdig",
-    "description": "Tutorial done dialog."
-  },
-  "coachSkip": {
-    "message": "Spring over",
-    "description": "Tutorial Coachmark: ends the Tutorial."
-  },
-  "popupSearching": {
-    "message": "Søger efter partnere…",
-    "description": "Popup loading state."
-  },
-  "popupNoTab": {
-    "message": "Ingen aktiv fane fundet.",
-    "description": "Popup."
-  },
-  "popupFeedError": {
-    "message": "Kunne ikke hente butikslisten. Prøv igen senere.",
-    "description": "Popup."
-  },
-  "popupGoogleTitle": {
-    "message": "Google-søgning",
-    "description": "Popup on Google."
-  },
-  "popupGoogleNone": {
-    "message": "Ingen EuroBonus-partnere fundet på siden endnu. Scroll eller genindlæs, hvis siden lige er åbnet.",
-    "description": "Popup on Google."
-  },
-  "popupNotPartnerTitle": {
-    "message": "Ikke en EuroBonus-partner",
-    "description": "Popup."
-  },
-  "popupNotPartnerDesc": {
-    "message": "Dette websted giver ingen EuroBonus-point.",
-    "description": "Popup."
-  },
-  "popupCredit": {
-    "message": "Lavet af",
-    "description": "Popup footer, followed by the author's name."
-  },
-  "popupRegion": {
-    "message": "Region: {region}",
-    "description": "Popup footer: the user's EuroBonus market. {region} = country name."
-  },
-  "popupSetupTitle": {
-    "message": "Fuldfør opsætningen",
-    "description": "Popup notice when the extension lacks access to all websites."
-  },
-  "popupSetupDesc": {
-    "message": "EuroBonus Finder skal have adgang til alle websteder for at finde partnere. Tryk for at åbne appen.",
-    "description": "Popup notice body; tapping it opens the host app."
   }
 }
