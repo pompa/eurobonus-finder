@@ -200,3 +200,11 @@ schemes:
     archive:
       config: Release
       revealArchiveInOrganizer: true
+
+  # The old Brine workflow's Archive action still names the pre-rename scheme.
+  EB Finder:
+    build:
+      targets:
+        EuroBonus Finder: all
+    archive:
+      config: Release
