@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Xcode Cloud post-xcodebuild: after a tag's archive, record a GitHub deployment to
-# the TestFlight environment and link the build on the GitHub release.
+# the environment named after the workflow (Production); link the build on the release.
 # Auth: GitHub App secrets GITHUB_APP_ID and GITHUB_APP_KEY (base64 .pem); unset skips.
 # Never fails the build.
 
@@ -45,11 +45,11 @@ report() {
   local state=failure
   [[ "${CI_XCODEBUILD_EXIT_CODE:-1}" == 0 ]] && state=success
 
-  echo "==> Recording $CI_TAG -> TestFlight ($state) on GitHub"
+  echo "==> Recording $CI_TAG -> $CI_WORKFLOW ($state) on GitHub"
   # required_contexts: [] — this build's own pending check would block it.
   local deployment
-  deployment="$(github deployments -X POST -d "$(jq -n --arg ref "$CI_TAG" --arg n "$CI_BUILD_NUMBER" \
-    '{ref: $ref, environment: "TestFlight", auto_merge: false, required_contexts: [],
+  deployment="$(github deployments -X POST -d "$(jq -n --arg ref "$CI_TAG" --arg n "$CI_BUILD_NUMBER" --arg env "$CI_WORKFLOW" \
+    '{ref: $ref, environment: $env, auto_merge: false, required_contexts: [],
       description: "Xcode Cloud build \($n)"}')" | jq -er .id)" || return 1
   github "deployments/$deployment/statuses" -X POST -d "$(jq -n --arg s "$state" --arg url "$CI_BUILD_URL" \
     '{state: $s, log_url: $url, environment_url: $url}')" >/dev/null || return 1

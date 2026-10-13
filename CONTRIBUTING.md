@@ -71,7 +71,7 @@ Where a new file goes:
    then `2026.10.1`, … (no `v` prefix, no zero-padded month).
 2. The tag triggers the Xcode Cloud Production workflow: it archives, uploads,
    and hands the build to the public TestFlight group. The build is linked at
-   the top of the GitHub release and recorded under the repo's **TestFlight**
+   the top of the GitHub release and recorded under the repo's **Production**
    environment.
 3. Once testers are happy, push the store listing with `fastlane metadata` (see
    [`fastlane/README.md`](fastlane/README.md)).
