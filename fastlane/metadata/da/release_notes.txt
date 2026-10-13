@@ -1,1 +1,7 @@
-Første offentlige version. Finder EuroBonus-partnere i Safari, markerer dem i Googles resultater og tager dig til SAS-login med ét tryk.
+• Ny guide: lær mærkerne i Google, bjælken hos partnerbutikker og vejen via SAS Online Shopping i Safari, ét tryk ad gangen.
+• Opsætningen tjekker nu, at udvidelsen har adgang til alle websteder.
+• Ny skærm med indstillinger, Support og Om.
+• Skift appens sprog direkte fra hovedvisningen.
+• Nyt design af mærkerne og bjælken hos partnerbutikker.
+• Partnerbutikker genkendes nu også på deres underdomæner.
+• Fejlrettelser og forbedringer.

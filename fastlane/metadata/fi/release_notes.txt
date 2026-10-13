@@ -1,1 +1,7 @@
-Ensimmäinen julkinen versio. Löytää EuroBonus-kumppanit Safarissa, merkitsee ne Googlen tuloksiin ja vie SAS-kirjautumiseen yhdellä napautuksella.
+• Uusi opastus: opi Googlen merkinnät, kumppanikauppojen palkki ja reitti SAS Online Shoppingin kautta Safarissa napautus kerrallaan.
+• Asennus tarkistaa nyt, että laajennuksella on pääsy kaikille verkkosivustoille.
+• Uusi asetusnäkymä, jossa Tuki ja Tietoja.
+• Vaihda sovelluksen kieli suoraan päänäkymästä.
+• Uudistettu ulkoasu merkinnöille ja kumppanikauppojen palkille.
+• Kumppanikaupat tunnistetaan nyt myös niiden aliverkkotunnuksissa.
+• Virhekorjauksia ja parannuksia.

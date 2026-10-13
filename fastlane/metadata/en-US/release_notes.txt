@@ -1,1 +1,7 @@
-First public release. Spots EuroBonus partners in Safari, badges them in Google results, and gets you to the SAS login in one tap.
+• New Tutorial: learn the Google badges, the partner bar and the trip via SAS Online Shopping in Safari, one tap at a time.
+• Setup now checks that the extension is allowed on every website.
+• New Settings screen with Support and About.
+• Change the app's language right from the main view.
+• Refreshed design for the badges and the partner bar.
+• Partners are now recognized on their subdomains too.
+• Fixes and polish.
