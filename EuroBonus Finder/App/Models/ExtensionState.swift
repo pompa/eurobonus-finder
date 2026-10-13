@@ -172,14 +172,12 @@ final class ExtensionState {
     /// Reads the extension's last ping from the App Group. Cheap: the Test page
     /// flow polls it while waiting for Safari.
     func readPermissionPing() {
-        guard let timestamp = UserDefaults.shared.object(forKey: SharedDefaultsKey.permissionPingTimestamp) as? Double else {
+        guard let permissions = UserDefaults.shared.decode(Permissions.self, forKey: SharedDefaultsKey.permissions) else {
             hostPermission = .unknown
             lastPingAt = nil
             return
         }
-        lastPingAt = Date(timeIntervalSince1970: timestamp)
-        hostPermission = UserDefaults.shared.bool(forKey: SharedDefaultsKey.permissionHasAllUrls)
-            ? .allWebsites
-            : .someWebsites
+        lastPingAt = Date(timeIntervalSince1970: permissions.pingedAt)
+        hostPermission = permissions.hasAllUrls ? .allWebsites : .someWebsites
     }
 }

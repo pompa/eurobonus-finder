@@ -83,9 +83,49 @@
     "message": "Det dukker op, når du besøger en aktiv partner. Tryk på Aktivér for at optjene point på købet.",
     "description": "Tutorial Coachmark."
   },
-  "coachBannerCta": {
+  "coachGotIt": {
     "message": "Forstået",
-    "description": "Tutorial Coachmark."
+    "description": "Tutorial Coachmark: closes it, a Hint takes over."
+  },
+  "hintBadge": {
+    "message": "Tryk på mærket",
+    "description": "Tutorial Hint on the Badge."
+  },
+  "hintActivate": {
+    "message": "Tryk på Aktivér",
+    "description": "Tutorial Hint on the Banner's Activate."
+  },
+  "hintShop": {
+    "message": "Tryk på Shop nu",
+    "description": "Tutorial Hint on SAS Online Shopping's shop button (match the site's label)."
+  },
+  "hintShopLogin": {
+    "message": "Tryk på Shop nu for at logge ind",
+    "description": "Tutorial Hint on the shop button when logged out (match the site's label)."
+  },
+  "coachCookieCaption": {
+    "message": "Acceptér cookies på dette websted, så købet bliver registreret.",
+    "description": "Tutorial Coachmark caption (Banner + SAS)."
+  },
+  "coachSasTitle": {
+    "message": "Aktivér pointene",
+    "description": "Tutorial Coachmark on SAS Online Shopping."
+  },
+  "coachSasBody": {
+    "message": "Tryk på Shop nu. Er du logget ud, beder SAS dig logge ind og sender dig tilbage hertil – tryk så på Shop nu igen.",
+    "description": "Tutorial Coachmark on SAS Online Shopping (match the site's button label)."
+  },
+  "coachDoneTitle": {
+    "message": "Så er du klar",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneBody": {
+    "message": "Gennemfør købet i denne session, så følger pointene.",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneCta": {
+    "message": "Færdig",
+    "description": "Tutorial done dialog."
   },
   "coachSkip": {
     "message": "Spring over",

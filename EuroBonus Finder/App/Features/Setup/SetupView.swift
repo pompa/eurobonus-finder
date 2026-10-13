@@ -16,13 +16,13 @@ struct SetupView: View {
     let state: ExtensionState
     /// The last Setup deep link, if any; each new one opens its screen.
     var link: SetupLink?
-    /// Called with `.completed` or `.incomplete` when the user leaves setup.
-    let onFinish: (SetupState) -> Void
+    /// Called when the user leaves Setup, from either ending screen.
+    let onFinish: () -> Void
 
     /// Screens pushed over welcome.
     @State private var path: [Screen] = []
     @State private var verify = VerifyRun()
-    @AppStorage(SharedDefaultsKey.market, store: .shared) private var market = Market.se
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
     private enum Screen: Hashable { case welcome, chooseRegion, extensionSetup, verify, completed, incomplete }
 
@@ -140,24 +140,24 @@ struct SetupView: View {
 
             VStack(spacing: 8) {
                 ForEach(Market.allCases) { option in
-                    Button { market = option } label: {
+                    Button { setup.chosenMarket = option } label: {
                         HStack {
                             Text(verbatim: option.name)
                             Spacer()
-                            if option == market {
+                            if option == setup.chosenMarket {
                                 Image(systemName: "checkmark")
                             }
                         }
-                        .font(.subheadline.weight(option == market ? .bold : .medium))
+                        .font(.subheadline.weight(option == setup.chosenMarket ? .bold : .medium))
                         .foregroundStyle(BrandPalette.ink)
                         .padding(.horizontal, 18)
                         .frame(minHeight: 48)
-                        .background(option == market ? BrandPalette.ink.opacity(0.24) : BrandPalette.chipBackground,
+                        .background(option == setup.chosenMarket ? BrandPalette.ink.opacity(0.24) : BrandPalette.chipBackground,
                                     in: .rect(cornerRadius: 14, style: .continuous))
                         .contentShape(.rect)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityAddTraits(option == market ? .isSelected : [])
+                    .accessibilityAddTraits(option == setup.chosenMarket ? .isSelected : [])
                 }
             }
             .frame(maxWidth: 320)
@@ -226,10 +226,8 @@ struct SetupView: View {
             push(state.status == .enabled ? .verify : .incomplete)
         case .verify:
             push(verify.status(state) == .working ? .completed : .incomplete)
-        case .completed:
-            onFinish(.completed)
-        case .incomplete:
-            onFinish(.incomplete)
+        case .completed, .incomplete:
+            onFinish()
         }
     }
 

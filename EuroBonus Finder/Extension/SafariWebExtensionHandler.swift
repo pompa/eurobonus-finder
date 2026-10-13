@@ -20,26 +20,24 @@ final class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
         switch type {
         case "get-market":
             // Absent until the user picks a region; pre-region users were Swedish.
-            return ["market": defaults.string(forKey: SharedDefaultsKey.market) ?? "se"]
+            return ["market": (defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()).chosenMarket.rawValue]
 
         case "host-permission-ping":
-            defaults.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
-            defaults.set(dict["hasAllUrls"] as? Bool ?? false, forKey: SharedDefaultsKey.permissionHasAllUrls)
-            defaults.set(dict["origin"] as? String ?? "", forKey: SharedDefaultsKey.permissionLastOrigin)
+            defaults.encode(Permissions(hasAllUrls: dict["hasAllUrls"] as? Bool ?? false,
+                                        origin: dict["origin"] as? String ?? "",
+                                        pingedAt: Date().timeIntervalSince1970),
+                            forKey: SharedDefaultsKey.permissions)
 
-        case "tutorial-progress":
-            // Mirror of the extension's `tutorialProgress`, one Bool per step for the app.
-            let progress = dict["tutorialProgress"] as? [String: Any] ?? [:]
-            for step in TutorialStep.allCases {
-                defaults.set(progress[step.rawValue] as? Bool ?? false,
-                             forKey: SharedDefaultsKey.tutorialProgress(step))
+        case "tutorial":
+            // Mirror of the extension's `tutorial` object, stored as JSON for the app.
+            let tutorial = dict["tutorial"] as? [String: Any] ?? [:]
+            if let data = try? JSONSerialization.data(withJSONObject: tutorial, options: [.sortedKeys]) {
+                defaults.set(String(decoding: data, as: UTF8.self), forKey: SharedDefaultsKey.tutorial)
             }
 
         case "get-last-reset-at":
-            return [
-                "lastResetAt": defaults.integer(forKey: SharedDefaultsKey.lastResetAt),
-                "lastTutorialResetAt": defaults.integer(forKey: SharedDefaultsKey.lastTutorialResetAt),
-            ]
+            let setup = defaults.decode(Setup.self, forKey: SharedDefaultsKey.setup) ?? Setup()
+            return ["lastResetAt": setup.resetAt ?? 0, "lastTutorialResetAt": setup.tutorialResetAt ?? 0]
 
         case "reset":
             // The extension's dev page asked for a Reset: wipe the App Group (the app

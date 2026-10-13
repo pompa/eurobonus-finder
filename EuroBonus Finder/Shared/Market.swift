@@ -1,9 +1,9 @@
 import Foundation
 
 /// The user's EuroBonus market — picks which partner feed the extension loads.
-/// Independent of UI language. Stored in the App Group under
-/// `SharedDefaultsKey.market`; absent means `.se` (pre-market users were Swedish).
-enum Market: String, CaseIterable, Identifiable {
+/// Independent of UI language. Stored in the App Group as `setup.market`;
+/// absent means `.se` (pre-market users were Swedish).
+enum Market: String, CaseIterable, Identifiable, Codable {
     case se, no, dk, fi
 
     var id: String { rawValue }
@@ -21,7 +21,8 @@ enum Market: String, CaseIterable, Identifiable {
 
     /// Stores the device region as the market unless one was already chosen.
     static func preselectDeviceDefault() {
-        guard UserDefaults.shared.string(forKey: SharedDefaultsKey.market) == nil else { return }
-        UserDefaults.shared.set(deviceDefault.rawValue, forKey: SharedDefaultsKey.market)
+        UserDefaults.shared.update(SharedDefaultsKey.setup, fallback: Setup()) {
+            if $0.market == nil { $0.market = deviceDefault }
+        }
     }
 }

@@ -11,39 +11,39 @@ struct DebugView: View {
     @State private var standard: [(key: String, value: String)] = []
 
     // Writable copies of the App Group values that drive the app's screens.
-    @AppStorage(SharedDefaultsKey.setupState, store: .shared) private var setupState = SetupState.active
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.seenBadge), store: .shared) private var seenBadge = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.visitedPartner), store: .shared) private var visitedPartner = false
-    @AppStorage(SharedDefaultsKey.tutorialProgress(.sasShoppingReturn), store: .shared) private var sasShoppingReturn = false
-    @AppStorage(SharedDefaultsKey.permissionHasAllUrls, store: .shared) private var hasAllUrls = false
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
+    @SharedJSON(SharedDefaultsKey.permissions, default: Permissions()) private var permissions
 
     var body: some View {
         List {
             // The extension overwrites these on its next page load; enough to try each screen.
             Section {
-                Picker(selection: $setupState) {
-                    ForEach(SetupState.allCases, id: \.self) { Text(verbatim: $0.rawValue) }
-                } label: {
-                    Text(verbatim: "setupState")
-                }
-                Toggle(isOn: $seenBadge) { Text(verbatim: "tutorialProgress.seenBadge") }
-                Toggle(isOn: $visitedPartner) { Text(verbatim: "tutorialProgress.visitedPartner") }
-                Toggle(isOn: $sasShoppingReturn) { Text(verbatim: "tutorialProgress.sasShoppingReturn") }
-                Toggle(isOn: $hasAllUrls) { Text(verbatim: "permission.hasAllUrls") }
-                    .onChange(of: hasAllUrls) { state.readPermissionPing(); load() }
                 Button {
-                    UserDefaults.shared.set(Date().timeIntervalSince1970, forKey: SharedDefaultsKey.permissionPingTimestamp)
+                    setup.finishedAt = nil
+                } label: {
+                    Text(verbatim: "Run Setup again (clear setup.finishedAt)")
+                }
+                Button {
+                    UserDefaults.resetTutorial()
+                    load()
+                } label: {
+                    Text(verbatim: "Reset tutorial")
+                }
+                Toggle(isOn: $permissions.hasAllUrls) { Text(verbatim: "permissions.hasAllUrls") }
+                    .onChange(of: permissions.hasAllUrls) { state.readPermissionPing(); load() }
+                Button {
+                    permissions.pingedAt = Date().timeIntervalSince1970
                     state.readPermissionPing()
                     load()
                 } label: {
                     Text(verbatim: "Stamp permission ping now")
                 }
                 Button {
-                    UserDefaults.shared.removeObject(forKey: SharedDefaultsKey.permissionPingTimestamp)
+                    UserDefaults.shared.removeObject(forKey: SharedDefaultsKey.permissions)
                     state.readPermissionPing()
                     load()
                 } label: {
-                    Text(verbatim: "Clear permission ping")
+                    Text(verbatim: "Clear permissions")
                 }
             } header: {
                 Text(verbatim: "Controls")

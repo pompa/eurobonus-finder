@@ -44,24 +44,25 @@ const reportPermissions = async (origin = "", force = false) => {
 
 const sendNative = (message) => api.runtime.sendNativeMessage("application.id", message);
 
-// Tutorial progress: { seenBadge, visitedPartner, sasShoppingReturn } → true when
-// done, in any order. Only this script writes it; every write is mirrored to the
-// app (App Group `tutorialProgress.<step>`) so it can hide its Tutorial card.
-const TUTORIAL_STEPS = ["seenBadge", "visitedPartner", "sasShoppingReturn"];
+// Tutorial: one `tutorial` object of epoch-ms stamps — badgeTapped,
+// activateTapped, returned, finished, dismissed — each set once, in order.
+// Only this script writes it; every write is mirrored to the app (App Group
+// `tutorial`, as JSON) so it can hide its Tutorial card once finished/dismissed.
+const TUTORIAL_STEPS = ["badgeTapped", "activateTapped", "returned", "finished", "dismissed"];
 
-const setTutorialProgress = async (tutorialProgress) => {
-  await api.storage.local.set({ tutorialProgress });
-  try {
-    await sendNative({ type: "tutorial-progress", tutorialProgress });
-  } catch (e) {}
-  return tutorialProgress;
+// The mirror isn't awaited: a stamp precedes a navigation, and native
+// messaging can be slow.
+const setTutorial = async (tutorial) => {
+  await api.storage.local.set({ tutorial });
+  sendNative({ type: "tutorial", tutorial }).catch(() => {});
+  return tutorial;
 };
 
 // ponytail: unserialized read-merge-write; steps land on separate page loads, queue writes if that changes.
-const completeTutorialStep = async (step) => {
-  const { tutorialProgress = {} } = await api.storage.local.get("tutorialProgress");
-  if (!TUTORIAL_STEPS.includes(step) || tutorialProgress[step]) return tutorialProgress;
-  return setTutorialProgress({ ...tutorialProgress, [step]: true });
+const stampTutorial = async (step) => {
+  const { tutorial = {} } = await api.storage.local.get("tutorial");
+  if (!TUTORIAL_STEPS.includes(step) || tutorial[step]) return tutorial;
+  return setTutorial({ ...tutorial, [step]: Date.now() });
 };
 
 // Reset: the app stamps `lastResetAt` (epoch ms) in the App Group; when it
@@ -79,7 +80,7 @@ const syncReset = async () => {
     const local = await api.storage.local.get(["lastResetAt", "lastTutorialResetAt"]);
     if (lastResetAt && lastResetAt !== local.lastResetAt) await wipe(lastResetAt);
     if (lastTutorialResetAt && lastTutorialResetAt !== local.lastTutorialResetAt) {
-      await api.storage.local.set({ tutorialProgress: {}, lastTutorialResetAt });
+      await api.storage.local.set({ tutorial: {}, lastTutorialResetAt });
     }
   } catch (e) {}
 };
@@ -96,8 +97,8 @@ api.runtime.onMessage.addListener((message) => {
   if (message.type === "report-permissions") reportPermissions(message.origin, message.force);
   if (message.type === "get-permissions") return readGrants();
   if (message.type === "sync-reset") return syncReset();
-  if (message.type === "complete-tutorial-step") return completeTutorialStep(message.step);
-  if (message.type === "set-tutorial-progress") return setTutorialProgress(message.tutorialProgress);
+  if (message.type === "stamp-tutorial") return stampTutorial(message.step);
+  if (message.type === "reset-tutorial") return setTutorial({});
   if (message.type === "reset") return reset();
 });
 api.runtime.onInstalled.addListener(() => api.storage.local.remove("reportedPermissions"));

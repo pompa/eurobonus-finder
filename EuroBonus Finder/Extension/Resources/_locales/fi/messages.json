@@ -83,9 +83,49 @@
     "message": "Se ilmestyy, kun vierailet aktiivisen kumppanin sivulla. Napauta Aktivoi ja kerää pisteitä ostoksesta.",
     "description": "Tutorial Coachmark."
   },
-  "coachBannerCta": {
+  "coachGotIt": {
     "message": "Selvä",
-    "description": "Tutorial Coachmark."
+    "description": "Tutorial Coachmark: closes it, a Hint takes over."
+  },
+  "hintBadge": {
+    "message": "Napauta merkkiä",
+    "description": "Tutorial Hint on the Badge."
+  },
+  "hintActivate": {
+    "message": "Napauta Aktivoi",
+    "description": "Tutorial Hint on the Banner's Activate."
+  },
+  "hintShop": {
+    "message": "Napauta Osta nyt",
+    "description": "Tutorial Hint on SAS Online Shopping's shop button (match the site's label)."
+  },
+  "hintShopLogin": {
+    "message": "Napauta Osta nyt kirjautuaksesi",
+    "description": "Tutorial Hint on the shop button when logged out (match the site's label)."
+  },
+  "coachCookieCaption": {
+    "message": "Hyväksy evästeet tällä sivustolla, jotta ostos rekisteröityy.",
+    "description": "Tutorial Coachmark caption (Banner + SAS)."
+  },
+  "coachSasTitle": {
+    "message": "Aktivoi pisteet",
+    "description": "Tutorial Coachmark on SAS Online Shopping."
+  },
+  "coachSasBody": {
+    "message": "Napauta Osta nyt. Jos et ole kirjautunut, SAS pyytää kirjautumaan ja palauttaa sinut tänne – napauta sitten Osta nyt uudelleen.",
+    "description": "Tutorial Coachmark on SAS Online Shopping (match the site's button label)."
+  },
+  "coachDoneTitle": {
+    "message": "Valmista",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneBody": {
+    "message": "Tee ostos loppuun tässä istunnossa, niin pisteet seuraavat.",
+    "description": "Tutorial done dialog."
+  },
+  "coachDoneCta": {
+    "message": "Valmis",
+    "description": "Tutorial done dialog."
   },
   "coachSkip": {
     "message": "Ohita opastus",

@@ -9,6 +9,7 @@ import SwiftUI
 struct ExtensionSettingsView: View {
     let state: ExtensionState
     @State private var troubleshooting = false
+    @SharedJSON(SharedDefaultsKey.setup, default: Setup()) private var setup
 
     var body: some View {
         let allowed = state.isGranted(.allWebsites) == true
@@ -56,6 +57,13 @@ struct ExtensionSettingsView: View {
                     }
                     .buttonStyle(.plain)
                 }
+                // Runs Setup again from welcome (ContentView presents it once `finishedAt` is gone).
+                Button {
+                    setup.finishedAt = nil
+                } label: {
+                    SettingsRow(symbol: "arrow.counterclockwise.circle.fill", title: "extensionSettings.setupAgain")
+                }
+                .buttonStyle(.plain)
             } footer: {
                 Text("extensionSettings.testHint")
             }

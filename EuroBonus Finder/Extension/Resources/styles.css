@@ -166,7 +166,7 @@
 }
 
 /* =============================================================================
-   PAGE-INJECTED UI — top banner + Tutorial Coachmark, rendered inside a
+   PAGE-INJECTED UI — top banner + Tutorial Coachmark and Hint, rendered inside a
    Shadow DOM on host pages. Lives in styles.css so host pages fetch one sheet.
    Deliberately lean: only the surfaces content.js injects ship to every site.
 
@@ -350,6 +350,25 @@
 .coach-dots i.is-active {
   width: 20px;
   opacity: 1;
+}
+
+.coach-caption {
+  margin: 10px 0 0;
+  font: var(--text-footnote);
+  color: var(--secondary-label);
+}
+
+/* Hint — the card cut down to one line, no overlay: "tap this next". */
+.coach-hint {
+  width: auto;
+  min-width: 0;
+  max-width: min(280px, 100vw - 2 * var(--gutter));
+  padding: 10px 14px;
+}
+.coach-hint .coach-body {
+  font: var(--text-subheadline);
+  color: var(--label);
+  white-space: nowrap;
 }
 
 /* Arrow — rotated square straddling the card edge. JS sets `left` to the

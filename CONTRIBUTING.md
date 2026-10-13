@@ -40,7 +40,7 @@ EuroBonus Finder/
     ContentView.swift       root: Setup until finished, then the main stack
     Route.swift             screens on the main stack, and their deep links
     Features/<Feature>/     one folder per screen or flow; views private to it live here
-    Models/                 state and value types (ExtensionState, Market, SetupState, ...)
+    Models/                 app-only state and value types (ExtensionState, Reset, ...)
     Views/                  views and modifiers reused by more than one feature
     Resources/              asset catalog, string catalog, app icon
   Shared/                   code compiled into both the app and the extension
