@@ -11,7 +11,6 @@ set -euo pipefail
 
 cd "$CI_PRIMARY_REPOSITORY_PATH"
 
-VERSION_XCCONFIG="EuroBonus Finder/Config/Version.xcconfig"
 XCODEGEN_VERSION="2.45.4"
 WORK="${TMPDIR:-/tmp}"
 
@@ -24,20 +23,18 @@ XCODEGEN="$(find "$WORK/xcodegen-dist" -type f -name xcodegen | head -1)"
 chmod +x "$XCODEGEN"
 "$XCODEGEN" --version
 
-# Only tag builds (Production) get a version; others keep the committed one.
-if [[ -n "${CI_TAG:-}" ]]; then
-  echo "==> Stamping MARKETING_VERSION = $CI_TAG"
-  sed -i.bak -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $CI_TAG/" "$VERSION_XCCONFIG"
-  rm -f "$VERSION_XCCONFIG.bak"
-fi
-
-echo "==> Stamping CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER"
-sed -i.bak -E "s/^CURRENT_PROJECT_VERSION = .*/CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER/" "$VERSION_XCCONFIG"
-rm -f "$VERSION_XCCONFIG.bak"
-
-# Git-ignored; included by Config/Build.xcconfig.
+# Git-ignored; included last by Config/Build.xcconfig, so its values win.
 LOCAL_XCCONFIG="EuroBonus Finder/Config/Build.local.xcconfig"
 : > "$LOCAL_XCCONFIG"
+
+# Only tag builds (Production) get a version; others keep Build.xcconfig's 0.0.0.
+if [[ -n "${CI_TAG:-}" ]]; then
+  echo "==> MARKETING_VERSION = $CI_TAG"
+  printf 'MARKETING_VERSION = %s\n' "$CI_TAG" >> "$LOCAL_XCCONFIG"
+fi
+echo "==> CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER"
+printf 'CURRENT_PROJECT_VERSION = %s\n' "$CI_BUILD_NUMBER" >> "$LOCAL_XCCONFIG"
+
 if [[ -n "${DEVELOPMENT_TEAM:-}" ]]; then
   echo "==> Writing DEVELOPMENT_TEAM into Config/Build.local.xcconfig"
   printf 'DEVELOPMENT_TEAM = %s\n' "$DEVELOPMENT_TEAM" >> "$LOCAL_XCCONFIG"
@@ -61,5 +58,3 @@ fi
 echo "==> Generating Xcode project from project.yml"
 ( cd "EuroBonus Finder" && "$XCODEGEN" generate )
 
-echo "==> Final versioning state:"
-grep -E "^(MARKETING_VERSION|CURRENT_PROJECT_VERSION)" "$VERSION_XCCONFIG"

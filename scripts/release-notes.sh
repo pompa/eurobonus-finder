@@ -16,8 +16,7 @@
 #
 # The result is written over fastlane/metadata/<locale>/release_notes.txt for
 # every locale. Those committed files are only the fallback — the release
-# workflow regenerates them from the tag, the same way Version.xcconfig holds a
-# fallback version that the build stamps fresh.
+# workflow regenerates them from the tag.
 #
 # The lines are English in every locale: nothing here can translate them. To
 # ship translated notes, edit the per-locale files by hand before cutting the
