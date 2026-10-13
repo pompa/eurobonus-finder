@@ -68,17 +68,6 @@ gh release create "$tag" \
   --title "$tag" \
   --generate-notes
 
-# CI builds use the committed version, so move main to the next one.
-next="${tag%.*}.$((${tag##*.} + 1))"
-file="repos/$REPO/contents/EuroBonus%20Finder/Config/Version.xcconfig"
-gh api -X PUT "$file" \
-  -f branch="$BRANCH" \
-  -f message="chore(release): $next is next" \
-  -f sha="$(gh api "$file?ref=$BRANCH" --jq .sha)" \
-  -f content="$(gh api -H "Accept: application/vnd.github.raw" "$file?ref=$BRANCH" \
-    | sed -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $next/" | base64)" >/dev/null
-echo "Bumped Version.xcconfig on $BRANCH to $next."
-
 echo
 echo "Cut $tag. Xcode Cloud is building it; the archive will upload to TestFlight."
 echo "  Build status : https://github.com/$REPO/commits/$BRANCH"
