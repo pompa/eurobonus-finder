@@ -1,9 +1,13 @@
 // Base build configuration applied to every target/config (referenced from
-// project.yml → configFiles). It composes the committed version numbers and the
-// public placeholders with an optional, git-ignored local override — so the
-// public project carries no Apple Developer team, real bundle id or feed host,
-// and contributors can build without them.
-#include "Version.xcconfig"
+// project.yml → configFiles). It composes the public placeholders with an
+// optional, git-ignored local override — so the public project carries no Apple
+// Developer team, real bundle id or feed host, and contributors can build
+// without them.
+
+// Not a release. Production builds get the release tag and Xcode Cloud's build
+// number via Build.local.xcconfig (ci_scripts/ci_post_clone.sh).
+MARKETING_VERSION = 0.0.0
+CURRENT_PROJECT_VERSION = 1
 
 // Bundle id root. Everything else is derived from it: the extension is
 // $(APP_BUNDLE_ID).extension and the shared app group is group.$(APP_BUNDLE_ID)
