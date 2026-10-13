@@ -68,10 +68,14 @@ Where a new file goes:
 
 1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's
    CalVer date (`2026.9.18`, no `v` prefix).
-2. The tag triggers the Xcode Cloud build, which archives and uploads it.
-3. Push the store listing with `fastlane metadata` (see
+2. The tag triggers the Xcode Cloud Production workflow: it archives, uploads,
+   and hands the build to the public TestFlight group. The build is linked at
+   the top of the GitHub release and recorded under the repo's **TestFlight**
+   environment.
+3. Once testers are happy, push the store listing with `fastlane metadata` (see
    [`fastlane/README.md`](fastlane/README.md)).
-4. Attach the build and press **Submit for Review** in App Store Connect.
+4. Attach **that same build** and press **Submit for Review** in App Store
+   Connect. There is no separate App Store build.
 
 The tag is the version — it becomes `MARKETING_VERSION`, the extension's
 `manifest.json` version and the App Store version. Nothing to bump, no release
