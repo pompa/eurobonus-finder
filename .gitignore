@@ -72,6 +72,3 @@ fastlane/test_output/
 *.log
 _site/
 fastlane/.env
-
-# fastlane credentials (ASC_*, APP_BUNDLE_ID), loaded by fastlane itself
-fastlane/.env
