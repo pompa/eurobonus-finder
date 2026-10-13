@@ -1,18 +1,6 @@
-// App version values. The version is calendar-based and stamped automatically
-// at build time by EuroBonus Finder/ci_scripts/ci_post_clone.sh — there is nothing to bump:
-//
-//   MARKETING_VERSION         CFBundleShortVersionString = CalVer YYYY.MM.PATCH,
-//                             the release tag, e.g. 2026.10.0 (Xcode Cloud
-//                             overwrites this).
-//   CURRENT_PROJECT_VERSION   CFBundleVersion = Xcode Cloud's build number
-//                             ($CI_BUILD_NUMBER), which makes every build of a
-//                             version unique.
-//
-// The values committed here are only the fallback for a plain local build (which
-// never runs the CI hook); every shipped build is stamped fresh. These keys live
-// here — not in project.yml — so they resolve at build time with no project
-// regeneration. Both targets inherit them via the project's base configuration
-// (see `configFiles` in project.yml).
+// Local-build fallback. Xcode Cloud overwrites both (ci_scripts/ci_post_clone.sh):
+//   MARKETING_VERSION         release version, YYYY.M.PATCH
+//   CURRENT_PROJECT_VERSION   $CI_BUILD_NUMBER
 
 MARKETING_VERSION = 2026.10.0
 CURRENT_PROJECT_VERSION = 1

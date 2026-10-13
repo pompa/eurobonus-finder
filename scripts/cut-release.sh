@@ -1,23 +1,6 @@
 #!/usr/bin/env bash
-#
-# cut-release.sh — cut a TestFlight release.
-#
-# Publishes a GitHub Release whose CalVer tag (YYYY.MM.PATCH, no "v" prefix) is
-# the start condition for the Production workflow in Xcode Cloud. Xcode Cloud
-# then archives, signs, and uploads the build to TestFlight. Push the store
-# listing separately with `fastlane metadata` (see fastlane/README.md).
-#
-# The tag is the version: ci_post_clone.sh stamps it into MARKETING_VERSION,
-# and Xcode Cloud's $CI_BUILD_NUMBER becomes the build number. PATCH counts the
-# month's releases from 0 — see scripts/next-version.sh.
-#
-# Usage:
-#   scripts/cut-release.sh            # tag the tip of main as the next version
-#   scripts/cut-release.sh 2026.7.1   # use an explicit version
-#   scripts/cut-release.sh -y         # skip the confirmation prompt
-#
-# Requires the GitHub CLI (`gh`), authenticated. Everything goes over HTTPS (the
-# GitHub API, and `git ls-remote` for tags) — no SSH, no `git push`.
+# Tag the tip of main as the next release; the tag starts the Xcode Cloud Production workflow.
+# Usage: scripts/cut-release.sh [VERSION] [-y]
 
 set -euo pipefail
 
@@ -59,8 +42,6 @@ if gh api "repos/$REPO/git/ref/tags/$tag" >/dev/null 2>&1; then
   exit 1
 fi
 
-# Tag the tip of main on the remote, so we always release the merged state
-# regardless of the local checkout.
 target="$(gh api "repos/$REPO/commits/$BRANCH" --jq .sha)"
 
 echo "Release : $tag"

@@ -67,10 +67,7 @@ platform :ios do
     screenshots = Dir.glob(File.join(__dir__, "screenshots", "**", "*.png"))
     UI.message("Screenshots: #{screenshots.empty? ? 'none on disk — text only' : "#{screenshots.count} found"}")
 
-    # Target the version the release tag built, rather than whichever version
-    # happens to be editable. APP_STORE_VERSION is the release tag — exactly
-    # what ci_post_clone.sh stamps into MARKETING_VERSION, so the build and its
-    # listing always carry one version. Unset, deliver picks the editable version.
+    # APP_STORE_VERSION = the release tag; unset, deliver picks the editable version.
     app_store_version = ENV["APP_STORE_VERSION"].to_s
     UI.message("Target version: #{app_store_version.to_s.empty? ? 'whichever is editable' : app_store_version}")
 
