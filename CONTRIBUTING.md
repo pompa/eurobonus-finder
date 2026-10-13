@@ -79,8 +79,9 @@ Where a new file goes:
    Connect. There is no separate App Store build.
 
 The tag is the version — it becomes `MARKETING_VERSION`, the extension's
-`manifest.json` version and the App Store version. Nothing to bump, no release
-commits. `Config/Version.xcconfig` only holds a fallback for local builds.
+`manifest.json` version and the App Store version. After tagging,
+`cut-release.sh` commits the next version to `Config/Version.xcconfig` on `main`,
+which CI and local builds use.
 
 ## Store listing
 
