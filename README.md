@@ -13,6 +13,8 @@ One tap to log in via SAS, shop as usual, and watch the points roll in.
 <p align="center">
   <a href="https://eurobonus.pompa.se/"><img alt="Website" src="https://img.shields.io/badge/Website-1E3A8A?style=for-the-badge&logo=safari&logoColor=white"></a>
   <a href="https://link.pompa.se/eb-finder"><img alt="App Store" src="https://img.shields.io/badge/App%20Store-0071E3?style=for-the-badge&logo=appstore&logoColor=white"></a>
+  <a href="https://link.pompa.se/eb-testflight"><img alt="TestFlight beta" src="docs/badges/testflight.svg"></a>
+</p>
 
 ## Why it exists
 
@@ -35,8 +37,9 @@ your hand. So I built the missing piece.
 
 ## How it works
 
-1. **Join the beta** via [TestFlight](https://link.pompa.se/eb-testflight) and
-   install the app on your iPhone or iPad.
+1. **Get the app** from the [App Store](https://link.pompa.se/eb-finder) on your
+   iPhone or iPad, or join the beta via [TestFlight](https://link.pompa.se/eb-testflight)
+   to try new features first.
 2. **Enable the extension** in Settings → Apps → Safari → Extensions, and allow
    it on all websites.
 3. **Shop as usual.** When a site earns EuroBonus points, EuroBonus Finder gives

@@ -12,7 +12,9 @@ för att logga in via SAS, shoppa som vanligt och se poängen rulla in.
 
 <p align="center">
   <a href="https://eurobonus.pompa.se/"><img alt="Website" src="https://img.shields.io/badge/Website-1E3A8A?style=for-the-badge&logo=safari&logoColor=white"></a>
- <a href="https://link.pompa.se/eb-finder"><img alt="App Store" src="https://img.shields.io/badge/App%20Store-0071E3?style=for-the-badge&logo=appstore&logoColor=white"></a>
+  <a href="https://link.pompa.se/eb-finder"><img alt="App Store" src="https://img.shields.io/badge/App%20Store-0071E3?style=for-the-badge&logo=appstore&logoColor=white"></a>
+  <a href="https://link.pompa.se/eb-testflight"><img alt="TestFlight beta" src="docs/badges/testflight.svg"></a>
+</p>
 
 ## Varför den finns
 
@@ -35,8 +37,9 @@ hand. Så jag byggde den saknade biten.
 
 ## Så funkar det
 
-1. **Gå med i betan** via [TestFlight](https://link.pompa.se/eb-testflight) och
-   installera appen på din iPhone eller iPad.
+1. **Hämta appen** från [App Store](https://link.pompa.se/eb-finder) på din
+   iPhone eller iPad, eller gå med i betan via [TestFlight](https://link.pompa.se/eb-testflight)
+   för att testa nya funktioner först.
 2. **Aktivera tillägget** i Inställningar → Appar → Safari → Tillägg, och tillåt
    det på alla webbplatser.
 3. **Shoppa som vanligt.** När en butik ger EuroBonus-poäng knuffar EuroBonus
