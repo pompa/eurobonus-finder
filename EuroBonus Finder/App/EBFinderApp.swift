@@ -7,6 +7,15 @@ let siteURL = URL(string: "https://eurobonus.pompa.se/")!
 
 @main
 struct EBFinderApp: App {
+    init() {
+        // Wipe what the old build stored: the App Group it shared with the
+        // extension, and the app's own defaults.
+        let bundleID = Bundle.main.bundleIdentifier!
+        let group = "group." + bundleID
+        UserDefaults(suiteName: group)?.removePersistentDomain(forName: group)
+        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+    }
+
     var body: some Scene {
         WindowGroup {
             SunsetView()

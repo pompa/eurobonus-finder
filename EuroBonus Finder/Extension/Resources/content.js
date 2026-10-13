@@ -1,21 +1,28 @@
 // Sunset build: a Smart App Banner on every page that sends testers to the
-// launched app and the new TestFlight, both linked from the website. Closing it
-// hides it everywhere for a day.
+// launched app and the new TestFlight, both linked from the website. Once it's
+// closed or its View button tapped, it never shows again.
 (async function () {
   const api = globalThis.browser || globalThis.chrome;
   if (!api || !api.storage) return;
 
   const SITE_URL = "https://eurobonus.pompa.se/";
-  if (window.location.hostname === new URL(SITE_URL).hostname) return;
-
   const ROOT_ID = "ebfinder-root";
-  const CLOSED_KEY = "sunsetBannerClosedAt";
-  const SNOOZE_MS = 24 * 60 * 60 * 1000;
+  const DONE_KEY = "sunsetBannerDone";
 
+  // Wipe everything the old build kept (market, feed cache, Tutorial, pending
+  // returns, its per-site banner flag); only DONE_KEY survives.
+  let stored = {};
   try {
-    const r = await api.storage.local.get([CLOSED_KEY]);
-    if (Date.now() - (r[CLOSED_KEY] || 0) < SNOOZE_MS) return;
+    stored = await api.storage.local.get(null);
+    const stale = Object.keys(stored).filter((k) => k !== DONE_KEY);
+    if (stale.length) await api.storage.local.remove(stale);
   } catch (e) {}
+  try {
+    sessionStorage.removeItem("ebfinder.bannerClosed");
+  } catch (e) {}
+
+  if (stored[DONE_KEY]) return;
+  if (window.location.hostname === new URL(SITE_URL).hostname) return;
   if (document.getElementById(ROOT_ID)) return;
 
   const t = (key) => (api.i18n && api.i18n.getMessage(key)) || key;
@@ -57,7 +64,7 @@
   const observer = new ResizeObserver(syncOffset);
   observer.observe(banner);
 
-  shadow.querySelector(".banner-close").addEventListener("click", () => {
+  const close = () => {
     observer.disconnect();
     root.remove();
     document.documentElement.style.removeProperty("margin-top");
@@ -65,8 +72,12 @@
       el.style.removeProperty("top");
       el.style.top = top;
     });
-    api.storage.local.set({ [CLOSED_KEY]: Date.now() }).catch(() => {});
-  });
+    api.storage.local.set({ [DONE_KEY]: true }).catch(() => {});
+  };
+  shadow.querySelector(".banner-close").addEventListener("click", close);
+  // View opens the site in a new tab (the link's default) and retires the
+  // banner — after the click, so the link is still in the page when it fires.
+  shadow.querySelector(".btn-primary").addEventListener("click", () => setTimeout(close));
 
   // Double rAF: let opacity:0 paint first so the fade-in transition runs.
   requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add("is-visible")));
