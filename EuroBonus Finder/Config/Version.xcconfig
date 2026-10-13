@@ -2,5 +2,5 @@
 //                           Production builds use the tag (ci_scripts/ci_post_clone.sh).
 // CURRENT_PROJECT_VERSION   $CI_BUILD_NUMBER on every Xcode Cloud build.
 
-MARKETING_VERSION = 2026.10.0
+MARKETING_VERSION = 2026.10.1
 CURRENT_PROJECT_VERSION = 1
