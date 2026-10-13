@@ -71,3 +71,7 @@ fastlane/test_output/
 .zed/
 *.log
 _site/
+fastlane/.env
+
+# fastlane credentials (ASC_*, APP_BUNDLE_ID), loaded by fastlane itself
+fastlane/.env
