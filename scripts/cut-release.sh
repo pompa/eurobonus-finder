@@ -3,7 +3,7 @@
 # cut-release.sh — cut a TestFlight release.
 #
 # Publishes a GitHub Release whose CalVer tag (YYYY.M.D, no "v" prefix) is the
-# start condition for the release workflow in Xcode Cloud. Xcode
+# start condition for the Production workflow in Xcode Cloud. Xcode
 # Cloud then archives, signs, and uploads the build to TestFlight. Push the
 # store listing separately with `fastlane metadata` (see fastlane/README.md).
 #
@@ -34,7 +34,7 @@ for arg in "$@"; do
       cat >&2 <<'USAGE'
 Usage: scripts/cut-release.sh [VERSION] [-y]
   Cut a release: publish a GitHub Release whose CalVer tag triggers the
-  release workflow in Xcode Cloud (archive -> sign -> TestFlight).
+  Production workflow in Xcode Cloud (archive -> sign -> TestFlight).
 
   VERSION   explicit version, e.g. 2026.7.1 (default: UTC date YYYY.M.D)
   -y,--yes  skip the confirmation prompt
@@ -77,7 +77,7 @@ target="$(gh api "repos/$REPO/commits/$BRANCH" --jq .sha)"
 echo "Release : $tag"
 echo "Repo    : $REPO"
 echo "Commit  : ${target:0:12} (tip of $BRANCH)"
-echo "Effect  : triggers the Xcode Cloud release build -> TestFlight"
+echo "Effect  : triggers the Xcode Cloud Production build -> external TestFlight"
 
 if [ "$assume_yes" != true ]; then
   printf "Cut this release? [y/N] "
