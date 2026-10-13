@@ -6,6 +6,7 @@
 #   FEED_HOST          partner feed host; the extension build fails without it
 #   APP_BUNDLE_ID      real bundle id; unset builds com.example.ebfinder
 #   DEVELOPMENT_TEAM   team id; unset leaves signing to Xcode Cloud
+#   MARKETING_VERSION  version for a build without a tag (e.g. a manual start)
 
 set -euo pipefail
 
@@ -27,10 +28,14 @@ chmod +x "$XCODEGEN"
 LOCAL_XCCONFIG="EuroBonus Finder/Config/Build.local.xcconfig"
 : > "$LOCAL_XCCONFIG"
 
-# Only tag builds (Production) get a version; others keep Build.xcconfig's 0.0.0.
+# Tag builds (Production) get the tag as version; others the workflow's
+# MARKETING_VERSION, or else Build.xcconfig's 0.0.0.
 if [[ -n "${CI_TAG:-}" ]]; then
   echo "==> MARKETING_VERSION = $CI_TAG"
   printf 'MARKETING_VERSION = %s\n' "$CI_TAG" >> "$LOCAL_XCCONFIG"
+elif [[ -n "${MARKETING_VERSION:-}" ]]; then
+  echo "==> MARKETING_VERSION = $MARKETING_VERSION (workflow env)"
+  printf 'MARKETING_VERSION = %s\n' "$MARKETING_VERSION" >> "$LOCAL_XCCONFIG"
 fi
 echo "==> CURRENT_PROJECT_VERSION = $CI_BUILD_NUMBER"
 printf 'CURRENT_PROJECT_VERSION = %s\n' "$CI_BUILD_NUMBER" >> "$LOCAL_XCCONFIG"

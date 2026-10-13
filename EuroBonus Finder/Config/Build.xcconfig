@@ -4,10 +4,9 @@
 // Developer team, real bundle id or feed host, and contributors can build
 // without them.
 
-// Sunset build for the old TestFlight: month 0 marks it as no real release. A
-// tag still overrides it via Build.local.xcconfig (ci_scripts/ci_post_clone.sh),
-// and Xcode Cloud stamps the build number there.
-MARKETING_VERSION = 2026.0.0
+// Not a release. Production builds get the release tag and Xcode Cloud's build
+// number via Build.local.xcconfig (ci_scripts/ci_post_clone.sh).
+MARKETING_VERSION = 0.0.0
 CURRENT_PROJECT_VERSION = 1
 
 // Bundle id root. Everything else is derived from it: the extension is
