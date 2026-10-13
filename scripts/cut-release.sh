@@ -1,24 +1,6 @@
 #!/usr/bin/env bash
-#
-# cut-release.sh — cut a TestFlight release.
-#
-# Publishes a GitHub Release whose CalVer tag (YYYY.M.D, no "v" prefix) is the
-# start condition for the Production workflow in Xcode Cloud. Xcode
-# Cloud then archives, signs, and uploads the build to TestFlight. Push the
-# store listing separately with `fastlane metadata` (see fastlane/README.md).
-#
-# The tag only TRIGGERS the build and is a human-readable marker — it does NOT
-# set the app version. The version is stamped at build time by
-# EuroBonus Finder/ci_scripts/ci_post_clone.sh (marketing = UTC build date YYYY.M.D,
-# build number = $CI_BUILD_NUMBER).
-#
-# Usage:
-#   scripts/cut-release.sh            # tag the tip of main as YYYY.M.D (UTC)
-#   scripts/cut-release.sh 2026.7.1   # use an explicit version
-#   scripts/cut-release.sh -y         # skip the confirmation prompt
-#
-# Requires the GitHub CLI (`gh`), authenticated. Everything goes over the GitHub
-# API (HTTPS) — no `git push`, so it's unaffected by local SSH setup.
+# Tag the tip of main as the next release; the tag starts the Xcode Cloud Production workflow.
+# Usage: scripts/cut-release.sh [VERSION] [-y]
 
 set -euo pipefail
 
@@ -36,7 +18,7 @@ Usage: scripts/cut-release.sh [VERSION] [-y]
   Cut a release: publish a GitHub Release whose CalVer tag triggers the
   Production workflow in Xcode Cloud (archive -> sign -> TestFlight).
 
-  VERSION   explicit version, e.g. 2026.7.1 (default: UTC date YYYY.M.D)
+  VERSION   explicit version, e.g. 2026.7.1 (default: next YYYY.MM.PATCH)
   -y,--yes  skip the confirmation prompt
 USAGE
       exit 0 ;;
@@ -50,28 +32,20 @@ command -v gh >/dev/null 2>&1 || {
   exit 1
 }
 
-# Calendar version = UTC date with no leading zeros (matches ci_post_clone.sh).
-# 10# forces base-10 so a leading-zero month/day (08, 09) doesn't trip bash.
+# Default: YYYY.M.PATCH, PATCH = this month's highest tag + 1, or 0.
 if [ -z "$version" ]; then
-  version="$(date -u +%Y).$((10#$(date -u +%m))).$((10#$(date -u +%d)))"
+  month="$(date -u +%Y).$((10#$(date -u +%m)))"
+  last="$(git ls-remote --tags "https://github.com/$REPO.git" | sed 's|.*refs/tags/||' \
+    | grep -E "^${month//./\\.}\.[0-9]+$" | cut -d. -f3 | sort -n | tail -1 || true)"
+  version="$month.$((${last:--1} + 1))"
 fi
-base_tag="$version"
-tag="$base_tag"
+tag="$version"
 
-tag_exists() { gh api "repos/$REPO/git/ref/tags/$1" >/dev/null 2>&1; }
-
-# A second release on the same calendar day would collide on the tag name; append
-# a numeric suffix so each release stays unique and readable. (The build number
-# still disambiguates the actual build, and the app version stays calendar-based.)
-if tag_exists "$tag"; then
-  n=2
-  while tag_exists "${base_tag}-${n}"; do n=$((n + 1)); done
-  tag="${base_tag}-${n}"
-  echo "note: $base_tag already exists — cutting $tag instead"
+if gh api "repos/$REPO/git/ref/tags/$tag" >/dev/null 2>&1; then
+  echo "error: $tag already exists" >&2
+  exit 1
 fi
 
-# Tag the tip of main on the remote, so we always release the merged state
-# regardless of the local checkout.
 target="$(gh api "repos/$REPO/commits/$BRANCH" --jq .sha)"
 
 echo "Release : $tag"
@@ -93,6 +67,17 @@ gh release create "$tag" \
   --target "$target" \
   --title "$tag" \
   --generate-notes
+
+# CI builds use the committed version, so move main to the next one.
+next="${tag%.*}.$((${tag##*.} + 1))"
+file="repos/$REPO/contents/EuroBonus%20Finder/Config/Version.xcconfig"
+gh api -X PUT "$file" \
+  -f branch="$BRANCH" \
+  -f message="chore(release): $next is next" \
+  -f sha="$(gh api "$file?ref=$BRANCH" --jq .sha)" \
+  -f content="$(gh api -H "Accept: application/vnd.github.raw" "$file?ref=$BRANCH" \
+    | sed -E "s/^MARKETING_VERSION = .*/MARKETING_VERSION = $next/" | base64)" >/dev/null
+echo "Bumped Version.xcconfig on $BRANCH to $next."
 
 echo
 echo "Cut $tag. Xcode Cloud is building it; the archive will upload to TestFlight."

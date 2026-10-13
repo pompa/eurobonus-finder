@@ -3,7 +3,7 @@
 # Turn a GitHub release into App Store "What's New" lines.
 #
 #   scripts/release-notes.sh            # the latest release
-#   scripts/release-notes.sh 2026.9.17  # a specific tag
+#   scripts/release-notes.sh 2026.10.0  # a specific tag
 #   scripts/release-notes.sh --print    # show them without writing
 #
 # GitHub's generated body is a list of PR titles with author and URL noise:

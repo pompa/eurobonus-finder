@@ -1,23 +1,8 @@
 #!/usr/bin/env bash
-#
-# Xcode Cloud post-xcodebuild hook: report a release build back to GitHub.
-#
-# The Xcode Cloud GitHub app only posts check runs on the commit; it never
-# touches the release. So after the archive of a release tag, this script:
-#   1. records a GitHub Deployment of the tag to the "TestFlight" environment,
-#      success or failure, linking the build in App Store Connect — the repo's
-#      Environments page becomes the list of what reached testers, and when;
-#   2. on success, puts a link to that build at the top of the GitHub release.
-#
-# Only archives of a tag report (the Production workflow). Main-branch CI
-# builds carry no CI_TAG and are skipped.
-#
-# It acts as a GitHub App installed on this repo, with Contents and
-# Deployments read/write. Set on the workflow as secret env vars:
-#   GITHUB_APP_ID    the app's numeric App ID
-#   GITHUB_APP_KEY   the app's private key: `base64 -i key.pem`, one line
-# Unset → skipped. Reporting never fails the build: a GitHub hiccup only logs
-# a warning.
+# Xcode Cloud post-xcodebuild: after a tag's archive, record a GitHub deployment to
+# the TestFlight environment and link the build on the GitHub release.
+# Auth: GitHub App secrets GITHUB_APP_ID and GITHUB_APP_KEY (base64 .pem); unset skips.
+# Never fails the build.
 
 set -uo pipefail
 
@@ -32,9 +17,7 @@ TOKEN=""
 
 b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
 
-# App installation tokens live an hour, so mint one per build: sign a JWT with
-# the app's key, find its installation on this repo, exchange the JWT for a
-# token limited to this repo and the two permissions we use.
+# App JWT -> installation token, scoped to this repo, contents + deployments.
 mint_token() {
   local now jwt installation
   now="$(date +%s)"
@@ -63,8 +46,7 @@ report() {
   [[ "${CI_XCODEBUILD_EXIT_CODE:-1}" == 0 ]] && state=success
 
   echo "==> Recording $CI_TAG -> TestFlight ($state) on GitHub"
-  # required_contexts: [] — by default GitHub refuses a deployment while the
-  # commit's checks are pending, and this very build is one of them.
+  # required_contexts: [] — this build's own pending check would block it.
   local deployment
   deployment="$(github deployments -X POST -d "$(jq -n --arg ref "$CI_TAG" --arg n "$CI_BUILD_NUMBER" \
     '{ref: $ref, environment: "TestFlight", auto_merge: false, required_contexts: [],
@@ -79,7 +61,6 @@ report() {
   release="$(github "releases/tags/$CI_TAG")" || return 1
   id="$(jq -r .id <<<"$release")"
   body="$(jq -r '.body // ""' <<<"$release")"
-  # A rebuild of the same tag adds its own line above the previous one.
   github "releases/$id" -X PATCH -d "$(jq -n --arg b "$body" --arg n "$CI_BUILD_NUMBER" --arg url "$CI_BUILD_URL" \
     '{body: "**TestFlight:** [Xcode Cloud build \($n)](\($url))\n\n\($b)"}')" >/dev/null
 }

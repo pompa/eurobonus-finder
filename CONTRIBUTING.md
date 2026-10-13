@@ -66,8 +66,9 @@ Where a new file goes:
 
 ## Release
 
-1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with today's
-   CalVer date (`2026.9.18`, no `v` prefix).
+1. `scripts/cut-release.sh` — publishes a GitHub Release tagged with the next
+   CalVer version, `YYYY.MM.PATCH`: `2026.10.0` for the month's first release,
+   then `2026.10.1`, … (no `v` prefix, no zero-padded month).
 2. The tag triggers the Xcode Cloud Production workflow: it archives, uploads,
    and hands the build to the public TestFlight group. The build is linked at
    the top of the GitHub release and recorded under the repo's **TestFlight**
@@ -78,8 +79,9 @@ Where a new file goes:
    Connect. There is no separate App Store build.
 
 The tag is the version — it becomes `MARKETING_VERSION`, the extension's
-`manifest.json` version and the App Store version. Nothing to bump, no release
-commits. `Config/Version.xcconfig` only holds a fallback for local builds.
+`manifest.json` version and the App Store version. After tagging,
+`cut-release.sh` commits the next version to `Config/Version.xcconfig` on `main`,
+which CI and local builds use.
 
 ## Store listing
 
